@@ -195,16 +195,6 @@
                             <tr>
                                 <td>ETH成员</td>
                                 <td>
-                                    <!-- <select id="editEthGroup" title="策略下拉框" class="mySelect">
-                                        <option value="1">eth0/0</option>
-                                        <option value="2">eth0/1</option>
-                                        <option value="3">eth0/2</option>
-                                        <option value="4">eth0/3</option>
-                                        <option value="5">eth0/4</option>
-                                        <option value="6">eth0/5</option>
-                                        <option value="7">eth0/6</option>
-                                        <option value="8">eth0/7</option>
-                                    </select> -->
                                     <div style="width:100%;height:28px;overflow:hidden;">
                                         <input type="text" id="selEthGroup" onclick="myclick();" readonly="true"
                                             style="width:100%;height:28px;">
