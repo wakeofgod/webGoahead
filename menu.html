@@ -1,0 +1,177 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>menu</title>
+	<link href="css/menu_img.css" rel="stylesheet" type="text/css" />
+	<script language="javascript">
+		var g_displayFlag = "";
+		function showSubMenu(sub_menu) {
+			if (g_displayFlag != sub_menu) {
+				document.getElementById(sub_menu).style.display = "";
+				if (g_displayFlag != "") {
+					document.getElementById(g_displayFlag).style.display = "none";
+				}
+				g_displayFlag = sub_menu;
+			}
+		}
+	</script>
+
+</head>
+
+<body bgproperties="fixed" bgcolor="#000000">
+	<table width="150" border="0" cellspacing="0" cellpadding="0">
+		<tr>
+			<td width="150" height="30"><a href="interface/eth.asp" target="mainframe"
+					onclick="showSubMenu('sub_menu1')" class="menulistNew">设备管理</a>
+			</td>
+		</tr>
+		<tr>
+			<td align="center" valign="middle">
+				<table style="display:none" width="143" border="0" cellspacing="0" cellpadding="0" id="sub_menu1">
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="device/dev_showInfo.asp" class="linkstatus">基本信息</a>
+						</td>
+					</tr>
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="device/dev_ipSetup.asp">管理IP设置</a></td>
+					</tr>
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="device/dev_setTime.asp" target="mainframe"
+								class="linkstatus">时间设置</a></td>
+					</tr>
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="device/dev_setSnmpService.asp" target="mainframe"
+								class="linkstatus">SNMP设置</a></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td width="150" height="30"><a href="port/port_stat.asp" target="mainframe" class="menulistNew"
+					onclick="showSubMenu('sub_menu2')">端口设置</a></td>
+		</tr>
+		<tr>
+			<td align="center" valign="middle">
+				<table style="display:none" width="143" border="0" cellspacing="0" cellpadding="0" id="sub_menu2">
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="port/port_stat.asp" target="mainframe"
+								class="linkstatus">端口属性</a></td>
+					</tr>
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="port/port_display.asp" target="mainframe"
+								class="linkstatus">端口统计</a></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td width="150" height="30"><a href="vlan/vlan_baseConfig.asp" target="mainframe" class="menulistNew"
+					onclick="showSubMenu('sub_menu3')">VALN管理</a></td>
+		</tr>
+		<tr>
+			<td align="center" valign="middle">
+				<table style="display:none" width="143" border="0" cellspacing="0" cellpadding="0" id="sub_menu3">
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="vlan/vlan_baseConfig.asp" target="mainframe"
+								class="linkstatus">VLAN基本配置</a></td>
+					</tr>
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="vlan/vlan_portSet.asp" target="mainframe"
+								class="linkstatus">端口VLAN设置</a></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td width="150" height="30"><a href="cable/cableConfig.asp" target="mainframe" class="menulistNew"
+					onclick="showSubMenu('sub_menu4')">CABLE管理</a></td>
+		</tr>
+		<tr>
+			<td align="center" valign="middle">
+				<table style="display:none" width="143" border="0" cellspacing="0" cellpadding="0" id="sub_menu4">
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="cable/cableConfig.asp" target="mainframe"
+								class="linkstatus">SNID/QoS配置</a></td>
+					</tr>
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="cable/autoupgrade.asp" target="mainframe"
+								class="linkstatus">终端自动升级</a></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td width="150" height="30"><a href="terminal/ter_userManage.asp" target="mainframe" class="menulistNew"
+					onclick="showSubMenu('sub_menu5')">终端管理</a></td>
+		</tr>
+		<tr>
+			<td align="center" valign="middle">
+				<table style="display:none" width="143" border="0" cellspacing="0" cellpadding="0" id="sub_menu5">
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="terminal/ter_userManage.asp" target="mainframe"
+								class="linkstatus">终端设备管理</a></td>
+					</tr>
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="terminal/ter_endModeEdit.asp" target="mainframe"
+								class="linkstatus">终端模式管理</a></td>
+					</tr>
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="terminal/ter_temple.asp" target="mainframe"
+								class="linkstatus">终端模板</a></td>
+					</tr>
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="terminal/ter_unkownDev.asp" target="mainframe"
+								class="linkstatus">非法记录</a></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td width="150" height="30"><a href="sysmaintance/sys_configInfo.asp" target="mainframe" class="menulistNew"
+					onclick="showSubMenu('sub_menu6')">软件维护</a></td>
+		</tr>
+		<tr>
+			<td align="center" valign="middle">
+				<table style="display:none" width="143" border="0" cellspacing="0" cellpadding="0" id="sub_menu6">
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="sysmaintance/sys_configInfo.asp" target="mainframe"
+								class="linkstatus">配置信息</a></td>
+					</tr>
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="sysmaintance/sys_upGrade.asp" target="mainframe"
+								class="linkstatus">软件升级</a></td>
+					</tr>
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="sysmaintance/sys_pib_upgrade.asp" target="mainframe"
+								class="linkstatus">pib/fw升级</a></td>
+					</tr>
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="sysmaintance/sys_log.asp" target="mainframe"
+								class="linkstatus">软件日志</a></td>
+					</tr>
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="sysmaintance/sys_changePass.asp" target="mainframe"
+								class="linkstatus">修改密码</a></td>
+					</tr>
+					<!--<tr>
+		<td height="25" bgcolor="#CCCCCC"><a href="sysmaintance/sys_accountManage.asp" target="mainframe" class="linkstatus">帐号管理</a></td>
+	  </tr> -->
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="sysmaintance/sys_saveConfig.asp" target="mainframe"
+								class="linkstatus">保存配置</a></td>
+					</tr>
+					<tr>
+						<td height="25" bgcolor="#CCCCCC"><a href="sysmaintance/sys_reboot.asp" target="mainframe"
+								class="linkstatus">重启</a></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+.menulistNew{
+		width:150px;
+		height:25px;
+		display:block;
+		background-color:rgb(47,47,47);
+		color: white;
+		border: solid 1px;
+		border-radius: 5px;
+		margin: 1px;
+		text-decoration: none;
+		text-align: center;
+		letter-spacing: 5px;
+		padding-top: 3px;
+		font-family: " Microsoft Yahei";
+}
+.menulistNew:hover{
+	/*background-color:rgb(85,85,85);*/
+	background:linear-gradient(white, black);
+	color:rgb(53, 53, 233);
+	font-weight: bolder;
+}
+.menulist1 {
+		width:150px;
+		height:30px;
+		display:block;
+		background:url(../img/menu_img/menu_img1.gif) top no-repeat;
+		text-indent:-9999px;
+}
+.menulist1:hover{
+	background:url(../img/menu_img/menu_img1.gif) bottom no-repeat;
+}
+.menulist2 {
+		width:150px;
+		height:30px;
+		display:block;
+		background:url(../img/menu_img/menu_img2.gif) top no-repeat;
+		text-indent:-9999px;
+}
+.menulist2:hover{
+	background:url(../img/menu_img/menu_img2.gif) bottom no-repeat;
+}
+.menulist3 {
+		width:150px;
+		height:30px;
+		display:block;
+		background:url(../img/menu_img/menu_img3.gif) top no-repeat;
+		text-indent:-9999px;
+}
+.menulist3:hover{
+	background:url(../img/menu_img/menu_img3.gif) bottom no-repeat;
+}
+.menulist4 {
+		width:150px;
+		height:30px;
+		display:block;
+		background:url(../img/menu_img/menu_img4.gif) top no-repeat;
+		text-indent:-9999px;
+}
+.menulist4:hover{
+	background:url(../img/menu_img/menu_img4.gif) bottom no-repeat;
+}
+.menulist5 {
+		width:150px;
+		height:30px;
+		display:block;
+		background:url(../img/menu_img/menu_img5.gif) top no-repeat;
+		text-indent:-9999px;
+}
+.menulist5:hover{
+	background:url(../img/menu_img/menu_img5.gif) bottom no-repeat;
+}
+.menulist6 {
+		width:150px;
+		height:30px;
+		display:block;
+		background:url(../img/menu_img/menu_img6.gif) top no-repeat;
+		text-indent:-9999px;
+}
+.menulist6:hover{
+	background:url(../img/menu_img/menu_img6.gif) bottom no-repeat;
+}
+.linkstatus{
+	text-decoration: none;
+	color: #000000;
+}
+.linkstatus:hover{
+	color:#0000CC
+}

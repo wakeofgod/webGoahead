@@ -1,0 +1,22 @@
+/* CSS Document */
+
+.tableTitle {
+	font-size: 18px;
+	color: #FFFFFF;
+	font-weight: bold;
+	background-color:#333333;
+	height:30px;
+}
+.select {
+width:60px;
+}
+.selectTerDev {
+width:120px;
+}
+.selectPstat {
+width:80px;
+}
+body {
+	margin-left: 100px;
+	margin-top: 30px;
+}
