@@ -251,6 +251,8 @@
         var existID = [];
         //判断是否是新建
         var isCreateNew = false;
+        //
+        var oldRowData = "";
 
         //鼠标是否在【多选下拉框div】上面（如果在div上面，需要控制鼠标的点击事件，不让div隐藏；否则要让该div隐藏）
         var indiv = false;
@@ -425,7 +427,10 @@
                     alert("eth最多选择8个");
                 }
                 for (var index = 0; index < tmpRowArray.length; index++) {
-                    if (selectedAllList.findIndex(value => value == tmpRowArray[index]) >= 0) {
+                    if(oldRowData.trim()!=""&& oldRowData.findIndex(value=>value == tmpRowArray[index])>=0){
+                        continue;
+                    }
+                    else if (selectedAllList.findIndex(value => value == tmpRowArray[index]) >= 0) {
                         flag = false;
                         alert("eth不能被多个trunk使用");
                         break;
@@ -451,6 +456,7 @@
             $("#selEthGroup").val("");
             //重置复选框状态
             resetDropDown("");
+            oldRowData = "";
             $("#myModal").modal('show');
         });
         //修改按钮点击事件 每行
@@ -478,6 +484,7 @@
             $("#selEthGroup").val(ethGroup);
             $("#editManStatus").val(manStatus);
             $("#txtOperStatus").attr("value", operStatus).html(statusArray[operStatus]);
+            oldRowData = ethGroup;
             //更新复选框状态
             resetDropDown(ethGroup);
             $("#myModal").modal('show');

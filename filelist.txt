@@ -32,6 +32,7 @@ top.html
 
 .\interface\eth.asp
 .\interface\trunk.asp
+.\interface\vlan.asp
 
 .\js\bootstrap.min.js
 .\js\helpScript.js
