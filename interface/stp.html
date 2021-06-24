@@ -63,11 +63,11 @@
                 <li value="1" class="current">
                     <a href="#divPVST" class="myhref" data-toggle="tab">PVST</a>
                 </li>
-                <li value="2">
+                <li value="2" style="display: none;">
                     <a href="#divMSTP" class="myhref" data-toggle="tab">MSTP</a>
                 </li>
                 <li value="3">
-                    <a href="#divALL" class="myhref" data-toggle="tab">ALL-1</a>
+                    <a href="#divALL" class="myhref" data-toggle="tab">CST</a>
                 </li>
             </ul>
         </div>
@@ -78,7 +78,7 @@
         </div>
     </div>
     <div id="myTabContent" class="tab-content">
-        <div class="tab-pane fade in active" id="divPVST" style="width: 90%; height:400px; overflow:auto">
+        <div class="tab-pane fade in active" id="divPVST" style="width: 95%; height:400px; overflow:auto">
             <table id="tablePVST" class="table table-striped table-bordered table-hover">
                 <thead style="font-weight: bolder;">
                     <tr>
@@ -132,7 +132,7 @@
                         <td>trunk1
                         </td>
                         <td>
-                            <button type="button" class="btn btn-primary">使能
+                            <button type="button" name="btnPvstEdit" class="btn btn-primary">使能
                             </button>
                             <button type="button" class="btn btn-primary">不使能
                             </button>
@@ -141,7 +141,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="tab-pane fade" id="divMSTP">
+        <div class="tab-pane fade" id="divMSTP" style="width: 95%; height:400px; overflow:auto">
             <table id="tableMSTP" class="table table-striped table-bordered table-hover">
                 <thead style="font-weight: bolder;">
                     <tr>
@@ -204,7 +204,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="tab-pane fade" id="divALL">
+        <div class="tab-pane fade" id="divALL" style="width: 95%; height:400px; overflow:auto">
             <table id="tableAll" class="table table-striped table-bordered table-hover">
                 <thead style="font-weight: bolder;">
                     <tr>
@@ -268,8 +268,26 @@
             </table>
         </div>
     </div>
-    <div id="vlanDetail" style="display: none;">
-        <table class="table table-striped table-bordered table-hover" style="width: 95%;">
+    <div id="vlanDetail" style="display: none;margin-top: 20px;">
+        <table class="table table-bordered" id="vlanSummary" style="max-width: 800px;margin: auto;">
+            <tr>
+                <td>1</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>4</td>
+            </tr>
+        </table>
+        <table class="table table-striped table-bordered " style="width: 95%;margin-top: 10px;">
             <thead style="font-weight: bolder;">
                 <tr>
                     <td width="10%">端口编号</td>
@@ -322,7 +340,39 @@
         var tab_list = document.getElementById("myTab");
         var list = tab_list.querySelectorAll("li");
         var mode = 1;
-        var modeTextArray = ["PVST","MSTP","ALL-1"];
+        var modeTextArray = ["PVST", "MSTP", "CST"];
+        var pvstSet = [];
+        var mstpSet = [];
+        var allSet = [];
+        var html = ('');
+        function getData() {
+            //测试数据
+            for (var i = 0; i < 20; i++) {
+                pvstSet.push(["test vlan PVST" + (i + 1), (i+1), "test vlan PVST" + (i + 1), i % 2, "eth0/1 eth0/2", "trunk" + (i + 1)]);
+            }
+        }
+
+        function loadPage() {
+            //#region pvst
+            var pCount = pvstSet.length;
+            if (pCount > 0) {
+                html = ('');
+                for (var i = 0; i < pCount; i++) {
+                    html += ('<tr>');
+                    html +=('<td>'+pvstSet[i][0]+'</td>');
+                    html +=('<td>'+pvstSet[i][1]+'</td>');
+                    html +=('<td>'+pvstSet[i][2]+'</td>');
+                    html +=('<td>'+pvstSet[i][3]+'</td>');
+                    html +=('<td>'+pvstSet[i][4]+'</td>');
+                    html +=('<td>'+pvstSet[i][5]+'</td>');
+                    html +=('<td><button type="button" name="btnPvstEdit" class="btn btn-primary">使能</button> <button type="button" class="btn btn-primary">不使能</button></td>');
+                    html += ('</tr>');
+                }
+                $("#tablePVST tbody").html(html);
+            }
+            //#endregion
+        }
+
         $("#myTab").on('click', "li", function () {
             //清除所有li的默认样式
             for (var i = 0; i < list.length; i++) {
@@ -332,7 +382,7 @@
             mode = parseInt($(this).val());
         });
         $("#tablePVST tbody").on('click', "tr td:not(:last-child)", function () {
-            $("#vlanDetail").attr("style", "");
+            $("#vlanDetail").attr("style", "margin-top:20px;");
         });
         $("#tablePVST").on('click', '[name="btnPvstEdit"]', function () {
             alert(456);
@@ -354,9 +404,15 @@
                 $("#vlanDetail").attr("style", "display:none;");
             }
         };
+
         $("#btnMode").click(function () {
-            $("#txtModeSpan").html(modeTextArray[mode-1]);
+            $("#txtModeSpan").html(modeTextArray[mode - 1]);
             $("#modeModal").modal('show');
+        });
+
+        $(document).ready(function () {
+            getData();
+            loadPage();
         });
     </script>
 </body>
