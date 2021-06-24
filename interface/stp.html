@@ -1,0 +1,364 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>STP</title>
+    <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <script src="../js/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <style>
+        .current {
+            background-color: #ff3333;
+            color: white;
+            font: bold;
+        }
+
+        .tab_list {
+            height: 50px;
+            width: 80%;
+        }
+
+        .tab_list ul {
+            padding-left: 0px;
+            height: 50px;
+        }
+
+        .tab_list li {
+            display: inline-block;
+            box-sizing: border-box;
+            padding-left: 20px;
+            padding-right: 20px;
+            text-align: center;
+            height: 50px;
+            line-height: 50px;
+            margin: 0;
+            font: bolder !important;
+        }
+
+        .myhref {
+            color: #000000;
+            padding: 10px;
+            text-decoration: none;
+            font-weight: bolder;
+        }
+
+        /* .myhref :active .myhref :link .myhref :hover .myhref :visited{
+            color: white;
+        } */
+        #myTabContent .table-hover>tbody>tr:hover {
+            background-color: #33ccff;
+        }
+    </style>
+</head>
+
+<body>
+    <h3
+        style="font-weight: bolder; text-align: center;background-color: rgb(241,241,241);height: 48px;line-height: 48px;">
+        STP协议</h3>
+    <div>
+        <div class="tab_list">
+            <ul id="myTab">
+                <li value="1" class="current">
+                    <a href="#divPVST" class="myhref" data-toggle="tab">PVST</a>
+                </li>
+                <li value="2">
+                    <a href="#divMSTP" class="myhref" data-toggle="tab">MSTP</a>
+                </li>
+                <li value="3">
+                    <a href="#divALL" class="myhref" data-toggle="tab">ALL-1</a>
+                </li>
+            </ul>
+        </div>
+        <div style="transform:translateY(-50px);">
+            <btn type="button" id="btnMode" class="btn btn-warning" style="float: right;margin-right: 30px;">
+                模式切换
+            </btn>
+        </div>
+    </div>
+    <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade in active" id="divPVST" style="width: 90%; height:400px; overflow:auto">
+            <table id="tablePVST" class="table table-striped table-bordered table-hover">
+                <thead style="font-weight: bolder;">
+                    <tr>
+                        <td width="10%">VLAN名称</td>
+                        <td width="10%">VLAN ID</td>
+                        <td width="20%">VLAN 描述</td>
+                        <td width="10%">VLAN 状态</td>
+                        <td width="20%">ETH成员</td>
+                        <td width="20%">TRUNK成员</td>
+                        <td>操作</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>trunkPVST</td>
+                        <td>
+                            100
+                        </td>
+                        <td>
+                            test vlan PVST
+                        </td>
+                        <td>
+                            up
+                        </td>
+                        <td>
+                            eth0/7 eth0/8
+                        </td>
+                        <td>trunk1
+                        </td>
+                        <td>
+                            <button type="button" name="btnPvstEdit" class="btn btn-primary">使能
+                            </button>
+                            <button type="button" class="btn btn-primary">不使能
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>trunkPVST</td>
+                        <td>
+                            200
+                        </td>
+                        <td>
+                            test vlan PVST
+                        </td>
+                        <td>
+                            up
+                        </td>
+                        <td>
+                            eth0/7 eth0/8
+                        </td>
+                        <td>trunk1
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary">使能
+                            </button>
+                            <button type="button" class="btn btn-primary">不使能
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="divMSTP">
+            <table id="tableMSTP" class="table table-striped table-bordered table-hover">
+                <thead style="font-weight: bolder;">
+                    <tr>
+                        <td width="10%">VLAN名称</td>
+                        <td width="10%">VLAN ID</td>
+                        <td width="20%">VLAN 描述</td>
+                        <td width="10%">VLAN 状态</td>
+                        <td width="20%">ETH成员</td>
+                        <td width="20%">TRUNK成员</td>
+                        <td>操作</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>trunkMSTP</td>
+                        <td>
+                            300
+                        </td>
+                        <td>
+                            test vlanMSTP
+                        </td>
+                        <td>
+                            up
+                        </td>
+                        <td>
+                            eth0/17 eth0/18
+                        </td>
+                        <td>trunk1
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary">修改
+                            </button>
+                            <button type="button" class="btn btn-primary">删除
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>trunkMSTP</td>
+                        <td>
+                            400
+                        </td>
+                        <td>
+                            test vlanMSTP
+                        </td>
+                        <td>
+                            up
+                        </td>
+                        <td>
+                            eth0/27 eth0/28
+                        </td>
+                        <td>trunk1
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary">修改
+                            </button>
+                            <button type="button" class="btn btn-primary">删除
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="divALL">
+            <table id="tableAll" class="table table-striped table-bordered table-hover">
+                <thead style="font-weight: bolder;">
+                    <tr>
+                        <td width="10%">VLAN名称</td>
+                        <td width="10%">VLAN ID</td>
+                        <td width="20%">VLAN 描述</td>
+                        <td width="10%">VLAN 状态</td>
+                        <td width="20%">ETH成员</td>
+                        <td width="20%">TRUNK成员</td>
+                        <td>操作</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>trunkALL</td>
+                        <td>
+                            500
+                        </td>
+                        <td>
+                            test vlanALL
+                        </td>
+                        <td>
+                            up
+                        </td>
+                        <td>
+                            eth0/7 eth0/8
+                        </td>
+                        <td>trunk1
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary">修改
+                            </button>
+                            <button type="button" class="btn btn-primary">删除
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>trunkALL</td>
+                        <td>
+                            600
+                        </td>
+                        <td>
+                            test vlanALL
+                        </td>
+                        <td>
+                            up
+                        </td>
+                        <td>
+                            eth0/7 eth0/8
+                        </td>
+                        <td>trunk1
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary">修改
+                            </button>
+                            <button type="button" class="btn btn-primary">删除
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="vlanDetail" style="display: none;">
+        <table class="table table-striped table-bordered table-hover" style="width: 95%;">
+            <thead style="font-weight: bolder;">
+                <tr>
+                    <td width="10%">端口编号</td>
+                    <td width="15%">端口描述</td>
+                    <td width="10%">STP状态</td>
+
+                </tr>
+            </thead>
+            <tbody id="vlanDetailBody">
+                <tr>
+                    <td id="row1" name="txtPortNo" value="eth0/0">eth0/0</td>
+                    <td>
+                        <span name="txtPortDes" value="测试数据1">测试数据1</span>
+                    </td>
+                    <td>
+                        <span name="selStatus" value="0">down</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td id="row1" name="txtPortNo" value="eth0/1">eth0/1</td>
+                    <td>
+                        <span name="txtPortDes" value="测试数据2">测试数据1</span>
+                    </td>
+                    <td>
+                        <span name="selStatus" value="1">up</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal fade" id="modeModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">模式切换</h4>
+                </div>
+                <div class="modal-body">
+                    <p>你选择了<span id="txtModeSpan"></span>模式，确定要更换吗？</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="btnModeSave">提交更改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var inDiv = false;
+        var tab_list = document.getElementById("myTab");
+        var list = tab_list.querySelectorAll("li");
+        var mode = 1;
+        var modeTextArray = ["PVST","MSTP","ALL-1"];
+        $("#myTab").on('click', "li", function () {
+            //清除所有li的默认样式
+            for (var i = 0; i < list.length; i++) {
+                $(list[i]).removeClass();
+            }
+            $(this).addClass("current");
+            mode = parseInt($(this).val());
+        });
+        $("#tablePVST tbody").on('click', "tr td:not(:last-child)", function () {
+            $("#vlanDetail").attr("style", "");
+        });
+        $("#tablePVST").on('click', '[name="btnPvstEdit"]', function () {
+            alert(456);
+        });
+        //鼠标移动监听，这里不用mouseout mousein 会频繁触发导致值不准
+        $("#myTabContent").mouseenter(function () {
+            inDiv = true;
+        }).mouseleave(function () {
+            inDiv = false;
+        });
+        $("#vlanDetail").mouseenter(function () {
+            inDiv = true;
+        }).mouseleave(function () {
+            inDiv = false;
+        });
+        //鼠标点击事件，eth div隐藏
+        document.onclick = function (event) {
+            if (!inDiv) {
+                $("#vlanDetail").attr("style", "display:none;");
+            }
+        };
+        $("#btnMode").click(function () {
+            $("#txtModeSpan").html(modeTextArray[mode-1]);
+            $("#modeModal").modal('show');
+        });
+    </script>
+</body>
+
+</html>
