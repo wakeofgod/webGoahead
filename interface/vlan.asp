@@ -210,7 +210,7 @@
     </table>
     <br>
     <div>
-        <form id="hPostForm"  method="post" action="/goform/vlanFormPost">
+        <form id="hPostForm" method="post" action="/goform/vlanFormPost">
             <input name="hId" value="" />
             <input name="hType" value="" />
             <input name="hDes" value="" />
@@ -220,7 +220,7 @@
         </form>
     </div>
     <div>
-        <form id="hDeleteForm"  method="post" action="/goform/vlanFormDelete">
+        <form id="hDeleteForm" method="post" action="/goform/vlanFormDelete">
             <input name="hId" value="" />
         </form>
     </div>
@@ -229,7 +229,7 @@
         var ethPortSet = [];
         var trunkSet = [];
         var statusArray = ["down", "up"];
-        var typeArray = ["N/A","Static","Dynamic"];
+        var typeArray = ["N/A", "Static", "Dynamic"];
         //多选下拉框所在的div
         var ethDiv = document.getElementById("selectEthDiv");
         var trunkDIv = document.getElementById("selectTrunkDiv");
@@ -251,12 +251,62 @@
         var endRow = 10;
         var pageDataSet = [];
         function getData() {
-            dataset = [
-                ["vlan1", "1", "test vlan1", "1", "eth0/0,eth0/1", "trunk1"],
-                ["vlan2", "2", "test vlan2", "0", "eth0/3,eth0/5", "trunk2"],
-                ["vlan4", "2", "test vlan4", "1", "eth0/2,eth0/4", "trunk4"],
-                ["vlan6", "1", "test vlan6", "0", "eth0/6,eth0/8", "trunk6"]
-            ];
+            var vlanData = "<%vlanAspGetAll();%>";
+            var ethData = "<%trunkAspGetEth();%>";
+            var trunkData = "<%vlanAspGetTrunk();%>";
+
+            var tmpVlanData = vlanData.split('|');
+            var tCount = tmpVlanData.length;
+            if (ethData.trim() != "") {
+                if (ethData.lastIndexOf('*') == ethData.length - 1) {
+                    ethData = ethData.substring(0, ethData.length - 1);
+                }
+                ethPortSet = ethData.split('*');
+            }
+            if (trunkData.trim() != "") {
+                if (trunkData.lastIndexOf('*') == trunkData.length - 1) {
+                    trunkData = trunkData.substring(0, trunkData.length - 1);
+                }
+                trunkSet = trunkData.split('*');
+            }
+            if (vlanData.trim() != "" && tCount > 0) {
+                for (var i = 0; i < tCount; i++) {
+                    if (tmpVlanData[i].trim() != "") {
+                        var rowData = tmpVlanData[i].split(',');
+                        var rowId = 0;
+                        if (rowData[0].trim() == "default") {
+                            rowId = 1;
+                        }
+                        else if(rowData[0].trim()!=""){
+                            rowId = parseInt(rowData[0].substring(4));
+                        }
+                        if(rowData[3].trim()!="1")
+                        {
+                            rowData[3] = "0";
+                        }
+                        if(rowData[4].trim()!=""){
+                            if (rowData[4].lastIndexOf('*') == rowData[4].length - 1) {
+                                rowData[4] = rowData[4].substring(0, rowData[4].length - 1);
+                            }
+                            rowData[4] = rowData[4].replace(/\*/g, ',');
+                        }
+                        if(rowData[5].trim()!=""){
+                            if (rowData[5].lastIndexOf('*') == rowData[5].length - 1) {
+                                rowData[5] = rowData[5].substring(0, rowData[5].length - 1);
+                            }
+                            rowData[5] = rowData[5].replace(/\*/g, ',');
+                        }
+                        dataset.push([rowData[0].trim(),rowData[1].trim(),rowData[2].trim(),rowData[3].trim(),rowData[4].trim(),rowData[5].trim(),rowId]);
+                    }
+                }
+            }
+            // dataset = [
+            //     ["vlan1", "1", "test vlan1", "1", "eth0/0,eth0/1", "trunk1"],
+            //     ["vlan2", "2", "test vlan2", "0", "eth0/3,eth0/5", "trunk2"],
+            //     ["vlan4", "2", "test vlan4", "1", "eth0/2,eth0/4", "trunk4"],
+            //     ["vlan6", "1", "test vlan6", "0", "eth0/6,eth0/8", "trunk6"]
+            // ];
+            debugger;
             totalNum = dataset.length;
             if (totalNum / pageSize > parseInt(totalNum / pageSize)) {
                 totalPage = parseInt(totalNum / pageSize) + 1;
@@ -299,12 +349,12 @@
                     html += ('<td id="row1" name="txtVlanName" value="' + pageDataSet[i][0] + '">' + pageDataSet[i][0] + '</td>');
                     html += ('<td><span name="txtVlanType" value="' + pageDataSet[i][1] + '">' + typeArray[pageDataSet[i][1]] + '</span></td>');
                     html += ('<td><span name="txtVlanDes" value="' + pageDataSet[i][2] + '">' + pageDataSet[i][2] + '</span></td>');
-                    html += ('<td><span name="txtVlanStatus" value="' + pageDataSet[i][3] + '">' + pageDataSet[i][3] + '</span></td>');
+                    html += ('<td><span name="txtVlanStatus" value="' + pageDataSet[i][3] + '">' + statusArray[pageDataSet[i][3]] + '</span></td>');
                     html += ('<td><span name="txtEthGroup" value="' + pageDataSet[i][4] + '">' + pageDataSet[i][4] + '</span></td>');
                     html += ('<td><span name="txtTrunkGroup" value="' + pageDataSet[i][5] + '">' + pageDataSet[i][5] + '</span></td>');
                     html += ('<td>');
-                    html += ('<button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" value="' + pageDataSet[i][1] + '">修改</button>');
-                    html += ('<button type="button" class="btn btn-primary" name="btnDelete" value="' + pageDataSet[i][0] + '">删除</button>');
+                    html += ('<button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" value="' + pageDataSet[i][0] + '">修改</button>');
+                    html += ('<button type="button" class="btn btn-primary" name="btnDelete" value="' + pageDataSet[i][6] + '">删除</button>');
                     html += ('</td>');
                     html += ('</tr>');
                 }
@@ -371,8 +421,8 @@
                 tmpinput2.setAttribute("onclick", "ethRadio(this)");
                 tmpinput2.setAttribute("value", i);
                 tmpinput2.setAttribute("textvalue", "U");
-                tmpinput2.setAttribute("checked","checked");
-                tmpinput2. setAttribute("fullvalue", ethPortSet[i] + "-U");
+                tmpinput2.setAttribute("checked", "checked");
+                tmpinput2.setAttribute("fullvalue", ethPortSet[i] + "-U");
                 tmplabel2.appendChild(tmpinput2);
                 tmplabel2.append("U");
                 var tmplabel3 = document.createElement("label");
@@ -382,7 +432,7 @@
                 tmpinput3.setAttribute("onclick", "ethRadio(this)");
                 tmpinput3.setAttribute("value", i);
                 tmpinput3.setAttribute("textvalue", "T");
-                tmpinput3. setAttribute("fullvalue", ethPortSet[i] + "-T");
+                tmpinput3.setAttribute("fullvalue", ethPortSet[i] + "-T");
                 tmplabel3.appendChild(tmpinput3);
                 tmplabel3.append("T");
 
@@ -427,7 +477,7 @@
                 selectedEthList.push(obj.value);
                 var tmpStr = $(obj).attr("textValue");
                 var textValue = $("input:radio[name=" + tmpId + "]:checked").attr("textValue");
-                tmpStr = tmpStr + "-" + textValue ;
+                tmpStr = tmpStr + "-" + textValue;
                 selectedEthNameList.push(tmpStr.trim());
             } else {
                 for (var i = 0; i < selectedEthList.length; i++) {
@@ -475,7 +525,7 @@
             if (ethGroup.trim() != "") {
                 selectedEthNameList = tmpList;
                 for (var i = 0; i < nCount; i++) {
-                    var tmpStr = tmpList[i].substring(0,tmpList[i].length-2);
+                    var tmpStr = tmpList[i].substring(0, tmpList[i].length - 2);
                     var tmpNum = ethPortSet.findIndex(value => value == tmpStr);
                     selectedEthList.push(tmpNum);
                 }
@@ -510,7 +560,7 @@
                 }
             }
         }
-        function checkData(vlanId,vlanDes,vlanStatus,ethGroup,trunkGroup){
+        function checkData(vlanId, vlanDes, vlanStatus, ethGroup, trunkGroup) {
             var flag = true;
 
             return flag;
@@ -540,7 +590,7 @@
             //取值
             var vlanName = $(this).parents("tr").find("[name='txtVlanName']").attr("value");
             var vlanId = vlanName.substring(4);
-            var vlanType =$(this).parents("tr").find("[name='txtVlanType']").attr("value");
+            var vlanType = $(this).parents("tr").find("[name='txtVlanType']").attr("value");
             var vlanDes = $(this).parents("tr").find("[name='txtVlanDes']").attr("value");
             var vlanStatus = $(this).parents("tr").find("[name='txtVlanStatus']").attr("value");
             var ethGroup = $(this).parents("tr").find("[name='txtEthGroup']").attr("value");
@@ -548,7 +598,7 @@
             //赋值
             $("#editVlanID").val(vlanId).attr("style", "width:100%;display:none");
             $("#txtEditVlanID").html(vlanName).removeAttr("style");
-            $("#txtEditVlanType").attr("value",vlanType).html(typeArray[vlanType]);
+            $("#txtEditVlanType").attr("value", vlanType).html(typeArray[vlanType]);
             $("#editVlanDes").val(vlanDes);
             $("#editStatus").val(vlanStatus);
             $("#selEthGroup").val(ethGroup);
@@ -567,15 +617,15 @@
         $("#btnSave").click(function () {
             var vlanId = $("#editVlanID").val().trim();
             var vlanDes = $("#editVlanDes").val();
-            var vlanType =$("#txtEditVlanType").attr("value");
+            var vlanType = $("#txtEditVlanType").attr("value");
             var vlanStatus = $("#editStatus").val();
             var ethGroup = $("#selEthGroup").val().trim();
             var trunkGroup = $("#selTrunkGroup").val().trim();
             debugger;
-            if(!checkData(vlanId,vlanDes,vlanStatus,ethGroup,trunkGroup)){
+            if (!checkData(vlanId, vlanDes, vlanStatus, ethGroup, trunkGroup)) {
                 return;
             }
-            $("[name='hId']").val("valn"+vlanId);
+            $("[name='hId']").val("valn" + vlanId);
             $("[name='hDes']").val(vlanDes);
             $("[name='hType']").val(vlanType);
             $("[name='hStatus']").val(vlanStatus);

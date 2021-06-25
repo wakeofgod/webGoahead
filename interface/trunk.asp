@@ -507,7 +507,6 @@
             var ethGroup = $("#selEthGroup").val().trim();
             var manStatus = $("#editManStatus").val();
             var operStatus = $("#txtOperStatus").attr("value");
-            debugger;
             if (!checkData(trunkNo, trunDes, pvid, strategy, mtu, ethGroup)) {
                 return;
             }
