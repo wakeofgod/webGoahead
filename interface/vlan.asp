@@ -40,6 +40,7 @@
             color: #FA8E53;
             background-color: #007FFF;
         }
+
         .table-hover>tbody>tr:hover {
             background-color: #33ccff;
         }
@@ -355,8 +356,33 @@
                 tmplabel.setAttribute("name", "ethChecklabel");
                 tmplabel.innerHTML = ethPortSet[i];
                 tmplabel.setAttribute("class", "mark");
+                //加载单选框
+                var tmplabel2 = document.createElement("label");
+                var tmpinput2 = document.createElement("input");
+                tmpinput2.setAttribute("name", tmpId);
+                tmpinput2.setAttribute("type", "radio");
+                tmpinput2.setAttribute("onclick", "ethRadio(this)");
+                tmpinput2.setAttribute("value", i);
+                tmpinput2.setAttribute("textvalue", "U");
+                tmpinput2.setAttribute("checked","checked");
+                tmpinput2. setAttribute("fullvalue", ethPortSet[i] + "-U");
+                tmplabel2.appendChild(tmpinput2);
+                tmplabel2.append("U");
+                var tmplabel3 = document.createElement("label");
+                var tmpinput3 = document.createElement("input");
+                tmpinput3.setAttribute("name", tmpId);
+                tmpinput3.setAttribute("type", "radio");
+                tmpinput3.setAttribute("onclick", "ethRadio(this)");
+                tmpinput3.setAttribute("value", i);
+                tmpinput3.setAttribute("textvalue", "T");
+                tmpinput3. setAttribute("fullvalue", ethPortSet[i] + "-T");
+                tmplabel3.appendChild(tmpinput3);
+                tmplabel3.append("T");
+
 
                 tmpdiv.appendChild(tmplabel);
+                tmpdiv.appendChild(tmplabel2);
+                tmpdiv.appendChild(tmplabel3);
                 ethDiv.appendChild(tmpdiv);
             }
         }
@@ -390,8 +416,12 @@
         //eth
         function ethCheck(obj) {
             if (obj.checked) {
+                var tmpId = $(obj).attr("id");
                 selectedEthList.push(obj.value);
-                selectedEthNameList.push($(obj).attr("textValue"));
+                var tmpStr = $(obj).attr("textValue");
+                var textValue = $("input:radio[name=" + tmpId + "]:checked").attr("textValue");
+                tmpStr = tmpStr + "-" + textValue ;
+                selectedEthNameList.push(tmpStr.trim());
             } else {
                 for (var i = 0; i < selectedEthList.length; i++) {
                     if (selectedEthList[i] == obj.value) {
@@ -401,6 +431,16 @@
                 }
             }
             document.getElementById("selEthGroup").value = selectedEthNameList;
+        }
+        function ethRadio(obj) {
+            if (obj.checked) {
+                for (var i = 0; i < selectedEthList.length; i++) {
+                    if (selectedEthList[i] == obj.value) {
+                        selectedEthNameList[i] = $(obj).attr("fullvalue");
+                    }
+                }
+                document.getElementById("selEthGroup").value = selectedEthNameList;
+            }
         }
         //trunk
         function trunkCheck(obj) {
@@ -428,7 +468,8 @@
             if (ethGroup.trim() != "") {
                 selectedEthNameList = tmpList;
                 for (var i = 0; i < nCount; i++) {
-                    var tmpNum = ethPortSet.findIndex(value => value == tmpList[i]);
+                    var tmpStr = tmpList[i].substring(0,tmpList[i].length-2);
+                    var tmpNum = ethPortSet.findIndex(value => value == tmpStr);
                     selectedEthList.push(tmpNum);
                 }
             }
