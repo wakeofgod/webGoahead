@@ -40,6 +40,9 @@
             color: #FA8E53;
             background-color: #007FFF;
         }
+        .table-hover>tbody>tr:hover {
+            background-color: #33ccff;
+        }
     </style>
     <script>
 
@@ -59,7 +62,7 @@
             <thead style="font-weight: bolder;">
                 <tr>
                     <td width="10%">VLAN名称</td>
-                    <td width="10%">VLAN ID</td>
+                    <td width="10%">VLAN 类型</td>
                     <td width="20%">VLAN 描述</td>
                     <td width="10%">VLAN 状态</td>
                     <td width="20%">ETH成员</td>
@@ -191,6 +194,14 @@
             </div>
         </div>
     </div>
+    <table width="60%" align="right">
+        <tr>
+            <td>
+                <div id="barcon" name="barcon"></div>
+            </td>
+        </tr>
+    </table>
+    <br>
     <div>
         <form id="hPostForm"  method="post" action="/goform/vlanFormPost">
             <input name="hId" value="" />
@@ -210,6 +221,7 @@
         var ethPortSet = [];
         var trunkSet = [];
         var statusArray = ["down", "up"];
+        var typeArray = ["N/A","Static","Dynamic"];
         //多选下拉框所在的div
         var ethDiv = document.getElementById("selectEthDiv");
         var trunkDIv = document.getElementById("selectTrunkDiv");
@@ -222,37 +234,81 @@
         //鼠标是否在【多选下拉框div】上面（如果在div上面，需要控制鼠标的点击事件，不让div隐藏；否则要让该div隐藏）
         var inEthDiv = false;
         var inTrunkDiv = false;
+        //分页
+        var totalNum = 0;
+        var totalPage = 0;
+        var pageSize = 10;
+        var currentPage = 1;
+        var startRow = 1;
+        var endRow = 10;
+        var pageDataSet = [];
         function getData() {
             dataset = [
                 ["vlan1", "1", "test vlan1", "1", "eth0/0,eth0/1", "trunk1"],
                 ["vlan2", "2", "test vlan2", "0", "eth0/3,eth0/5", "trunk2"],
-                ["vlan4", "4", "test vlan4", "1", "eth0/2,eth0/4", "trunk4"],
-                ["vlan6", "6", "test vlan6", "0", "eth0/6,eth0/8", "trunk6"]
+                ["vlan4", "2", "test vlan4", "1", "eth0/2,eth0/4", "trunk4"],
+                ["vlan6", "1", "test vlan6", "0", "eth0/6,eth0/8", "trunk6"]
             ];
+            totalNum = dataset.length;
+            if (totalNum / pageSize > parseInt(totalNum / pageSize)) {
+                totalPage = parseInt(totalNum / pageSize) + 1;
+            } else {
+                totalPage = parseInt(totalNum / pageSize);
+            }
             ethPortSet = ["eth0/0", "eth0/1", "eth0/2", "eth0/3", "eth0/4", "eth0/5", "eth0/6", "eth0/7", "eth0/8"];
             trunkSet = ["trunk1", "trunk2", "trunk3", "trunk4"];
         }
-        function loadPage() {
-            var count = dataset.length;
+        function loadPage(pno) {
+            currentPage = pno;
+            startRow = (currentPage - 1) * pageSize + 1;
+            endRow = currentPage * pageSize;
+            endRow = (endRow > totalNum) ? totalNum : endRow;
+            pageDataSet = dataset.slice(startRow - 1, endRow);
+            var tempStr = "<span>共" + totalPage + "页</span>";
+            if (currentPage >= 1) {
+                tempStr += ('<span class="btn" name="btnShowPage" href="#" value="1">首页</span>');
+                tempStr += ('<span class="btn" name="btnShowPage" href="#" value="' + (currentPage - 1) + '">上一页</span>');
+                tempStr += ('<span>当前第' + currentPage + '页</span>')
+            } else {
+                tmpList += ('<span class="btn" name="btnShowPage" href="#" value="0">首页</span>');
+                tmpList += ('<span class="btn" name="btnShowPage" href="#" value="0">上一页</span>');
+            }
+
+            if (currentPage < totalPage) {
+                tempStr += ('<span class="btn" name="btnShowPage" href="#" value="' + (currentPage + 1) + '">下一页</span>');
+                tempStr += ('<span class="btn" name="btnShowPage" href="#" value="' + totalPage + '">尾页</span>');
+            } else {
+                tempStr += ('<span class="btn" name="btnShowPage" href="#" value="' + totalPage + '">下一页</span>');
+                tempStr += ('<span class="btn" name="btnShowPage" href="#" value="' + totalPage + '">尾页</span>');
+            }
+
+            document.getElementById("barcon").innerHTML = tempStr;
+            var count = pageDataSet.length;
             if (count > 0) {
                 var html = ('');
                 for (var i = 0; i < count; i++) {
                     html += ('<tr>');
-                    html += ('<td id="row1" name="txtVlanName" value="' + dataset[i][0] + '">' + dataset[i][0] + '</td>');
-                    html += ('<td><span name="txtVlanId" value="' + dataset[i][1] + '">' + dataset[i][1] + '</span></td>');
-                    html += ('<td><span name="txtVlanDes" value="' + dataset[i][2] + '">' + dataset[i][2] + '</span></td>');
-                    html += ('<td><span name="txtVlanStatus" value="' + dataset[i][3] + '">' + dataset[i][3] + '</span></td>');
-                    html += ('<td><span name="txtEthGroup" value="' + dataset[i][4] + '">' + dataset[i][4] + '</span></td>');
-                    html += ('<td><span name="txtTrunkGroup" value="' + dataset[i][5] + '">' + dataset[i][5] + '</span></td>');
+                    html += ('<td id="row1" name="txtVlanName" value="' + pageDataSet[i][0] + '">' + pageDataSet[i][0] + '</td>');
+                    html += ('<td><span name="txtVlanId" value="' + pageDataSet[i][1] + '">' +typeArray[pageDataSet[i][1]] + '</span></td>');
+                    html += ('<td><span name="txtVlanDes" value="' + pageDataSet[i][2] + '">' + pageDataSet[i][2] + '</span></td>');
+                    html += ('<td><span name="txtVlanStatus" value="' + pageDataSet[i][3] + '">' + pageDataSet[i][3] + '</span></td>');
+                    html += ('<td><span name="txtEthGroup" value="' + pageDataSet[i][4] + '">' + pageDataSet[i][4] + '</span></td>');
+                    html += ('<td><span name="txtTrunkGroup" value="' + pageDataSet[i][5] + '">' + pageDataSet[i][5] + '</span></td>');
                     html += ('<td>');
-                    html += ('<button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" value="' + dataset[i][1] + '">修改</button>');
-                    html += ('<button type="button" class="btn btn-primary" name="btnDelete" value="' + dataset[i][1] + '">删除</button>');
+                    html += ('<button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" value="' + pageDataSet[i][1] + '">修改</button>');
+                    html += ('<button type="button" class="btn btn-primary" name="btnDelete" value="' + pageDataSet[i][1] + '">删除</button>');
                     html += ('</td>');
                     html += ('</tr>');
                 }
                 $("#tBody").html(html);
             }
         }
+        $("#barcon").on('click', '[name="btnShowPage"]', function () {
+            var tmpPage = parseInt($(this).attr("value").trim());
+            if (tmpPage > 0 && tmpPage <= totalPage) {
+                loadPage(tmpPage);
+            }
+        });
         //点击selEthGroup，展示多选框
         function ethclick() {
             ethDiv.style.display = "block";
@@ -466,7 +522,7 @@
         });
         $(document).ready(function () {
             getData();
-            loadPage();
+            loadPage(1);
             loadEthDropDown();
             loadTrunkDropDown();
         });

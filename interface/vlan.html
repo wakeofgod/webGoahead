@@ -40,6 +40,9 @@
             color: #FA8E53;
             background-color: #007FFF;
         }
+        .table-hover>tbody>tr:hover {
+            background-color: #33ccff;
+        }
     </style>
     <script>
 
@@ -59,7 +62,7 @@
             <thead style="font-weight: bolder;">
                 <tr>
                     <td width="10%">VLAN名称</td>
-                    <td width="10%">VLAN ID</td>
+                    <td width="10%">VLAN 类型</td>
                     <td width="20%">VLAN 描述</td>
                     <td width="10%">VLAN 状态</td>
                     <td width="20%">ETH成员</td>
@@ -218,6 +221,7 @@
         var ethPortSet = [];
         var trunkSet = [];
         var statusArray = ["down", "up"];
+        var typeArray = ["N/A","Static","Dynamic"];
         //多选下拉框所在的div
         var ethDiv = document.getElementById("selectEthDiv");
         var trunkDIv = document.getElementById("selectTrunkDiv");
@@ -239,14 +243,9 @@
         var endRow = 10;
         var pageDataSet = [];
         function getData() {
-            // dataset = [
-            //     ["vlan1", "1", "test vlan1", "1", "eth0/0,eth0/1", "trunk1"],
-            //     ["vlan2", "2", "test vlan2", "0", "eth0/3,eth0/5", "trunk2"],
-            //     ["vlan4", "4", "test vlan4", "1", "eth0/2,eth0/4", "trunk4"],
-            //     ["vlan6", "6", "test vlan6", "0", "eth0/6,eth0/8", "trunk6"]
-            // ];
+            //模拟数据
             for (var i = 0; i < 4096; i++) {
-                dataset.push(["vlan" + (i + 1), i + 1, "test vlan" + (i + 1), statusArray[i % 2], "eth0/0,eth0/1", "trunk1"]);
+                dataset.push(["vlan" + (i + 1), (i%2+ 1), "test vlan" + (i + 1), statusArray[i % 2], "eth0/0,eth0/1", "trunk1"]);
             }
             totalNum = dataset.length;
             if (totalNum / pageSize > parseInt(totalNum / pageSize)) {
@@ -288,7 +287,7 @@
                 for (var i = 0; i < count; i++) {
                     html += ('<tr>');
                     html += ('<td id="row1" name="txtVlanName" value="' + pageDataSet[i][0] + '">' + pageDataSet[i][0] + '</td>');
-                    html += ('<td><span name="txtVlanId" value="' + pageDataSet[i][1] + '">' + pageDataSet[i][1] + '</span></td>');
+                    html += ('<td><span name="txtVlanId" value="' + pageDataSet[i][1] + '">' +typeArray[pageDataSet[i][1]] + '</span></td>');
                     html += ('<td><span name="txtVlanDes" value="' + pageDataSet[i][2] + '">' + pageDataSet[i][2] + '</span></td>');
                     html += ('<td><span name="txtVlanStatus" value="' + pageDataSet[i][3] + '">' + pageDataSet[i][3] + '</span></td>');
                     html += ('<td><span name="txtEthGroup" value="' + pageDataSet[i][4] + '">' + pageDataSet[i][4] + '</span></td>');
