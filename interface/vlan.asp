@@ -157,7 +157,8 @@
                             <tr>
                                 <td>VLAN状态</td>
                                 <td>
-                                    <select id="editStatus" title="Vlan状态下拉框" class="mySelect">
+                                    <select id="editStatus" title="Vlan状态下拉框" class="mySelect"
+                                        style="pointer-events: none;">
                                         <option value="0">down</option>
                                         <option value="1">up</option>
                                     </select>
@@ -210,7 +211,7 @@
     </table>
     <br>
     <div>
-        <form id="hPostForm" method="post" action="/goform/vlanFormPost">
+        <form id="hPostForm" style="display: none; visibility:hidden;" method="post" action="/goform/vlanFormPost">
             <input name="hId" value="" />
             <input name="hType" value="" />
             <input name="hDes" value="" />
@@ -220,7 +221,7 @@
         </form>
     </div>
     <div>
-        <form id="hDeleteForm" method="post" action="/goform/vlanFormDelete">
+        <form id="hDeleteForm" style="display: none; visibility:hidden;" method="post" action="/goform/vlanFormDelete">
             <input name="hId" value="" />
         </form>
     </div>
@@ -277,44 +278,34 @@
                         if (rowData[0].trim() == "default") {
                             rowId = 1;
                         }
-                        else if(rowData[0].trim()!=""){
+                        else if (rowData[0].trim() != "") {
                             rowId = parseInt(rowData[0].substring(4));
                         }
-                        if(rowData[3].trim()!="1")
-                        {
+                        if (rowData[3].trim() != "1") {
                             rowData[3] = "0";
                         }
-                        if(rowData[4].trim()!=""){
+                        if (rowData[4].trim() != "") {
                             if (rowData[4].lastIndexOf('*') == rowData[4].length - 1) {
                                 rowData[4] = rowData[4].substring(0, rowData[4].length - 1);
                             }
                             rowData[4] = rowData[4].replace(/\*/g, ',');
                         }
-                        if(rowData[5].trim()!=""){
+                        if (rowData[5].trim() != "") {
                             if (rowData[5].lastIndexOf('*') == rowData[5].length - 1) {
                                 rowData[5] = rowData[5].substring(0, rowData[5].length - 1);
                             }
                             rowData[5] = rowData[5].replace(/\*/g, ',');
                         }
-                        dataset.push([rowData[0].trim(),rowData[1].trim(),rowData[2].trim(),rowData[3].trim(),rowData[4].trim(),rowData[5].trim(),rowId]);
+                        dataset.push([rowData[0].trim(), rowData[1].trim(), rowData[2].trim(), rowData[3].trim(), rowData[4].trim(), rowData[5].trim(), rowId]);
                     }
                 }
             }
-            // dataset = [
-            //     ["vlan1", "1", "test vlan1", "1", "eth0/0,eth0/1", "trunk1"],
-            //     ["vlan2", "2", "test vlan2", "0", "eth0/3,eth0/5", "trunk2"],
-            //     ["vlan4", "2", "test vlan4", "1", "eth0/2,eth0/4", "trunk4"],
-            //     ["vlan6", "1", "test vlan6", "0", "eth0/6,eth0/8", "trunk6"]
-            // ];
-            debugger;
             totalNum = dataset.length;
             if (totalNum / pageSize > parseInt(totalNum / pageSize)) {
                 totalPage = parseInt(totalNum / pageSize) + 1;
             } else {
                 totalPage = parseInt(totalNum / pageSize);
             }
-            ethPortSet = ["eth0/0", "eth0/1", "eth0/2", "eth0/3", "eth0/4", "eth0/5", "eth0/6", "eth0/7", "eth0/8"];
-            trunkSet = ["trunk1", "trunk2", "trunk3", "trunk4"];
         }
         function loadPage(pno) {
             currentPage = pno;
@@ -353,8 +344,11 @@
                     html += ('<td><span name="txtEthGroup" value="' + pageDataSet[i][4] + '">' + pageDataSet[i][4] + '</span></td>');
                     html += ('<td><span name="txtTrunkGroup" value="' + pageDataSet[i][5] + '">' + pageDataSet[i][5] + '</span></td>');
                     html += ('<td>');
-                    html += ('<button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" value="' + pageDataSet[i][0] + '">修改</button>');
-                    html += ('<button type="button" class="btn btn-primary" name="btnDelete" value="' + pageDataSet[i][6] + '">删除</button>');
+                        debugger;
+                    if (pageDataSet[i][6] != 1) {
+                        html += ('<button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" value="' + pageDataSet[i][1] + '">修改</button>');
+                        html += ('<button type="button" class="btn btn-primary" name="btnDelete" value="' + pageDataSet[i][0] + '">删除</button>');
+                    }
                     html += ('</td>');
                     html += ('</tr>');
                 }
@@ -420,9 +414,9 @@
                 tmpinput2.setAttribute("type", "radio");
                 tmpinput2.setAttribute("onclick", "ethRadio(this)");
                 tmpinput2.setAttribute("value", i);
-                tmpinput2.setAttribute("textvalue", "U");
+                tmpinput2.setAttribute("textvalue", "u");
                 tmpinput2.setAttribute("checked", "checked");
-                tmpinput2.setAttribute("fullvalue", ethPortSet[i] + "-U");
+                tmpinput2.setAttribute("fullvalue", ethPortSet[i] + "-u");
                 tmplabel2.appendChild(tmpinput2);
                 tmplabel2.append("U");
                 var tmplabel3 = document.createElement("label");
@@ -431,8 +425,8 @@
                 tmpinput3.setAttribute("type", "radio");
                 tmpinput3.setAttribute("onclick", "ethRadio(this)");
                 tmpinput3.setAttribute("value", i);
-                tmpinput3.setAttribute("textvalue", "T");
-                tmpinput3.setAttribute("fullvalue", ethPortSet[i] + "-T");
+                tmpinput3.setAttribute("textvalue", "t");
+                tmpinput3.setAttribute("fullvalue", ethPortSet[i] + "-t");
                 tmplabel3.appendChild(tmpinput3);
                 tmplabel3.append("T");
 
@@ -464,8 +458,32 @@
                 tmplabel.setAttribute("name", "trunkChecklabel");
                 tmplabel.innerHTML = trunkSet[i];
                 tmplabel.setAttribute("class", "mark");
+                //加载单选框
+                var tmplabel2 = document.createElement("label");
+                var tmpinput2 = document.createElement("input");
+                tmpinput2.setAttribute("name", tmpId);
+                tmpinput2.setAttribute("type", "radio");
+                tmpinput2.setAttribute("onclick", "trunkRadio(this)");
+                tmpinput2.setAttribute("value", i);
+                tmpinput2.setAttribute("textvalue", "u");
+                tmpinput2.setAttribute("checked", "checked");
+                tmpinput2.setAttribute("fullvalue", trunkSet[i] + "-u");
+                tmplabel2.appendChild(tmpinput2);
+                tmplabel2.append("U");
+                var tmplabel3 = document.createElement("label");
+                var tmpinput3 = document.createElement("input");
+                tmpinput3.setAttribute("name", tmpId);
+                tmpinput3.setAttribute("type", "radio");
+                tmpinput3.setAttribute("onclick", "trunkRadio(this)");
+                tmpinput3.setAttribute("value", i);
+                tmpinput3.setAttribute("textvalue", "t");
+                tmpinput3.setAttribute("fullvalue", trunkSet[i] + "-t");
+                tmplabel3.appendChild(tmpinput3);
+                tmplabel3.append("T");
 
                 tmpdiv.appendChild(tmplabel);
+                tmpdiv.appendChild(tmplabel2);
+                tmpdiv.appendChild(tmplabel3);
                 trunkDIv.appendChild(tmpdiv);
             }
         }
@@ -502,8 +520,12 @@
         //trunk
         function trunkCheck(obj) {
             if (obj.checked) {
+                var tmpId = $(obj).attr("id");
                 selectedTrunkList.push(obj.value);
-                selectedTrunkNameList.push($(obj).attr("textValue"));
+                var tmpStr = $(obj).attr("textValue");
+                var textValue = $("input:radio[name=" + tmpId + "]:checked").attr("textValue");
+                tmpStr = tmpStr + "-" + textValue;
+                selectedTrunkNameList.push(tmpStr.trim());
             } else {
                 for (var i = 0; i < selectedTrunkList.length; i++) {
                     if (selectedTrunkList[i] == obj.value) {
@@ -513,6 +535,16 @@
                 }
             }
             document.getElementById("selTrunkGroup").value = selectedTrunkNameList;
+        }
+        function trunkRadio(obj) {
+            if (obj.checked) {
+                for (var i = 0; i < selectedTrunkList.length; i++) {
+                    if (selectedTrunkList[i] == obj.value) {
+                        selectedTrunkNameList[i] = $(obj).attr("fullvalue");
+                    }
+                }
+                document.getElementById("selTrunkGroup").value = selectedTrunkNameList;
+            }
         }
         //
         function resetEthDropDown(ethGroup) {
@@ -525,6 +557,7 @@
             if (ethGroup.trim() != "") {
                 selectedEthNameList = tmpList;
                 for (var i = 0; i < nCount; i++) {
+                    //去除尾部的—T -U
                     var tmpStr = tmpList[i].substring(0, tmpList[i].length - 2);
                     var tmpNum = ethPortSet.findIndex(value => value == tmpStr);
                     selectedEthList.push(tmpNum);
@@ -548,7 +581,8 @@
             if (trunkGroup.trim() != "") {
                 selectedTrunkNameList = tmpList;
                 for (var i = 0; i < nCount; i++) {
-                    var tmpNum = trunkSet.findIndex(value => value == tmpList[i]);
+                    var tmpStr = tmpList[i].substring(0, tmpList[i].length - 2);
+                    var tmpNum = trunkSet.findIndex(value => value == tmpStr);
                     selectedTrunkList.push(tmpNum);
                 }
             }
@@ -573,7 +607,7 @@
             //清空赋值
             $("#editVlanID").val("").attr("style", "width:100%;");
             $("#txtEditVlanID").html("").attr("style", "display:none");
-            $("#txtEditVlanType").val(1).html(typeArray[1]);
+            $("#txtEditVlanType").attr("value", "1").html(typeArray[1]);
             $("#editVlanDes").val("");
             $("#selEthGroup").val("");
             $("#selTrunkGroup").val("");
@@ -621,16 +655,15 @@
             var vlanStatus = $("#editStatus").val();
             var ethGroup = $("#selEthGroup").val().trim();
             var trunkGroup = $("#selTrunkGroup").val().trim();
-            debugger;
             if (!checkData(vlanId, vlanDes, vlanStatus, ethGroup, trunkGroup)) {
                 return;
             }
-            $("[name='hId']").val("valn" + vlanId);
+            $("[name='hId']").val("vlan" + vlanId);
             $("[name='hDes']").val(vlanDes);
             $("[name='hType']").val(vlanType);
             $("[name='hStatus']").val(vlanStatus);
-            $("[name='hEthGroup']").val(ethGroup);
-            $("[name='hTrunkGroup']").val(trunkGroup);
+            $("[name='hEthGroup']").val(ethGroup.replace(/\,/g, '*'));
+            $("[name='hTrunkGroup']").val(trunkGroup.replace(/\,/g, '*'));
             $("#hPostForm").submit();
         });
         $(document).ready(function () {
