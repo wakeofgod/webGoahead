@@ -157,7 +157,8 @@
                             <tr>
                                 <td>VLAN状态</td>
                                 <td>
-                                    <select id="editStatus" title="Vlan状态下拉框" class="mySelect">
+                                    <select id="editStatus" title="Vlan状态下拉框" class="mySelect"
+                                        style="pointer-events: none;">
                                         <option value="0">down</option>
                                         <option value="1">up</option>
                                     </select>
@@ -253,7 +254,7 @@
         function getData() {
             //模拟数据
             for (var i = 0; i < 4096; i++) {
-                dataset.push(["vlan" + (i + 1), (i % 2 + 1), "test vlan" + (i + 1), statusArray[i % 2], "eth0/0-U,eth0/1-T", "trunk1"]);
+                dataset.push(["vlan" + (i + 1), (i % 2 + 1), "test vlan" + (i + 1), (i % 2), "eth0/0-u,eth0/1-t", "trunk1-u,trunk2-t", (i + 1)]);
             }
             totalNum = dataset.length;
             if (totalNum / pageSize > parseInt(totalNum / pageSize)) {
@@ -297,12 +298,14 @@
                     html += ('<td id="row1" name="txtVlanName" value="' + pageDataSet[i][0] + '">' + pageDataSet[i][0] + '</td>');
                     html += ('<td><span name="txtVlanType" value="' + pageDataSet[i][1] + '">' + typeArray[pageDataSet[i][1]] + '</span></td>');
                     html += ('<td><span name="txtVlanDes" value="' + pageDataSet[i][2] + '">' + pageDataSet[i][2] + '</span></td>');
-                    html += ('<td><span name="txtVlanStatus" value="' + pageDataSet[i][3] + '">' + pageDataSet[i][3] + '</span></td>');
+                    html += ('<td><span name="txtVlanStatus" value="' + pageDataSet[i][3] + '">' + statusArray[pageDataSet[i][3]] + '</span></td>');
                     html += ('<td><span name="txtEthGroup" value="' + pageDataSet[i][4] + '">' + pageDataSet[i][4] + '</span></td>');
                     html += ('<td><span name="txtTrunkGroup" value="' + pageDataSet[i][5] + '">' + pageDataSet[i][5] + '</span></td>');
                     html += ('<td>');
-                    html += ('<button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" value="' + pageDataSet[i][1] + '">修改</button>');
-                    html += ('<button type="button" class="btn btn-primary" name="btnDelete" value="' + pageDataSet[i][0] + '">删除</button>');
+                    if (pageDataSet[i][6] != 1) {
+                        html += ('<button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" value="' + pageDataSet[i][6] + '">修改</button>');
+                        html += ('<button type="button" class="btn btn-primary" style="margin-left:10px;" name="btnDelete" value="' + pageDataSet[i][0] + '">删除</button>');
+                    }
                     html += ('</td>');
                     html += ('</tr>');
                 }
@@ -368,9 +371,9 @@
                 tmpinput2.setAttribute("type", "radio");
                 tmpinput2.setAttribute("onclick", "ethRadio(this)");
                 tmpinput2.setAttribute("value", i);
-                tmpinput2.setAttribute("textvalue", "U");
+                tmpinput2.setAttribute("textvalue", "u");
                 tmpinput2.setAttribute("checked", "checked");
-                tmpinput2.setAttribute("fullvalue", ethPortSet[i] + "-U");
+                tmpinput2.setAttribute("fullvalue", ethPortSet[i] + "-u");
                 tmplabel2.appendChild(tmpinput2);
                 tmplabel2.append("U");
                 var tmplabel3 = document.createElement("label");
@@ -379,8 +382,8 @@
                 tmpinput3.setAttribute("type", "radio");
                 tmpinput3.setAttribute("onclick", "ethRadio(this)");
                 tmpinput3.setAttribute("value", i);
-                tmpinput3.setAttribute("textvalue", "T");
-                tmpinput3.setAttribute("fullvalue", ethPortSet[i] + "-T");
+                tmpinput3.setAttribute("textvalue", "t");
+                tmpinput3.setAttribute("fullvalue", ethPortSet[i] + "-t");
                 tmplabel3.appendChild(tmpinput3);
                 tmplabel3.append("T");
 
@@ -419,9 +422,9 @@
                 tmpinput2.setAttribute("type", "radio");
                 tmpinput2.setAttribute("onclick", "trunkRadio(this)");
                 tmpinput2.setAttribute("value", i);
-                tmpinput2.setAttribute("textvalue", "U");
+                tmpinput2.setAttribute("textvalue", "u");
                 tmpinput2.setAttribute("checked", "checked");
-                tmpinput2.setAttribute("fullvalue", trunkSet[i] + "-U");
+                tmpinput2.setAttribute("fullvalue", trunkSet[i] + "-u");
                 tmplabel2.appendChild(tmpinput2);
                 tmplabel2.append("U");
                 var tmplabel3 = document.createElement("label");
@@ -430,8 +433,8 @@
                 tmpinput3.setAttribute("type", "radio");
                 tmpinput3.setAttribute("onclick", "trunkRadio(this)");
                 tmpinput3.setAttribute("value", i);
-                tmpinput3.setAttribute("textvalue", "T");
-                tmpinput3.setAttribute("fullvalue", trunkSet[i] + "-T");
+                tmpinput3.setAttribute("textvalue", "t");
+                tmpinput3.setAttribute("fullvalue", trunkSet[i] + "-t");
                 tmplabel3.appendChild(tmpinput3);
                 tmplabel3.append("T");
 
@@ -490,7 +493,7 @@
             }
             document.getElementById("selTrunkGroup").value = selectedTrunkNameList;
         }
-        function trunkRadio(obj){
+        function trunkRadio(obj) {
             if (obj.checked) {
                 for (var i = 0; i < selectedTrunkList.length; i++) {
                     if (selectedTrunkList[i] == obj.value) {
@@ -525,6 +528,7 @@
                 }
             }
         }
+
         function resetTrunkDropDown(trunkGroup) {
             loadTrunkDropDown();
             selectedTrunkList = [];
@@ -537,7 +541,6 @@
                 for (var i = 0; i < nCount; i++) {
                     var tmpStr = tmpList[i].substring(0, tmpList[i].length - 2);
                     var tmpNum = trunkSet.findIndex(value => value == tmpStr);
-                    debugger;
                     selectedTrunkList.push(tmpNum);
                 }
             }
@@ -549,9 +552,35 @@
                 }
             }
         }
+
+        function resetEthRadio(ethGroup) {
+            if (ethGroup.trim() != "") {
+                $("input[type=radio]").each(function () {
+                    if (ethGroup.indexOf($(this).attr("fullvalue")) != -1) {
+                        $(this).attr("checked", "checked");
+                    }
+                });
+            }
+        }
+
+        function resetTrunkRadio(trunkGroup) {
+            if (trunkGroup.trim() != "") {
+                $("input[type=radio]").each(function () {
+                    if (trunkGroup.indexOf($(this).attr("fullvalue")) != -1) {
+                        $(this).attr("checked", "checked");
+                    }
+                });
+            }
+        }
+
         function checkData(vlanId, vlanDes, vlanStatus, ethGroup, trunkGroup) {
             var flag = true;
-
+            if (isCreateNew) {
+                if (existID.findIndex(value => value == vlanId) != -1) {
+                    flag = false;
+                    alert("vlan" + vlanId + " 已存在");
+                }
+            }
             return flag;
         }
         //按钮点击 新建
@@ -562,7 +591,7 @@
             //清空赋值
             $("#editVlanID").val("").attr("style", "width:100%;");
             $("#txtEditVlanID").html("").attr("style", "display:none");
-            $("#txtEditVlanType").val(1).html(typeArray[1]);
+            $("#txtEditVlanType").attr("value", "1").html(typeArray[1]);
             $("#editVlanDes").val("");
             $("#selEthGroup").val("");
             $("#selTrunkGroup").val("");
@@ -579,7 +608,7 @@
             //取值
             var vlanName = $(this).parents("tr").find("[name='txtVlanName']").attr("value");
             var vlanId = vlanName.substring(4);
-            var vlanType =$(this).parents("tr").find("[name='txtVlanType']").attr("value");
+            var vlanType = $(this).parents("tr").find("[name='txtVlanType']").attr("value");
             var vlanDes = $(this).parents("tr").find("[name='txtVlanDes']").attr("value");
             var vlanStatus = $(this).parents("tr").find("[name='txtVlanStatus']").attr("value");
             var ethGroup = $(this).parents("tr").find("[name='txtEthGroup']").attr("value");
@@ -587,13 +616,15 @@
             //赋值
             $("#editVlanID").val(vlanId).attr("style", "width:100%;display:none");
             $("#txtEditVlanID").html(vlanName).removeAttr("style");
-            $("#txtEditVlanType").attr("value",vlanType).html(typeArray[vlanType]);
+            $("#txtEditVlanType").attr("value", vlanType).html(typeArray[vlanType]);
             $("#editVlanDes").val(vlanDes);
             $("#editStatus").val(vlanStatus);
             $("#selEthGroup").val(ethGroup);
             $("#selTrunkGroup").val(trunkGroup);
             resetEthDropDown(ethGroup);
             resetTrunkDropDown(trunkGroup);
+            resetEthRadio(ethGroup);
+            resetTrunkRadio(trunkGroup);
             $("#myModal").modal('show');
         });
         //行点击 删除
@@ -606,20 +637,19 @@
         $("#btnSave").click(function () {
             var vlanId = $("#editVlanID").val().trim();
             var vlanDes = $("#editVlanDes").val();
-            var vlanType =$("#txtEditVlanType").attr("value");
+            var vlanType = $("#txtEditVlanType").attr("value");
             var vlanStatus = $("#editStatus").val();
             var ethGroup = $("#selEthGroup").val().trim();
             var trunkGroup = $("#selTrunkGroup").val().trim();
-            debugger;
             if (!checkData(vlanId, vlanDes, vlanStatus, ethGroup, trunkGroup)) {
                 return;
             }
-            $("[name='hId']").val("valn"+vlanId);
+            $("[name='hId']").val("vlan" + vlanId);
             $("[name='hDes']").val(vlanDes);
             $("[name='hType']").val(vlanType);
             $("[name='hStatus']").val(vlanStatus);
-            $("[name='hEthGroup']").val(ethGroup);
-            $("[name='hTrunkGroup']").val(trunkGroup);
+            $("[name='hEthGroup']").val(ethGroup.replace(/\,/g, '*'));
+            $("[name='hTrunkGroup']").val(trunkGroup.replace(/\,/g, '*'));
             $("#hPostForm").submit();
         });
         $(document).ready(function () {

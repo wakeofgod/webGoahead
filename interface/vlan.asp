@@ -251,6 +251,8 @@
         var startRow = 1;
         var endRow = 10;
         var pageDataSet = [];
+        //新建时验证
+        var existID = [];
         function getData() {
             var vlanData = "<%vlanAspGetAll();%>";
             var ethData = "<%trunkAspGetEth();%>";
@@ -297,6 +299,7 @@
                             rowData[5] = rowData[5].replace(/\*/g, ',');
                         }
                         dataset.push([rowData[0].trim(), rowData[1].trim(), rowData[2].trim(), rowData[3].trim(), rowData[4].trim(), rowData[5].trim(), rowId]);
+                        existID.push(rowId);
                     }
                 }
             }
@@ -344,10 +347,9 @@
                     html += ('<td><span name="txtEthGroup" value="' + pageDataSet[i][4] + '">' + pageDataSet[i][4] + '</span></td>');
                     html += ('<td><span name="txtTrunkGroup" value="' + pageDataSet[i][5] + '">' + pageDataSet[i][5] + '</span></td>');
                     html += ('<td>');
-                        debugger;
                     if (pageDataSet[i][6] != 1) {
-                        html += ('<button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" value="' + pageDataSet[i][1] + '">修改</button>');
-                        html += ('<button type="button" class="btn btn-primary" name="btnDelete" value="' + pageDataSet[i][0] + '">删除</button>');
+                        html += ('<button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" value="' + pageDataSet[i][6] + '">修改</button>');
+                        html += ('<button type="button" class="btn btn-primary" style="margin-left:10px;" name="btnDelete" value="' + pageDataSet[i][0] + '">删除</button>');
                     }
                     html += ('</td>');
                     html += ('</tr>');
@@ -594,9 +596,35 @@
                 }
             }
         }
+
+        function resetEthRadio(ethGroup) {
+            if (ethGroup.trim() != "") {
+                $("input[type=radio]").each(function () {
+                    if (ethGroup.indexOf($(this).attr("fullvalue")) != -1) {
+                        $(this).attr("checked", "checked");
+                    }
+                });
+            }
+        }
+
+        function resetTrunkRadio(trunkGroup) {
+            if (trunkGroup.trim() != "") {
+                $("input[type=radio]").each(function () {
+                    if (trunkGroup.indexOf($(this).attr("fullvalue")) != -1) {
+                        $(this).attr("checked", "checked");
+                    }
+                });
+            }
+        }
+
         function checkData(vlanId, vlanDes, vlanStatus, ethGroup, trunkGroup) {
             var flag = true;
-
+            if (isCreateNew) {
+                if (existID.findIndex(value => value == vlanId) != -1) {
+                    flag = false;
+                    alert("vlan"+vlanId+" 已存在");
+                }
+            }
             return flag;
         }
         //按钮点击 新建
@@ -639,6 +667,8 @@
             $("#selTrunkGroup").val(trunkGroup);
             resetEthDropDown(ethGroup);
             resetTrunkDropDown(trunkGroup);
+            resetEthRadio(ethGroup);
+            resetTrunkRadio(trunkGroup);
             $("#myModal").modal('show');
         });
         //行点击 删除
