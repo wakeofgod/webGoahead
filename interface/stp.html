@@ -82,32 +82,15 @@
             <table id="tablePVST" class="table table-striped table-bordered table-hover">
                 <thead style="font-weight: bolder;">
                     <tr>
-                        <td width="10%">VLAN名称</td>
-                        <td width="10%">VLAN ID</td>
-                        <td width="20%">VLAN 描述</td>
-                        <td width="10%">VLAN 状态</td>
-                        <td width="20%">ETH成员</td>
-                        <td width="20%">TRUNK成员</td>
+                        <td width="45%">VLAN名称</td>
+                        <td width="45%">VLAN 状态</td>
                         <td>操作</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="bodyPvst">
                     <tr>
-                        <td>trunkPVST</td>
-                        <td>
-                            100
-                        </td>
-                        <td>
-                            test vlan PVST
-                        </td>
-                        <td>
-                            up
-                        </td>
-                        <td>
-                            eth0/7 eth0/8
-                        </td>
-                        <td>trunk1
-                        </td>
+                        <td><span name="txtValnId" value="1">vlan1</span></td>
+                        <td> up</td>
                         <td>
                             <button type="button" name="btnPvstEdit" class="btn btn-primary">使能
                             </button>
@@ -116,21 +99,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>trunkPVST</td>
-                        <td>
-                            200
-                        </td>
-                        <td>
-                            test vlan PVST
-                        </td>
-                        <td>
-                            up
-                        </td>
-                        <td>
-                            eth0/7 eth0/8
-                        </td>
-                        <td>trunk1
-                        </td>
+                        <td>vlan2</td>
+                        <td> up</td>
                         <td>
                             <button type="button" name="btnPvstEdit" class="btn btn-primary">使能
                             </button>
@@ -154,7 +124,7 @@
                         <td>操作</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="bodyMstp">
                     <tr>
                         <td>trunkMSTP</td>
                         <td>
@@ -217,7 +187,7 @@
                         <td>操作</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="bodyAll">
                     <tr>
                         <td>trunkALL</td>
                         <td>
@@ -269,51 +239,73 @@
         </div>
     </div>
     <div id="vlanDetail" style="display: none;margin-top: 20px;">
-        <table class="table table-bordered" id="vlanSummary" style="max-width: 800px;margin: auto;">
-            <tr>
-                <td>1</td>
-                <td>1</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>2</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>3</td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>4</td>
-            </tr>
-        </table>
+        <div class="container-fluid" id="divStpTree">
+            <div class="row">
+                <div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Designated Root:</div>
+                <div class="col-md-2">00:01:01:01:01:01</div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Designated Root Priority:</div>
+                <div class="col-md-2">32678</div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Designated Root Path Cost:</div>
+                <div class="col-md-2">0</div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Root Port:</div>
+                <div class="col-md-2">none</div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-2 col-md-1" style="font-weight: bolder;">Root Max Age:</div>
+                <div class="col-md-1">20</div>
+                <div class=" col-md-2" style="font-weight: bolder;">Hello Time:</div>
+                <div class="col-md-2">2</div>
+                <div class=" col-md-1" style="font-weight: bolder;">Forward Delay:</div>
+                <div class="col-md-1">15</div>
+            </div>
+            <hr size=1 style=" height:2px;border:none;background-color: green;">
+            <div class="row">
+                <div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Bridge ID Mac Address</div>
+                <div class="col-md-2">00:01:01:01:01:01</div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Bridge ID Priority:</div>
+                <div class="col-md-2">32768</div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Bridge ForceVersion:</div>
+                <div class="col-md-2">2</div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-2 col-md-1" style="font-weight: bolder;">Bridge Max Age:</div>
+                <div class="col-md-1">20</div>
+                <div class=" col-md-2" style="font-weight: bolder;">Hello Time:</div>
+                <div class="col-md-2">2</div>
+                <div class=" col-md-1" style="font-weight: bolder;">Forward Delay:</div>
+                <div class="col-md-1">15</div>
+            </div>
+        </div>
         <table class="table table-striped table-bordered " style="width: 95%;margin-top: 10px;">
             <thead style="font-weight: bolder;">
                 <tr>
-                    <td width="10%">端口编号</td>
-                    <td width="15%">端口描述</td>
-                    <td width="10%">STP状态</td>
+                    <td width="10%">Name</td>
+                    <td width="15%">Priority</td>
+                    <td width="10%">Cost</td>
+                    <td width="10%">Role</td>
+                    <td width="15%">Span State</td>
+                    <td width="20%">Desi-Bridge-Id</td>
 
                 </tr>
             </thead>
-            <tbody id="vlanDetailBody">
+            <tbody id="bodyVlanEth">
                 <tr>
-                    <td id="row1" name="txtPortNo" value="eth0/0">eth0/0</td>
-                    <td>
-                        <span name="txtPortDes" value="测试数据1">测试数据1</span>
-                    </td>
-                    <td>
-                        <span name="selStatus" value="0">down</span>
-                    </td>
-                </tr>
-                <tr>
-                    <td id="row1" name="txtPortNo" value="eth0/1">eth0/1</td>
-                    <td>
-                        <span name="txtPortDes" value="测试数据2">测试数据1</span>
-                    </td>
-                    <td>
-                        <span name="selStatus" value="1">up</span>
-                    </td>
+                    <td>eth0/0</td>
+                    <td>128</td>
+                    <td>200000</td>
+                    <td>Dis</td>
+                    <td>Discarding</td>
+                    <td></td>
                 </tr>
             </tbody>
         </table>
@@ -335,6 +327,12 @@
             </div>
         </div>
     </div>
+    <div>
+        <form id="hEnableForm" style="display: none; visibility:hidden;" method="post" action="/goform/">
+            <input name="hId" value="" />
+            <input name="hEnable" value="" />
+        </form>
+    </div>
     <script>
         var inDiv = false;
         var tab_list = document.getElementById("myTab");
@@ -344,12 +342,33 @@
         var pvstSet = [];
         var mstpSet = [];
         var allSet = [];
+        var pvstTreeSet = [];
+        var ethSetAll = [];
+        var statusTextArray = ["不使能", "使能"];
+        var spanTextArray = ["Discarding", "Forwarding"];
+        var selectedTree = [];
+        var selectedEht = [];
         var html = ('');
         function getData() {
             //测试数据
             for (var i = 0; i < 20; i++) {
-                pvstSet.push(["test vlan PVST" + (i + 1), (i+1), "test vlan PVST" + (i + 1), i % 2, "eth0/1 eth0/2", "trunk" + (i + 1)]);
+                pvstSet.push(["vlan" + (i + 1), i % 2]);
             }
+            pvstTreeSet = [
+                ["00:01:01:01:01:01", "32768", "0", "none", "20", "2", "15", "00:01:01:01:01:01", "32768", "2", "20", "2", "15", "1"],
+                ["00:01:01:01:01:02", "32768", "0", "none", "20", "2", "15", "00:01:01:01:01:02", "32767", "2", "21", "2", "16", "2"],
+                ["00:01:01:01:01:03", "32768", "0", "none", "20", "2", "15", "00:01:01:01:01:03", "32766", "2", "22", "2", "17", "3"]
+            ];
+            ethSetAll = [
+                ["eth0/0", "128", "2000000", "Dis", "Discarding", "", "1"],
+                ["eth0/1", "128", "2000000", "Dis", "Discarding", "", "1"],
+                ["eth0/2", "128", "20000", "Desi", "Forwarding", "32768", "1"],
+                ["eth0/3", "128", "2000000", "Desi", "Forwarding", "32768", "1"],
+                ["eth0/0", "128", "2000000", "Dis", "Discarding", "", "2"],
+                ["eth0/1", "128", "2000000", "Dis", "Discarding", "", "2"],
+                ["eth0/2", "128", "20000", "Desi", "Forwarding", "32768", "2"],
+                ["eth0/3", "128", "2000000", "Desi", "Forwarding", "32768", "2"],
+            ];
         }
 
         function loadPage() {
@@ -359,18 +378,103 @@
                 html = ('');
                 for (var i = 0; i < pCount; i++) {
                     html += ('<tr>');
-                    html +=('<td>'+pvstSet[i][0]+'</td>');
-                    html +=('<td>'+pvstSet[i][1]+'</td>');
-                    html +=('<td>'+pvstSet[i][2]+'</td>');
-                    html +=('<td>'+pvstSet[i][3]+'</td>');
-                    html +=('<td>'+pvstSet[i][4]+'</td>');
-                    html +=('<td>'+pvstSet[i][5]+'</td>');
-                    html +=('<td><button type="button" name="btnPvstEdit" class="btn btn-primary">使能</button> <button type="button" class="btn btn-primary">不使能</button></td>');
+                    html += ('<td><span name="txtValnId" value="' + pvstSet[i][0].trim().substring(4) + '">' + pvstSet[i][0] + '</span></td>');
+                    html += ('<td>' + statusTextArray[pvstSet[i][1]] + '</td>');
+                    html += ('<td><button type="button" name="btnPvstEdit" class="btn btn-primary">使能</button> <button type="button" class="btn btn-primary">不使能</button></td>');
                     html += ('</tr>');
                 }
                 $("#tablePVST tbody").html(html);
             }
             //#endregion
+        }
+
+        function loadEthPage(vlanId) {
+            selectedEht = [];
+            $("#bodyVlanEth").html("");
+            for (var i = 0; i < ethSetAll.length; i++) {
+                if (vlanId == ethSetAll[i][6]) {
+                    selectedEht.push(ethSetAll[i]);
+                }
+            }
+            var ethCount = selectedEht.length;
+            if (ethCount > 0) {
+                html = ('');
+                for (var i = 0; i < ethCount; i++) {
+                    html += ('<tr>');
+                    html += ('<td >' + selectedEht[i][0] + '</td>');
+                    html += ('<td>' + selectedEht[i][1] + '</td>');
+                    html += ('<td>' + selectedEht[i][2] + '</td>');
+                    html += ('<td>' + selectedEht[i][3] + '</td>');
+                    html += ('<td>' + selectedEht[i][4] + '</td>');
+                    html += ('<td>' + selectedEht[i][5] + '</td>');
+                    html += ('</tr>');
+                }
+                $("#bodyVlanEth").html(html);
+            }
+        }
+
+        function loadTreeDetailPage(vlanId) {
+            debugger;
+            selectedTree = [];
+            $("#divStpTree").html("");
+            for (var i = 0; i < pvstTreeSet.length; i++) {
+                if (vlanId == pvstTreeSet[i][13]) {
+                    selectedTree.push(pvstTreeSet[i]);
+                }
+            }
+            var treeCount = selectedTree.length;
+            if (treeCount > 0) {
+                html = ('');
+                for (var i = 0; i < treeCount; i++) {
+                    html += ('<div class="row">');
+                    html += ('<div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Designated Root:</div>');
+                    html += ('<div class="col-md-2">' + selectedTree[i][0] + '</div>');
+                    html += ('</div>');
+                    html += ('<div class="row">');
+                    html += ('<div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Designated Root Priority:</div>');
+                    html += ('<div class="col-md-2">' + selectedTree[i][1] + '</div>');
+                    html += ('</div>');
+                    html += ('<div class="row">');
+                    html += ('<div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Designated Root Path Cost:</div>');
+                    html += ('<div class="col-md-2">' + selectedTree[i][2] + '</div>');
+                    html += ('</div>');
+                    html += ('<div class="row">');
+                    html += ('<div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Root Port:</div>');
+                    html += ('<div class="col-md-2">' + selectedTree[i][3] + '</div>');
+                    html += ('</div>');
+                    html += ('<div class="row">');
+                    html += ('<div class="col-md-offset-2 col-md-1" style="font-weight: bolder;">Root Max Age:</div>');
+                    html += ('<div class="col-md-1">' + selectedTree[i][4] + '</div>');
+                    html += ('<div class=" col-md-2" style="font-weight: bolder;">Hello Time:</div>');
+                    html += ('<div class="col-md-2">' + selectedTree[i][5] + '</div>');
+                    html += ('<div class=" col-md-1" style="font-weight: bolder;">Forward Delay:</div>');
+                    html += ('<div class="col-md-1">' + selectedTree[i][6] + '</div>');
+                    html += ('</div>');
+                    html += ('<hr size=1 style=" height:2px;border:none;background-color: green;">');
+                    html += ('<div class="row">');
+                    html += ('<div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Bridge ID Mac Address</div>');
+                    html += ('<div class="col-md-2">'+selectedTree[i][7]+'</div>');
+                    html += ('</div>');
+                    html += ('<div class="row">');
+                    html += ('<div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Bridge ID Priority:</div>');
+                    html += ('<div class="col-md-2">'+selectedTree[i][8]+'</div>');
+                    html += ('</div>');
+                    html += ('<div class="row">');
+                    html += ('<div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Bridge ForceVersion:</div>');
+                    html += ('<div class="col-md-2">'+selectedTree[i][9]+'</div>');
+                    html += ('</div>');
+                    html += ('<div class="row">');
+                    html += ('<div class="col-md-offset-2 col-md-1" style="font-weight: bolder;">Bridge Max Age:</div>');
+                    html += ('<div class="col-md-1">'+selectedTree[i][10]+'</div>');
+                    html += ('<div class=" col-md-2" style="font-weight: bolder;">Hello Time:</div>');
+                    html += ('<div class="col-md-2">'+selectedTree[i][11]+'</div>');
+                    html += ('<div class=" col-md-1" style="font-weight: bolder;">Forward Delay:</div>');
+                    html += ('<div class="col-md-1">'+selectedTree[i][12]+'</div>');
+                    html += ('</div>');
+                }
+                $("#divStpTree").html(html);
+            }
+
         }
 
         $("#myTab").on('click', "li", function () {
@@ -383,6 +487,9 @@
         });
         $("#tablePVST tbody").on('click', "tr td:not(:last-child)", function () {
             $("#vlanDetail").attr("style", "margin-top:20px;");
+            var tmpId = parseInt($(this).find("[name='txtValnId']").attr("value"));
+            loadTreeDetailPage(tmpId);
+            loadEthPage(tmpId);
         });
         $("#tablePVST").on('click', '[name="btnPvstEdit"]', function () {
             alert(456);

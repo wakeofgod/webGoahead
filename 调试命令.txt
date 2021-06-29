@@ -1,0 +1,29 @@
+vmware-hgfsclient
+
+mount  -t vmhgfs .host:/share /mnt/hgfs
+
+
+解决共享文件夹不显示命令
+sudo vmhgfs-fuse .host:/ /mnt/hgfs/ -o allow_other -o uid=1000
+
+设置为随机启动后自动挂载
+vim /etc/init.d/open-vm-tools      （在这个文件末尾添加一行）
+
+//注意 filelist前面是空格
+webcomp.exe . filelist.txt > webrom.c
+
+
+webcomp E:\webPage_Work filelist.txt >webrom.c
+
+清除历史命令
+echo > $HOME/.bash_history
+
+
+64位虚拟机设置
+sudo ifconfig eth0 192.168.2.244
+source set-env.sh
+
+load tftp://192.168.2.233/vmlinux-ramfs
+g noinitrd init=/linuxrc console=ttyS0,115200
+mount -t nfs -o nolock 192.168.2.244:/mnt/hgfs/share /mnt
+insmod dal.ko
