@@ -92,43 +92,9 @@
     </div>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="divPVST" style="width: 95%; height:100px;">
-            <!-- <table id="tablePVST" class="table table-striped table-bordered table-hover">
-                <thead style="font-weight: bolder;">
-                    <tr>
-                        <td width="5%"></td>
-                        <td width="40%">VLAN名称</td>
-                        <td width="40%">VLAN 状态</td>
-                        <td>操作</td>
-                    </tr>
-                </thead>
-                <tbody id="bodyPvst">
-                    <tr>
-                        <td name="txtCursor"></td>
-                        <td><span name="txtValnId" value="1">vlan1</span></td>
-                        <td> up</td>
-                        <td>
-                            <button type="button" name="btnPvstEnalbe" class="btn btn-primary">使能
-                            </button>
-                            <button type="button" name="btnPvstDisable" class="btn btn-primary">不使能
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td name="txtCursor"></span></td>
-                        <td><span name="txtValnId" value="2">vlan2</span></td>
-                        <td> up</td>
-                        <td>
-                            <button type="button" name="btnPvstEdit" class="btn btn-primary">使能
-                            </button>
-                            <button type="button" class="btn btn-primary">不使能
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table> -->
             <div class="row" style="margin-top: 20px;">
                 <label class="col-md-1 control-label">VLAN列表</label>
-                <select class="col-md-1" id="selVlan">
+                <select title="vlan" class="col-md-1" id="selVlan">
                     <option selected>请选择</option>
                     <option value="1" statusvalue="1">Vlan1</option>
                     <option value="2" statusvalue="0">Vlan2</option>
@@ -394,43 +360,47 @@
         var selectedVlanStatus = 0;
         var html = ('');
         function getData() {
-            //测试数据
-            for (var i = 0; i < 20; i++) {
-                pvstSet.push(["vlan" + (i + 1), i % 2]);
+            var modeData = "<%stpAspGetType();%>";
+            var vlanData = "<%stpAspGetVlan();%>";
+            var ethData = "<%stpAspGetEth();%>";
+            var treeData = "<%stpAspGetVlanDetail();%>";
+            currentMode = parseInt(modeData.trim());
+            if (vlanData.trim() != "") {
+                vlanData = vlanData.trim();
+                if (vlanData.lastIndexOf('|') == vlanData.length - 1) {
+                    vlanData = vlanData.substring(0, vlanData.length - 1);
+                }
+                var tmpVlanData = vlanData.split('|');
+                var tCount = tmpVlanData.length;
+                if (tCount > 0) {
+                    pvstSet = [];
+                    for (var i = 0; i < tCount; i++) {
+                        var rowData = tmpVlanData[i].trim();
+                        pvstSet.push([rowData.substring(0, rowData.length - 1), rowData.substring(rowData.length - 1)]);
+                    }
+                }
             }
-            pvstTreeSet = [
-                ["00:01:01:01:01:01", "32768", "0", "none", "20", "2", "15", "00:01:01:01:01:01", "32768", "2", "20", "2", "15", "1"],
-                ["00:01:01:01:01:02", "32768", "0", "none", "20", "2", "15", "00:01:01:01:01:02", "32767", "2", "21", "2", "16", "2"],
-                ["00:01:01:01:01:03", "32768", "0", "none", "20", "2", "15", "00:01:01:01:01:03", "32766", "2", "22", "2", "17", "3"]
-            ];
-            ethSetAll = [
-                ["eth0/0", "128", "2000000", "Dis", "Discarding", "", "1"],
-                ["eth0/1", "128", "2000000", "Dis", "Discarding", "", "1"],
-                ["eth0/2", "128", "20000", "Desi", "Forwarding", "32768", "1"],
-                ["eth0/3", "128", "2000000", "Desi", "Forwarding", "32768", "1"],
-                ["eth0/0", "128", "2000000", "Dis", "Discarding", "", "2"],
-                ["eth0/1", "128", "2000000", "Dis", "Discarding", "", "2"],
-                ["eth0/2", "128", "20000", "Desi", "Forwarding", "32768", "2"],
-                ["eth0/3", "128", "2000000", "Desi", "Forwarding", "32768", "2"],
-            ];
+            if(treeData.trim()!=""){
+                treeData = treeData.trim();
+                if (treeData.lastIndexOf('|') == treeData.length - 1) {
+                    treeData = treeData.substring(0, treeData.length - 1);
+                }
+                var tmpTreeData = treeData.split('|');
+                var tcount = tmpTreeData.length;
+                if(tcount>0){
+                    for(var i =0; i<tcount;i++){
+                        var rowData = tmpTreeData.split(',');
+                        debugger;
+                        pvstTreeSet.push([]);
+                    }
+                }
+            }
+
         }
 
         function loadPage() {
             //#region pvst
             var pCount = pvstSet.length;
-            if (pCount > 0) {
-                html = ('');
-                for (var i = 0; i < pCount; i++) {
-                    html += ('<tr>');
-                    html += ('<td name="txtCursor"></td>');
-                    html += ('<td><span name="txtValnId" value="' + pvstSet[i][0].substring(4) + '">' + pvstSet[i][0] + '</span></td>');
-                    html += ('<td>' + statusTextArray[pvstSet[i][1]] + '</td>');
-                    html += ('<td><button type="button" textvalue="' + pvstSet[i][0] + '" value="1" name="btnPvstEnalbe" class="btn btn-primary">使能</button> ');
-                    html += ('<button type="button" textvalue="' + pvstSet[i][0] + '" value="0" name="btnPvstDisable" class="btn btn-primary">不使能</button></td>');
-                    html += ('</tr>');
-                }
-                $("#tablePVST tbody").html(html);
-            }
             //#endregion
         }
 
@@ -440,6 +410,9 @@
                 html = ('');
                 html += ('<option value="-1" selected>请选择</option>');
                 for (var i = 0; i < pCount; i++) {
+                    if (pvstSet[i][0] == "default") {
+                        pvstSet[i][0] = "vlan1";
+                    }
                     html += ('<option value="' + pvstSet[i][0].substring(4) + '" txtvalue="' + pvstSet[i][0] + '" statusvalue="' + pvstSet[i][1] + '" >' + pvstSet[i][0] + '</option>');
                 }
                 $("#selVlan").html(html);
@@ -634,13 +607,6 @@
             getData();
             //loadPage();
             loadSelect();
-            if(currentMode ==2){
-                $("#divPVST").addClass("tab-pane fade active in");
-                $("#divALL").removeClass().addClass("tab-pane fade");
-            }
-            else if(currentMode==1){
-                
-            }
         });
     </script>
 </body>
