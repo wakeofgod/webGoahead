@@ -39,14 +39,13 @@
 
         .myhref {
             color: #000000;
-            padding: 10px;
             text-decoration: none;
             font-weight: bolder;
+            display: block;
+            justify-content: center;
+            align-items: center;
         }
 
-        /* .myhref :active .myhref :link .myhref :hover .myhref :visited{
-            color: white;
-        } */
         #myTabContent .table-hover>tbody>tr:hover {
             background-color: #33ccff;
         }
@@ -79,20 +78,22 @@
                 <li value="2" style="display: none;">
                     <a href="#divMSTP" class="myhref" data-toggle="tab">MSTP</a>
                 </li>
-                <li value="3">
+                <li value="0">
                     <a href="#divALL" class="myhref" data-toggle="tab">CST</a>
                 </li>
             </ul>
         </div>
-        <div style="transform:translateY(-50px);">
-            <btn type="button" id="btnMode" class="btn btn-warning" style="float: right;margin-right: 30px;">
+        <div style="transform:translateY(-50px); float: right;margin-right: 50px;">
+            <label>当前模式:</label>
+            <label id="txtCurrentType"></label>
+            <btn type="button" id="btnMode" class="btn btn-warning">
                 模式切换
             </btn>
         </div>
     </div>
     <div id="myTabContent" class="tab-content">
         <div class="tab-pane fade in active" id="divPVST" style="width: 95%; height:100px;">
-            <div class="row" style="margin-top: 20px;">
+            <div class="row" id="divSelVlan" style="margin-top: 20px;">
                 <label class="col-md-1 control-label">VLAN列表</label>
                 <select title="vlan" class="col-md-1" id="selVlan">
                     <option selected>请选择</option>
@@ -176,68 +177,15 @@
                 </tbody>
             </table>
         </div>
-        <div class="tab-pane fade" id="divALL" style="width: 95%; height:400px; overflow:auto">
-            <table id="tableAll" class="table table-striped table-bordered table-hover">
-                <thead style="font-weight: bolder;">
-                    <tr>
-                        <td width="10%">VLAN名称</td>
-                        <td width="10%">VLAN ID</td>
-                        <td width="20%">VLAN 描述</td>
-                        <td width="10%">VLAN 状态</td>
-                        <td width="20%">ETH成员</td>
-                        <td width="20%">TRUNK成员</td>
-                        <td>操作</td>
-                    </tr>
-                </thead>
-                <tbody id="bodyAll">
-                    <tr>
-                        <td>trunkALL</td>
-                        <td>
-                            500
-                        </td>
-                        <td>
-                            test vlanALL
-                        </td>
-                        <td>
-                            up
-                        </td>
-                        <td>
-                            eth0/7 eth0/8
-                        </td>
-                        <td>trunk1
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-primary">修改
-                            </button>
-                            <button type="button" class="btn btn-primary">删除
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>trunkALL</td>
-                        <td>
-                            600
-                        </td>
-                        <td>
-                            test vlanALL
-                        </td>
-                        <td>
-                            up
-                        </td>
-                        <td>
-                            eth0/7 eth0/8
-                        </td>
-                        <td>trunk1
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-primary">修改
-                            </button>
-                            <button type="button" class="btn btn-primary">删除
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="tab-pane fade" id="divALL" style="width: 95%; height:100px;">
+            <div class="row" id="divCstTitle">
+                <label class="col-md-2 control-label">CST当前状态是:</label>
+                <label class="col-md-1" id="txtCstStatus"></label>
+                <button type="button" id="btnCstEnalbe" class="btn btn-primary">使能
+                </button>
+                <button type="button" id="btnCstDisable" class="btn btn-primary">不使能
+                </button>
+            </div>
         </div>
     </div>
     <div id="vlanDetail" style="display: none;margin-top: 20px;">
@@ -288,27 +236,38 @@
                 <div class="col-md-1">15</div>
             </div>
         </div>
+    </div>
+    <div id="vlanEthTable">
         <table class="table table-striped table-bordered " style="width: 95%;margin-top: 10px;">
             <thead style="font-weight: bolder;">
                 <tr>
-                    <td width="10%">Name</td>
-                    <td width="15%">Priority</td>
-                    <td width="10%">Cost</td>
-                    <td width="10%">Role</td>
-                    <td width="15%">Span State</td>
-                    <td width="20%">Desi-Bridge-Id</td>
-
+                    <td>Name</td>
+                    <td>Priority</td>
+                    <td>Cost</td>
+                    <td>Role</td>
+                    <td>Span State</td>
+                    <td>lk</td>
+                    <td>p2p</td>
+                    <td>eg </td>
+                    <td>Desi-Bridge-Id</td>
+                    <td>Dcost</td>
+                    <td>D-port</td>
                 </tr>
             </thead>
             <tbody id="bodyVlanEth">
-                <tr>
+                <!-- <tr>
                     <td>eth0/0</td>
                     <td>128</td>
                     <td>200000</td>
                     <td>Dis</td>
                     <td>Discarding</td>
                     <td></td>
-                </tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr> -->
             </tbody>
         </table>
     </div>
@@ -330,14 +289,19 @@
         </div>
     </div>
     <div>
-        <form id="hTypeForm" style="display: none; visibility:hidden;" method="post" action="/goform/">
+        <form id="hTypeForm" style="display: none; visibility:hidden;" method="post" action="/goform/stpFormType">
             <input name="hType" value="" />
         </form>
     </div>
     <div>
-        <form id="hEnableForm" style="display: none; visibility:hidden;" method="post" action="/goform/">
+        <form id="hEnableForm" style="display: none; visibility:hidden;" method="post" action="/goform/stpFormEnable">
             <input name="hId" value="" />
             <input name="hEnable" value="" />
+        </form>
+    </div>
+    <div>
+        <form id="hCstForm" style="display: none; visibility:hidden;" method="post" action="/goform/stpFormCstEnable">
+            <input name="hCstEnable" value="" />
         </form>
     </div>
     <script>
@@ -346,7 +310,7 @@
         var list = tab_list.querySelectorAll("li");
         var currentMode = 1;
         var selectMode = 1;
-        var modeTextArray = ["PVST", "MSTP", "CST"];
+        var modeTextArray = ["CST", "PVST", "MSTP"];
         var pvstSet = [];
         var mstpSet = [];
         var allSet = [];
@@ -356,60 +320,110 @@
         var spanTextArray = ["Discarding", "Forwarding"];
         var selectedTree = [];
         var selectedEht = [];
-        var selectedValnId = "";
-        var selectedVlanStatus = 0;
+        var selectedValnId = -1;
+        var selectedVlanStatus = -1;
         var html = ('');
+        var cstStatus = 0;
         function getData() {
-            var modeData = "<%stpAspGetType();%>";
-            var vlanData = "<%stpAspGetVlan();%>";
-            var ethData = "<%stpAspGetEth();%>";
-            var treeData = "<%stpAspGetVlanDetail();%>";
-            currentMode = parseInt(modeData.trim());
+            let modeData = "<%stpAspGetType();%>";
+            let vlanData = "<%stpAspGetVlan();%>";
+            let ethData = "<%stpAspGetEth();%>";
+            let treeData = "<%stpAspGetVlanDetail();%>";
+            let cstStatusData = "<%stpCstGetEnable();%>"
+            modeData = modeData.trim();
+            if (parseInt(modeData) == 2) {
+                currentMode = 1;
+            }
+            else if (parseInt(modeData) == 1) {
+                currentMode = 0;
+            }
+            selectMode = currentMode;
             if (vlanData.trim() != "") {
                 vlanData = vlanData.trim();
                 if (vlanData.lastIndexOf('|') == vlanData.length - 1) {
                     vlanData = vlanData.substring(0, vlanData.length - 1);
                 }
-                var tmpVlanData = vlanData.split('|');
-                var tCount = tmpVlanData.length;
+                let tmpVlanData = vlanData.split('|');
+                let tCount = tmpVlanData.length;
                 if (tCount > 0) {
                     pvstSet = [];
-                    for (var i = 0; i < tCount; i++) {
-                        var rowData = tmpVlanData[i].trim();
+                    for (let i = 0; i < tCount; i++) {
+                        let rowData = tmpVlanData[i].trim();
                         pvstSet.push([rowData.substring(0, rowData.length - 1), rowData.substring(rowData.length - 1)]);
                     }
                 }
             }
-            if(treeData.trim()!=""){
+            if (treeData.trim() != "") {
                 treeData = treeData.trim();
                 if (treeData.lastIndexOf('|') == treeData.length - 1) {
                     treeData = treeData.substring(0, treeData.length - 1);
                 }
-                var tmpTreeData = treeData.split('|');
-                var tcount = tmpTreeData.length;
-                if(tcount>0){
-                    for(var i =0; i<tcount;i++){
-                        var rowData = tmpTreeData.split(',');
-                        debugger;
-                        pvstTreeSet.push([]);
+                let tmpTreeData = treeData.split('|');
+                let tcount = tmpTreeData.length;
+                if (tcount > 0) {
+                    for (let i = 0; i < tcount; i++) {
+                        let rowData = tmpTreeData[i].split(',');
+                        if (rowData.length >= 13) {
+                            pvstTreeSet.push([rowData[1], rowData[2], rowData[3], rowData[4], rowData[5], rowData[6], rowData[7], rowData[8], rowData[9], rowData[10], rowData[11], rowData[12], rowData[13], rowData[0]]);
+                        }
+
+                    }
+                }
+            }
+            if (ethData.trim() != "") {
+                ethData = ethData.trim();
+                if (ethData.lastIndexOf("|") == ethData.length - 1) {
+                    ethData = ethData.substring(0, ethData.length - 1);
+                    let sectionData = ethData.split('|');
+                    let sCount = sectionData.length;
+                    if (sCount > 0) {
+                        for (let i = 0; i < sCount; i++) {
+                            if (sectionData[i].lastIndexOf('*') == sectionData[i].length - 1) {
+                                sectionData[i] = sectionData[i].substring(0, sectionData[i].length - 1);
+                            }
+                            let tmpEthData = sectionData[i].split('*');
+                            let tCount = tmpEthData.length;
+                            let vlanId = 0;
+                            for (let j = 0; j < tCount; j++) {
+                                if (tmpEthData[j].trim() != "") {
+                                    let ethRowData = tmpEthData[j].split(',');
+                                    if (ethRowData.length >= 10) {
+                                        if (j == 0) {
+                                            vlanId = ethRowData[0];
+                                            ethSetAll.push([ethRowData[1], ethRowData[2], ethRowData[3], ethRowData[4], ethRowData[5], ethRowData[6], ethRowData[7], ethRowData[8], ethRowData[9], ethRowData[10], ethRowData[11], vlanId]);
+                                        }
+                                        else {
+                                            ethSetAll.push([ethRowData[0], ethRowData[1], ethRowData[2], ethRowData[3], ethRowData[4], ethRowData[5], ethRowData[6], ethRowData[7], ethRowData[8], ethRowData[9], ethRowData[10], vlanId]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
 
+            if (cstStatusData.trim() != "1") {
+                cstStatus = 0;
+            }
+            else {
+                cstStatus = 1;
+            }
+            $("#txtCstStatus").html(statusTextArray[cstStatus]);
         }
 
         function loadPage() {
             //#region pvst
-            var pCount = pvstSet.length;
+            let pCount = pvstSet.length;
             //#endregion
         }
 
         function loadSelect() {
-            var pCount = pvstSet.length;
+            let pCount = pvstSet.length;
             if (pCount > 0) {
                 html = ('');
                 html += ('<option value="-1" selected>请选择</option>');
-                for (var i = 0; i < pCount; i++) {
+                for (let i = 0; i < pCount; i++) {
                     if (pvstSet[i][0] == "default") {
                         pvstSet[i][0] = "vlan1";
                     }
@@ -422,15 +436,15 @@
         function loadEthPage(vlanId) {
             selectedEht = [];
             $("#bodyVlanEth").html("");
-            for (var i = 0; i < ethSetAll.length; i++) {
-                if (vlanId == ethSetAll[i][6]) {
+            for (let i = 0; i < ethSetAll.length; i++) {
+                if (vlanId == ethSetAll[i][11]) {
                     selectedEht.push(ethSetAll[i]);
                 }
             }
-            var ethCount = selectedEht.length;
+            let ethCount = selectedEht.length;
             if (ethCount > 0) {
                 html = ('');
-                for (var i = 0; i < ethCount; i++) {
+                for (let i = 0; i < ethCount; i++) {
                     html += ('<tr>');
                     html += ('<td >' + selectedEht[i][0] + '</td>');
                     html += ('<td>' + selectedEht[i][1] + '</td>');
@@ -438,6 +452,11 @@
                     html += ('<td>' + selectedEht[i][3] + '</td>');
                     html += ('<td>' + selectedEht[i][4] + '</td>');
                     html += ('<td>' + selectedEht[i][5] + '</td>');
+                    html += ('<td>' + selectedEht[i][6] + '</td>');
+                    html += ('<td>' + selectedEht[i][7] + '</td>');
+                    html += ('<td>' + selectedEht[i][8] + '</td>');
+                    html += ('<td>' + selectedEht[i][9] + '</td>');
+                    html += ('<td>' + selectedEht[i][10] + '</td>');
                     html += ('</tr>');
                 }
                 $("#bodyVlanEth").html(html);
@@ -447,15 +466,15 @@
         function loadTreeDetailPage(vlanId) {
             selectedTree = [];
             $("#divStpTree").html("");
-            for (var i = 0; i < pvstTreeSet.length; i++) {
+            for (let i = 0; i < pvstTreeSet.length; i++) {
                 if (vlanId == pvstTreeSet[i][13]) {
                     selectedTree.push(pvstTreeSet[i]);
                 }
             }
-            var treeCount = selectedTree.length;
+            let treeCount = selectedTree.length;
             if (treeCount > 0) {
                 html = ('');
-                for (var i = 0; i < treeCount; i++) {
+                for (let i = 0; i < treeCount; i++) {
                     html += ('<div class="row">');
                     html += ('<div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Designated Root:</div>');
                     html += ('<div class="col-md-2">' + selectedTree[i][0] + '</div>');
@@ -507,18 +526,40 @@
 
         }
 
+        function stopPvst() {
+            $("#divSelVlan").attr("style", "display:none");
+            $("#titleVlan").attr("style", "display:none");
+
+        }
+        function startPvst() {
+            $("#divSelVlan").attr("style", "margin-top:20px;");
+            $("#titleVlan").attr("style", "margin-top:20px;");
+        }
+        function startCst() {
+            $("#divCstTitle").attr("style", "width: 95%; height:100px;");
+        }
+        function stopCst() {
+            $("#divCstTitle").attr("style", "display:none");
+        }
+
         $("#myTab").on('click', "li", function () {
             //清除所有li的默认样式
-            for (var i = 0; i < list.length; i++) {
+            for (let i = 0; i < list.length; i++) {
                 $(list[i]).removeClass();
             }
             $(this).addClass("current");
             selectMode = parseInt($(this).val());
+            if (selectMode != currentMode) {
+                $("#vlanEthTable").attr("style", "display:none;");
+            }
+            else {
+                $("#vlanEthTable").attr("style", "");
+            }
         });
         $("#tablePVST tbody").on('click', "tr td:not(:last-child)", function () {
             $("#vlanDetail").attr("style", "margin-top:20px;");
-            var tmpId = parseInt($(this).parent().find("[name='txtValnId']").attr("value"));
-            var spanList = document.getElementsByName("txtCursor");
+            let tmpId = parseInt($(this).parent().find("[name='txtValnId']").attr("value"));
+            let spanList = document.getElementsByName("txtCursor");
             $.each(spanList, function () {
                 $(this).html("");
             });
@@ -534,24 +575,26 @@
         });
 
         $("#selVlan").change(function () {
-            var options = $("#selVlan option:selected");
-            var vlanId = parseInt(options.attr("value"));
-            var vlanTxt = options.attr("txtvalue");
-            var vlanStatus = parseInt(options.attr("statusvalue"));
+            let options = $("#selVlan option:selected");
+            let vlanId = parseInt(options.attr("value"));
+            let vlanTxt = options.attr("txtvalue");
+            let vlanStatus = parseInt(options.attr("statusvalue"));
             if (vlanId != -1) {
                 $("#vlanDetail").attr("style", "margin-top:20px;");
                 $("#titleVlan").attr("style", "margin-top:20px;");
+                $("#vlanEthTable").attr("style", "");
                 $("#txtVlanName").html(vlanTxt);
                 $("#txtVlanStatus").html(statusTextArray[vlanStatus]);
-                selectedValnId = vlanTxt;
+                selectedValnId = vlanId;
                 selectedVlanStatus = vlanStatus;
                 loadTreeDetailPage(vlanId);
                 loadEthPage(vlanId);
             }
             else {
-                selectedValnId = "";
+                selectedValnId = 0;
                 selectedVlanStatus = 0;
                 $("#vlanDetail").attr("style", "display:none;");
+                $("#vlanEthTable").attr("style", "display:none;");
                 $("#titleVlan").attr("style", "display:none;");
             }
         });
@@ -560,9 +603,13 @@
             if (selectedVlanStatus == 1) {
                 alert("当前状态使能");
             }
+            else if (selectedValnId == -1) {
+                alert("请选择要求改的vlan");
+            }
             else {
                 $("[name='hId']").val(selectedValnId);
-                $("[name='hEnable']").val(selectedVlanStatus);
+                $("[name='hEnable']").val(1);
+                $("#hEnableForm").submit();
             }
         });
 
@@ -570,9 +617,23 @@
             if (selectedVlanStatus == 0) {
                 alert("当前状态不使能");
             }
+            else if (selectedValnId == -1) {
+                alert("请选择要求改的vlan");
+            }
             else {
                 $("[name='hId']").val(selectedValnId);
-                $("[name='hEnable']").val(selectedVlanStatus);
+                $("[name='hEnable']").val(0);
+                $("#hEnableForm").submit();
+            }
+        });
+
+        $("#btnModeSave").on('click', function () {
+            if (selectMode == currentMode) {
+                alert("模式未更改");
+            }
+            else {
+                $("[name='hType']").val(selectMode);
+                $("#hTypeForm").submit();
             }
         });
 
@@ -591,7 +652,7 @@
         document.onclick = function (event) {
             if (!inDiv) {
                 $("#vlanDetail").attr("style", "display:none;");
-                var spanList = document.getElementsByName("txtCursor");
+                let spanList = document.getElementsByName("txtCursor");
                 $.each(spanList, function () {
                     $(this).html("");
                 });
@@ -599,14 +660,55 @@
         };
 
         $("#btnMode").click(function () {
-            $("#txtModeSpan").html(modeTextArray[mode - 1]);
+            $("#txtModeSpan").html(modeTextArray[selectMode]);
             $("#modeModal").modal('show');
+        });
+
+        $("#btnCstEnalbe").click(function () {
+            if (cstStatus == 1) {
+                alert("当前CST使能");
+            }
+            else {
+                $("[name='hCstEnable']").val(1);
+                $("#hCstForm").submit();
+            }
+        });
+
+        $("#btnCstDisable").click(function () {
+            if (cstStatus == 0) {
+                alert("当前CST不使能");
+            }
+            else {
+                $("[name='hCstEnable']").val(0);
+                $("#hCstForm").submit();
+            }
         });
 
         $(document).ready(function () {
             getData();
             //loadPage();
             loadSelect();
+            if (currentMode == 1) {
+                $("#myTab>li").eq(0).addClass("active current");
+                $("#myTab>li").eq(1).removeClass("active current");
+                $("#myTab>li").eq(2).removeClass("active current");
+                $("#divPVST").addClass("tab-pane fade active in");
+                $("#divALL").removeClass().addClass("tab-pane fade");
+                stopCst();
+                startPvst();
+            }
+            else if (currentMode == 0) {
+                $("#myTab>li").eq(0).removeClass("active current");
+                $("#myTab>li").eq(1).removeClass("active current");
+                $("#myTab>li").eq(2).addClass("active current");
+                $("#divALL").addClass("tab-pane fade active in");
+                $("#divPVST").removeClass().addClass("tab-pane fade");
+                $("#divStpTree").attr("style", "display:none");
+                stopPvst();
+                startCst();
+                loadEthPage(0);
+            }
+            $("#txtCurrentType").html(modeTextArray[currentMode]);
         });
     </script>
 </body>
