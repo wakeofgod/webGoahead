@@ -85,7 +85,7 @@
         </div>
         <div style="transform:translateY(-50px); float: right;margin-right: 50px;">
             <label>当前模式:</label>
-            <label id="txtCurrentType"></label>
+            <label style="color: red;" id="txtCurrentType"></label>
             <btn type="button" id="btnMode" class="btn btn-warning">
                 模式切换
             </btn>
@@ -104,9 +104,9 @@
             </div>
             <div class="row" id="titleVlan" style="display: none;">
                 <label class="col-md-2 control-label">当前选中的VLAN是:</label>
-                <label class="col-md-1" id="txtVlanName"></label>
+                <label class="col-md-1"style="color: red;" id="txtVlanName"></label>
                 <label class="col-md-1 control-label">状态:</label>
-                <label class="col-md-1 control-label" id="txtVlanStatus"></label>
+                <label class="col-md-1 control-label"style="color: red;" id="txtVlanStatus"></label>
                 <button type="button" id="btnPvstEnalbe" class="btn btn-primary">使能
                 </button>
                 <button type="button" id="btnPvstDisable" class="btn btn-primary">不使能
@@ -180,7 +180,7 @@
         <div class="tab-pane fade" id="divALL" style="width: 95%; height:100px;">
             <div class="row" id="divCstTitle">
                 <label class="col-md-2 control-label">CST当前状态是:</label>
-                <label class="col-md-1" id="txtCstStatus"></label>
+                <label class="col-md-1"style="color: red;" id="txtCstStatus"></label>
                 <button type="button" id="btnCstEnalbe" class="btn btn-primary">使能
                 </button>
                 <button type="button" id="btnCstDisable" class="btn btn-primary">不使能
