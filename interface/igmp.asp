@@ -92,7 +92,6 @@
                         rowData[2] = rowData[2].substring(0,rowData[2].length-1);  
                     }
                     rowData[2]= rowData[2].replace(/\*/g, ',');
-                    debugger;
                     dataset.push([rowData[0],rowData[1],rowData[2]]);
                 }
             }

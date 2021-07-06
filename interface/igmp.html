@@ -69,7 +69,7 @@
         var currentAging = 0;
         var currentFast = 0;
         var selectedStatus = 0;
-        var selected = 0;
+        var selectedFast = 0;
         var html = '';
         var statusTextArray = ["不使能", "使能"]
         function getData() {
@@ -98,35 +98,78 @@
             }
         }
 
-        function checkData() {
-
+        function checkData(aging) {
+            var regMtu = /^\d{1,4}$/;
+            if(!regMtu.test(aging)||parseInt(aging)>3600||parseInt(aging)<30)
+            {
+                alert("请检查数字，30-3600");
+                return false;
+            }
+            else if(parseInt(aging)== currentAging)
+            {
+                alert("数字未修改");
+                return false;
+            }
+            return true;
         }
 
         $("#txtAging").on("keyup", function (event) {
             event.preventDefault();
             if (event.keyCode === 13) {
-                alert($(this).val());
+                let tmpValue = $(this).val();
+                if(checkData(tmpValue)){
+                    submit(currentStatus,tmpValue,currentFast);
+                }
             }
         });
 
         $("#btnIgmpEnable").click(function () {
             alert(111);
             selectedStatus = 1;
+            if (selectedStatus == currentStatus) {
+                alert("当前使能");
+            }
+            else {
+                submit(selectedStatus, currentAging, currentFast);
+            }
         });
 
         $("#btnIgmpDiasabe").click(function () {
-            alert(222);
+            selectedStatus = 0;
+            if (selectedStatus == currentStatus) {
+                alert("当前不使能");
+            }
+            else {
+                submit(selectedStatus, currentAging, currentFast);
+            }
         });
 
         $("#btnFastEnable").click(function () {
-            alert(333);
-            selected = 1;
+            selectedFast = 1;
+            if (selectedFast == currentFast) {
+                alert("当前使能");
+            }
+            else {
+                submit(currentStatus, currentAging, selectedFast);
+            }
         });
 
         $("#btnFastDisable").click(function () {
-            alert(444);
-            selected = 0;
+            selectedFast = 0;
+            if (selectedFast == currentFast) {
+                alert("当前不使能");
+            }
+            else {
+                submit(currentStatus, currentAging, selectedFast);
+            }
         });
+
+        function submit(selectedStatus, aging, selectedFast) {
+            $("[name='hStatus']").val(selectedStatus);
+            $("[name='hAging']").val(aging);
+            $("[name='hFast']").val(selectedFast);
+            $("#hForm").submit();
+        }
 
         $(document).ready(function () {
             getData();
