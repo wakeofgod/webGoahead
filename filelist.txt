@@ -38,6 +38,8 @@ newmenu.html
 .\interface\vlan.asp
 .\interface\stp.asp
 .\interface\igmp.asp
+.\sysSetting\configinfo.asp
+
 
 .\js\bootstrap.min.js
 .\js\helpScript.js

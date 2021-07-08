@@ -68,6 +68,32 @@ static int trunkAspGetALl(int eid, webs_t wp, int argc, char_t **argv);
 static void trunkFormPost(webs_t wp, char_t *path, char_t *query);
 static void trunkFormDelete(webs_t wp, char_t *path, char_t *query);
 
+static int vlanAspGetAll(int eid, webs_t wp, int argc, char_t **argv);
+static int vlanAspGetTrunk(int eid, webs_t wp, int argc, char_t **argv);
+static void vlanFormPost(webs_t wp, char_t *path, char_t *query);
+static void vlanFormDelete(webs_t wp, char_t *path, char_t *query);
+
+static int stpAspGetType(int eid, webs_t wp, int argc, char_t **argv);
+static int stpAspGetVlan(int eid, webs_t wp, int argc, char_t **argv);
+static int stpAspGetEth(int eid, webs_t wp, int argc, char_t **argv);
+static int stpAspGetVlanDetail(int eid, webs_t wp, int argc, char_t **argv);
+static int stpCstGetEnable(int eid, webs_t wp, int argc, char_t **argv);
+static void stpFormType(webs_t wp, char_t *path, char_t *query);
+static void stpFormEnable(webs_t wp, char_t *path, char_t *query);
+static void stpFormCstEnable(webs_t wp, char_t *path, char_t *query);
+
+static int igmpAspGetAll(int eid, webs_t wp, int argc, char_t **argv);
+static int igmpAspGetEth(int eid, webs_t wp, int argc, char_t **argv);
+static void igmpFormPost(webs_t wp, char_t *path, char_t *query);
+
+static int upgradeHandler(webs_t wp, char_t *urlPrefix, char_t *webDir, int arg,
+						  char_t *url, char_t *path, char_t *query);
+static void sysSaveConfig(webs_t wp, char_t *path, char_t *query);
+static void sysRestore(webs_t wp, char_t *path, char_t *query);
+static void sysReboot(webs_t wp, char_t *path, char_t *query);
+static void sysLogDownLoad(webs_t wp, char_t *path, char_t *query);
+static void sysLogClear(webs_t wp, char_t *path, char_t *query);
+
 /*********************************** Code *************************************/
 /*
  *	Main -- entry point from LINUX
@@ -264,6 +290,30 @@ static int initWebs(int demo)
 	websFormDefine(T("trunkFormPost"), trunkFormPost);
 	websFormDefine(T("trunkFormDelete"), trunkFormDelete);
 
+	websAspDefine(T("vlanAspGetAll"), vlanAspGetAll);
+	websAspDefine(T("vlanAspGetTrunk"), vlanAspGetTrunk);
+	websFormDefine(T("vlanFormPost"), vlanFormPost);
+	websFormDefine(T("vlanFormDelete"), vlanFormDelete);
+
+	websAspDefine(T("stpAspGetType"), stpAspGetType);
+	websAspDefine(T("stpAspGetVlan"), stpAspGetVlan);
+	websAspDefine(T("stpAspGetEth"), stpAspGetEth);
+	websAspDefine(T("stpAspGetVlanDetail"), stpAspGetVlanDetail);
+	websAspDefine(T("stpCstGetEnable"), stpCstGetEnable);
+	websFormDefine(T("stpFormType"), stpFormType);
+	websFormDefine(T("stpFormEnable"), stpFormEnable);
+	websFormDefine(T("stpFormCstEnable"), stpFormCstEnable);
+
+	websAspDefine(T("igmpAspGetAll"), igmpAspGetAll);
+	websAspDefine(T("igmpAspGetEth"), igmpAspGetEth);
+	websFormDefine(T("igmpFormPost"), igmpFormPost);
+
+	websUrlHandlerDefine(T("/ajax"), NULL, 0, upgradeHandler, 0);
+	websFormDefine(T("sysSaveConfig"), sysSaveConfig);
+	websFormDefine(T("sysRestore"), sysRestore);
+	websFormDefine(T("sysReboot"), sysReboot);
+	websFormDefine(T("sysLogDownLoad"), sysLogDownLoad);
+	websFormDefine(T("sysLogClear"), sysLogClear);
 /*
  *	Create the Form handlers for the User Management pages
  */
@@ -390,14 +440,8 @@ static void ethFormPost(webs_t wp, char_t *path, char_t *query)
 	hFlow = websGetVar(wp, T("hFlow"), T("hFlow"));
 	hMtu = websGetVar(wp, T("hMtu"), T("hMtu."));
 
-	printf("\r\n %s,%s,%s,%s,%s,%s,%s,%s,%s\r\n", hNo, hDes, hStatus, hStatusTxt, hPvid, hRate, hRateTxt, hFlow, hMtu);
-	sleep(1);
 	web_eth_set_single(hNo, hDes, hStatus, hStatusTxt, hPvid, hRate, hRateTxt, hFlow, hMtu);
 
-	// websHeader(wp);
-	// websWrite(wp, T("<body><h2>Name: %s, Address: %s</h2>\n"), hNo, hDes);
-	// websFooter(wp);
-	// websDone(wp, 200);
 	websRedirect(wp, "interface/eth.asp");
 }
 #pragma region trunk页面
@@ -409,24 +453,6 @@ static void ethFormPost(webs_t wp, char_t *path, char_t *query)
 */
 static int trunkAspGetEth(int eid, webs_t wp, int argc, char_t **argv)
 {
-	//测试数据
-	// websWrite(wp, T("%s"), "eth0/0");
-	// websWrite(wp, ",");
-	// websWrite(wp, T("%s"), "eth0/1");
-	// websWrite(wp, ",");
-	// websWrite(wp, T("%s"), "eth0/2");
-	// websWrite(wp, ",");
-	// websWrite(wp, T("%s"), "eth0/3");
-	// websWrite(wp, ",");
-	// websWrite(wp, T("%s"), "eth0/4");
-	// websWrite(wp, ",");
-	// websWrite(wp, T("%s"), "eth0/5");
-	// websWrite(wp, ",");
-	// websWrite(wp, T("%s"), "eth0/6");
-	// websWrite(wp, ",");
-	// websWrite(wp, T("%s"), "eth0/7");
-	// websWrite(wp, ",");
-	// websWrite(wp, T("%s"), "eth0/8");
 	memset(data_buffer, 0, sizeof(data_buffer));
 	web_sys_get_alleth(data_buffer);
 
@@ -434,14 +460,6 @@ static int trunkAspGetEth(int eid, webs_t wp, int argc, char_t **argv)
 }
 static int trunkAspGetALl(int eid, webs_t wp, int argc, char_t **argv)
 {
-	//测试数据
-	// websWrite(wp, T("%s,%s,%s,%s,%s,%s"), "1", "测试数据1", "2", "1", "1000", "eth0/0,eth0/1");
-	// websWrite(wp, "|");
-	// websWrite(wp, T("%s,%s,%s,%s,%s,%s"), "2", "测试数据2", "4", "2", "2000", "eth0/3,eth0/5");
-	// websWrite(wp, "|");
-	// websWrite(wp, T("%s,%s,%s,%s,%s,%s"), "4", "测试数据3", "5", "3", "3000", "eth0/2,eth0/4");
-	// websWrite(wp, "|");
-	// websWrite(wp, T("%s,%s,%s,%s,%s,%s"), "6", "测试数据4", "8", "2", "4000", "eth0/6,eth0/8");
 	memset(data_buffer, 0, sizeof(data_buffer));
 	web_trunk_get_all(data_buffer);
 
@@ -458,10 +476,8 @@ static void trunkFormPost(webs_t wp, char_t *path, char_t *query)
 	hStrategy = websGetVar(wp, T("hStrategy"), T("1"));
 	hMtu = websGetVar(wp, T("hMtu"), T("123"));
 	hGroup = websGetVar(wp, T("hGroup"), T("hGroup"));
-	printf("no:%s,des:%s,M:%s,O:%s,pvid:%s,strategy:%s, mtu:%s,group:%s\r\n", hNo, hDes, hManStatus, hOperStatus, hPvid, hStrategy, hMtu, hGroup);
-	sleep(1);
 
-	web_trunk_set_single(hNo,hDes,hManStatus,hOperStatus,hStrategy,hPvid,hMtu,hGroup);
+	web_trunk_set_single(hNo, hDes, hManStatus, hOperStatus, hStrategy, hPvid, hMtu, hGroup);
 
 	websRedirect(wp, "interface/trunk.asp");
 }
@@ -469,10 +485,184 @@ static void trunkFormDelete(webs_t wp, char_t *path, char_t *query)
 {
 	char_t *hId;
 	hId = websGetVar(wp, T("hId"), T("1"));
-	printf("wait for delete: %s\r\n", hId);
-	sleep(1);
 	web_trunk_delete(hId);
 
 	websRedirect(wp, "interface/trunk.asp");
 }
+#pragma endregion
+
+#pragma region vlan
+static int vlanAspGetAll(int eid, webs_t wp, int argc, char_t **argv)
+{
+	memset(data_buffer, 0, sizeof(data_buffer));
+	web_vlan_get_all(data_buffer);
+
+	return websWrite(wp, T("%s"), data_buffer);
+}
+
+static int vlanAspGetTrunk(int eid, webs_t wp, int argc, char_t **argv)
+{
+	memset(data_buffer, 0, sizeof(data_buffer));
+	web_sys_get_alltrunk(data_buffer);
+
+	return websWrite(wp, T("%s"), data_buffer);
+}
+
+static void vlanFormPost(webs_t wp, char_t *path, char_t *query)
+{
+	char_t *hId, *hDes, *hType, *hStatus, *hEthGroup, *hTrunkGroup;
+	hId = websGetVar(wp, T("hId"), T("1"));
+	hDes = websGetVar(wp, T("hDes"), T("1"));
+	hType = websGetVar(wp, T("hType"), T("1"));
+	hStatus = websGetVar(wp, T("hStatus"), T("1"));
+	hEthGroup = websGetVar(wp, T("hEthGroup"), T("1"));
+	hTrunkGroup = websGetVar(wp, T("hTrunkGroup"), T("1"));
+
+	web_vlan_set_single(hId, hType, hDes, hStatus, hEthGroup, hTrunkGroup);
+	websRedirect(wp, "interface/vlan.asp");
+}
+static void vlanFormDelete(webs_t wp, char_t *path, char_t *query)
+{
+	char_t *hId;
+	hId = websGetVar(wp, T("hId"), T("1"));
+
+	web_vlan_delete(hId);
+	websRedirect(wp, "interface/vlan.asp");
+}
+#pragma endregion
+
+#pragma region stp
+static int stpAspGetType(int eid, webs_t wp, int argc, char_t **argv)
+{
+	memset(data_buffer, 0, sizeof(data_buffer));
+	web_stp_get_mode(data_buffer);
+	return websWrite(wp, T("%s"), data_buffer);
+}
+
+static int stpAspGetVlan(int eid, webs_t wp, int argc, char_t **argv)
+{
+	memset(data_buffer, 0, sizeof(data_buffer));
+	web_stp_get_pvst_vlan_list(data_buffer);
+	return websWrite(wp, T("%s"), data_buffer);
+}
+
+static int stpAspGetEth(int eid, webs_t wp, int argc, char_t **argv)
+{
+	memset(data_buffer, 0, sizeof(data_buffer));
+	web_stp_get_pvst_vlan_detail(data_buffer);
+
+	return websWrite(wp, T("%s"), data_buffer);
+}
+
+static int stpAspGetVlanDetail(int eid, webs_t wp, int argc, char_t **argv)
+{
+	memset(data_buffer, 0, sizeof(data_buffer));
+	web_stp_get_pvst_vlan_outlook(data_buffer);
+	return websWrite(wp, T("%s"), data_buffer);
+}
+
+static void stpFormType(webs_t wp, char_t *path, char_t *query)
+{
+	char_t *hType;
+	hType = websGetVar(wp, T("hType"), T("1"));
+	STP_Mode_Selected(atoi(hType));
+	websRedirect(wp, "interface/stp.asp");
+}
+
+static void stpFormEnable(webs_t wp, char_t *path, char_t *query)
+{
+	char_t *hId, *hEnable;
+	hId = websGetVar(wp, T("hId"), T("1"));
+	hEnable = websGetVar(wp, T("hEnable"), T("0"));
+
+	if (atoi(hEnable) == 1)
+	{
+		STP_Pvst_CreateOnVlan(atoi(hId));
+	}
+	else
+	{
+		STP_Pvst_DeleteOnVlan(atoi(hId));
+	}
+	STP_Pvst_Vlan_enable(atoi(hId), atoi(hEnable));
+
+	websRedirect(wp, "interface/stp.asp");
+}
+static int stpCstGetEnable(int eid, webs_t wp, int argc, char_t **argv)
+{
+	int enable = 0;
+	STP_Cst_Get_Enable(&enable);
+
+	return websWrite(wp, T("%d"), enable);
+}
+static void stpFormCstEnable(webs_t wp, char_t *path, char_t *query)
+{
+	char_t *hEnable;
+	hEnable = websGetVar(wp, T("hCstEnable"), T("0"));
+
+	STP_Cst_Enable(atoi(hEnable));
+	websRedirect(wp, "interface/stp.asp");
+}
+
+#pragma endregion
+#pragma region igmp
+static int igmpAspGetAll(int eid, webs_t wp, int argc, char_t **argv)
+{
+	memset(data_buffer, 0, sizeof(data_buffer));
+	web_l2igmp_get_var(data_buffer);
+	return websWrite(wp, T("%s"), data_buffer);
+}
+static int igmpAspGetEth(int eid, webs_t wp, int argc, char_t **argv)
+{
+	memset(data_buffer, 0, sizeof(data_buffer));
+	web_l2igmp_get_allentry(data_buffer);
+	return websWrite(wp, T("%s"), data_buffer);
+}
+static void igmpFormPost(webs_t wp, char_t *path, char_t *query)
+{
+	char_t *hStatus, *hAging, *hFast;
+	hStatus = websGetVar(wp, T("hStatus"), T("1"));
+	hAging = websGetVar(wp, T("hAging"), T("0"));
+	hFast = websGetVar(wp, T("hFast"), T("0"));
+	printf("\r\n %s,%s,%s\r\n", hStatus, hAging, hFast);
+	sleep(1);
+
+	web_l2igmp_set_var(hStatus, hAging, hFast);
+	websRedirect(wp, "interface/igmp.asp");
+}
+#pragma endregion
+
+#pragma region system
+static int upgradeHandler(webs_t wp, char_t *urlPrefix, char_t *webDir, int arg,
+						  char_t *url, char_t *path, char_t *query)
+{
+	printf("\r\n %s \r\n", "before ajax");
+	websWrite(wp, T("%s"), "this is a test");
+	printf("\r\n %s \r\n", "after ajax");
+	websDone(wp, 200);
+	return 1;
+}
+static void sysSaveConfig(webs_t wp, char_t *path, char_t *query)
+{
+}
+
+static void sysRestore(webs_t wp, char_t *path, char_t *query)
+{
+}
+
+static void sysReboot(webs_t wp, char_t *path, char_t *query)
+{
+	printf("\r\n %s \r\n", "before ajax");
+	websWrite(wp, T("%s"), "this is a test");
+	printf("\r\n %s \r\n", "after ajax");
+	return websDone(wp, 200);
+}
+
+static void sysLogDownLoad(webs_t wp, char_t *path, char_t *query)
+{
+}
+
+static void sysLogClear(webs_t wp, char_t *path, char_t *query)
+{
+}
+
 #pragma endregion
