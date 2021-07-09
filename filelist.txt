@@ -39,6 +39,12 @@ newmenu.html
 .\interface\stp.asp
 .\interface\igmp.asp
 .\sysSetting\configinfo.asp
+.\sysSetting\log.html
+.\sysSetting\reboot.html
+.\sysSetting\upgrade.html
+.\L3Protocal\rip.html
+.\L3Protocal\ospf.html
+.\L3Protocal\staticRoute.html
 
 
 .\js\bootstrap.min.js
