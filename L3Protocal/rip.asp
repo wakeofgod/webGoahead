@@ -37,10 +37,6 @@
             <thead style="font-weight: bolder;">
                 <tr>
                     <td width="20%">Network</td>
-                    <!-- <td width="20%">Next Hop</td>
-                    <td width="15%">Metric From</td>
-                    <td width="15%">Tag</td>
-                    <td width="15%">Time</td> -->
                     <td width="10%">操作</td>
                 </tr>
             </thead>
@@ -48,20 +44,7 @@
                 <td>
                     <span name="txtNet" value="0.0.0.0/0">0.0.0.0/0</span>
                 </td>
-                <!-- <td>
-                    <span name="txtHop" value="0.0.0.0/0">0.0.0.0/0</span>
-                </td>
                 <td>
-                    <span name="txtMetric" value="0.0.0.0/0">0.0.0.0/0</span>
-                </td>
-                <td>
-                    <span name="txtTag" value="0.0.0.0/0">0.0.0.0/0</span>
-                </td>
-                <td>
-                    <span name="txtTime" value="0.0.0.0/0">0.0.0.0/0</span>
-                </td> -->
-                <td>
-                    <!-- <button type="button" class="btn btn-primary" name="btnEdit" value="row1">编辑</button> -->
                     <button type="button" class="btn btn-primary" style="margin-left:20px;" name="btnDelete"
                         value="row1">删除</button>
                 </td>
@@ -84,30 +67,6 @@
                                     <input id="editNet" type="text" title="端口输入框" placeholder="xxx.xxx.xxx.xxx/xx" style="width: 100%;">
                                 </td>
                             </tr>
-                            <!-- <tr>
-                                <td>Next Hop:</td>
-                                <td>
-                                    <span id="editHop"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Metric From:</td>
-                                <td>
-                                    <span id="editMetric"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Tag:</td>
-                                <td>
-                                    <span id="editTag"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Time:</td>
-                                <td>
-                                    <span id="editTime"></span>
-                                </td>
-                            </tr> -->
                         </tbody>
                     </table>
                 </div>
@@ -119,10 +78,13 @@
         </div>
     </div>
     <div>
-        <form id="hPostForm" method="post">
+        <form id="hPostForm" style="visibility: hidden; display: none;" method="post" action="/goform/ripFormPost">
             <input name="hNetwork" value="" />
         </form>
-        <form id="hEnableForm" method="post">
+        <form id="hDeleteForm" style="visibility: hidden; display: none;" method="post" action="/goform/ripFormDelete">
+            <input name="hDelete" value="" />
+        </form>
+        <form id="hEnableForm" style="visibility: hidden; display: none;" method="post" action="/goform/ripFormEnable">
             <input name="hEnable" value="" />
         </form>
     </div>
@@ -134,10 +96,12 @@
         var html = ('');
         var isCreateNew = false;
         function getData() {
+            let ripData= "<%ripAspGetAll();%>";
+            let ripInfoData = "<%ripAspGetInfo();%>";
             dataset = [
                 ["1.1.1.0/24", "2.1.1.1", "1 self", "0", "01:48"],
                 ["2.1.1.0/24", "3.1.1.1", "1 self", "0", "01:05"]
-            ]
+            ];
         }
 
         function loadPage() {
@@ -160,12 +124,7 @@
                 for (let i = 0; i < dCount; i++) {
                     html += ('<tr>');
                     html += ('<td><span name="txtNet" value="' + dataset[i][0] + '">' + dataset[i][0] + '</span></td>');
-                    // html += ('<td><span name="txtHop" value="' + dataset[i][1] + '">' + dataset[i][1] + '</span></td>');
-                    // html += ('<td><span name="txtMetric" value="' + dataset[i][2] + '">' + dataset[i][2] + '</span></td>');
-                    // html += ('<td> <span name="txtTag" value="' + dataset[i][3] + '">' + dataset[i][3] + '</span></td>');
-                    // html += ('<td><span name="txtTime" value="' + dataset[i][4] + '">' + dataset[i][4] + '</span></td>');
                     html += ('<td>');
-                   // html += ('<button type="button" class="btn btn-primary"  name="btnEdit" value="' + dataset[i][0] + '">编辑</button>');
                     html += ('<button type="button" class="btn btn-primary" style="margin-left:20px;"  name="btnDelete" value="' + dataset[i][0] + '">删除</button>');
                     html += ('</td');
                     html += ('</tr>');
@@ -216,21 +175,12 @@
             $("#myModalLabel").html("修改");
             selectNet = $(this).attr("value");
             let network = $(this).parents("tr").find("[name='txtNet']").attr("value");
-            let hop = $(this).parents("tr").find("[name='txtHop']").attr("value");
-            let metric = $(this).parents("tr").find("[name='txtMetric']").attr("value");
-            let tag = $(this).parents("tr").find("[name='txtTag']").attr("value");
-            let time = $(this).parents("tr").find("[name='txtTime']").attr("value");
             $("#editNet").val(network);
-            $("#editHop").html(hop);
-            $("#editMetric").html(metric);
-            $("#editTag").html(tag);
-            $("#editTime").html(time);
             $("#modeModal").modal('show');
         });
 
         $("#ripBody").on('click', '[name="btnDelete"]', function () {
-            let network = $(this).parents("tr").find("[name='txtNet']").attr("value");
-            alert(network);
+            alert($(this).attr("value"));
         });
 
         $(document).ready(function () {

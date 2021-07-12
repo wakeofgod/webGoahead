@@ -42,7 +42,7 @@ newmenu.html
 .\sysSetting\log.html
 .\sysSetting\reboot.html
 .\sysSetting\upgrade.html
-.\L3Protocal\rip.html
+.\L3Protocal\rip.asp
 .\L3Protocal\ospf.html
 .\L3Protocal\staticRoute.html
 
