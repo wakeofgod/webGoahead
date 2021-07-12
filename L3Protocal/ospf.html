@@ -15,4 +15,35 @@
         style="font-weight: bolder; text-align: center;background-color: rgb(241,241,241);height: 48px;line-height: 48px;">
         Ospf协议</h3>
     <br>
+    <div style="height: 50px;">
+        <button type="button" class="btn btn-primary" id="btnEnable" style="margin-left: 20px;">使能</button>
+        <button type="button" class="btn btn-primary" id="btnDisable" style="margin-left: 20px;">不使能</button>
+        <button type="button" class="btn btn-primary" id="btnAdd" style="margin-left: 20px;">新建</button>
+    </div>
+
+    <script>
+        var currentStatus = 1;
+        var dataset = [];
+        function getData(){
+
+        }
+
+        function loadPage(){
+            if (!currentStatus) {
+                $("#btnAdd").attr("disabled", "disabled");
+                $("#btnDisable").attr("disabled", "disabled");
+            }
+            else {
+                $("#btnEnable").attr("disabled", "disabled");
+                $("#btnAdd").removeAttr("disabled");
+                $("#btnDisable").removeAttr("disabled");
+            }
+        }
+
+        $(document).ready(function(){
+            getData();
+            loadPage();
+        });
+
+    </script>
 </body>

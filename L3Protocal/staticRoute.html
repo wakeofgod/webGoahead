@@ -4,7 +4,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Info</title>
+    <title>静态路由</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
@@ -19,20 +19,36 @@
         <table class="table table-striped table-bordered " style="width: 95%;margin-top: 10px;">
             <thead style="font-weight: bolder;">
                 <tr>
-                    <td>desk/mask</td>
-                    <td>type</td>
-                    <td>[d/m]</td>
-                    <td>gateway</td>
-                    <td>status</td>
+                    <td width="20%">desk/mask</td>
+                    <td width="15%">type</td>
+                    <td width="15%">[d/m]</td>
+                    <td width="20%">gateway</td>
+                    <td width="15%">status</td>
+                    <td>操作</td>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="staticBody">
                 <tr>
-                    <td>0.0.0.0/0</td>
-                    <td>static</td>
-                    <td>[1/1]</td>
-                    <td>1.1.1.221</td>
-                    <td>pending</td>
+                    <td>
+                        <span name="txtDesk" value="0.0.0.0/0">0.0.0.0/0</span>
+                    </td>
+                    <td>
+                        <span name="txtType" value="static">static</span>
+                    </td>
+                    <td>
+                        <span name="txtDm" value="static">[1/1]</span>
+                    </td>
+                    <td>
+                        <span name="txtGateway" value="1.1.1.221">1.1.1.221</span>
+                    </td>
+                    <td>
+                        <span name="txtStatus" value="1.1.1.221">pending</span>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-primary" name="btnEdit" value="row1">编辑</button>
+                        <button type="button" class="btn btn-primary" style="margin-left:20px;" name="btnDelete"
+                            value="row1">删除</button>
+                    </td>
                 </tr>
                 <tr>
                     <td>1.1.1.111/24</td>
@@ -40,8 +56,130 @@
                     <td>[0/0]</td>
                     <td>1.1.1.111</td>
                     <td>active</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" name="btnEdit" value="row1">编辑</button>
+                        <button type="button" class="btn btn-primary" style="margin-left:20px;" name="btnDelete"
+                            value="row1">删除</button>
+                    </td>
                 </tr>
             </tbody>
         </table>
     </div>
+    <div class="modal fade" id="modeModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">编辑</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-striped table-bordered">
+                        <tbody>
+                            <tr>
+                                <td>desk/mask:</td>
+                                <td>
+                                    <input id="editDesk" type="text" title="端口输入框" style="width: 100%;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>type:</td>
+                                <td>
+                                    <span id="editType"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>[d/m]</td>
+                                <td>
+                                    <span id="editDm"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>gateway:</td>
+                                <td>
+                                    <span id="editGateway"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>status</td>
+                                <td>
+                                    <span id="editStatus"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-primary" id="btnRipSave">提交更改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <form id="hPostForm" method="post">
+            <input name="hDesk" value="" />
+            <input name="hType" value="" />
+            <input name="hDm" value="" />
+            <input name="hType" value="" />
+            <input name="hType" value="" />
+        </form>
+    </div>
+    <script>
+        var dataset = [];
+        var selectNet = "";
+        var html = ('');
+        var typeArray = ["static", "connected"];
+        var statusArray = ["pending", "active"];
+        function getData() {
+            dataset = [
+                ["0.0.0.0/0", "static", "[1/1]", "1.1.1.221", "pending"],
+                ["1.1.1.111/24", "connected", "[0/0]", "1.1.1.111", "active"]
+            ];
+        }
+
+        function loadPage() {
+            let dCount = dataset.length;
+            if (dCount > 0) {
+                html = ('');
+                for (let i = 0; i < dCount; i++) {
+                    html += ('<tr>');
+                    html += ('<td><span name="txtDesk" value="' + dataset[i][0] + '">' + dataset[i][0] + '</span></td>');
+                    html += ('<td><span name="txtType" value="' + dataset[i][1] + '">' + dataset[i][1] + '</span></td>');
+                    html += ('<td><span name="txtDm" value="' + dataset[i][2] + '">' + dataset[i][2] + '</span></td>');
+                    html += ('<td><span name="txtGateway" value="' + dataset[i][3] + '">' + dataset[i][3] + '</span></td>');
+                    html += ('<td><span name="txtStatus" value="' + dataset[i][4] + '">' + dataset[i][4] + '</span></td>');
+                    html += ('<td>');
+                    html += ('<button type="button" class="btn btn-primary"  name="btnEdit" value="' + dataset[i][0] + '">编辑</button>');
+                    html += ('<button type="button" class="btn btn-primary" style="margin-left:20px;"  name="btnDelete" value="' + dataset[i][0] + '">删除</button>');
+                    html += ('</td');
+                    html += ('</tr>');
+                }
+                $("#staticBody").html(html);
+            }
+        }
+
+        $("#staticBody").on('click', '[name="btnEdit"]', function () {
+            selectNet = $(this).attr("value");
+            let desk = $(this).parents("tr").find("[name='txtDesk']").attr("value");
+            let type = $(this).parents("tr").find("[name='txtType']").attr("value");
+            let dm = $(this).parents("tr").find("[name='txtDm']").attr("value");
+            let gateWay = $(this).parents("tr").find("[name='txtGateway']").attr("value");
+            let status = $(this).parents("tr").find("[name='txtStatus']").attr("value");
+            $("#editDesk").val(desk);
+            $("#editType").html(type);
+            $("#editDm").html(dm);
+            $("#editGateway").html(gateWay);
+            $("#editStatus").html(status);
+            $("#modeModal").modal('show');
+        });
+
+        $("#staticBody").on('click', '[name="btnDelete"]', function () {
+            alert("delete");
+        });
+
+        $(document).ready(function () {
+            getData();
+            loadPage();
+        });
+    </script>
 </body>
