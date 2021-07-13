@@ -43,8 +43,8 @@ newmenu.html
 .\sysSetting\reboot.html
 .\sysSetting\upgrade.html
 .\L3Protocal\rip.asp
-.\L3Protocal\ospf.html
-.\L3Protocal\staticRoute.html
+.\L3Protocal\ospf.asp
+.\L3Protocal\staticRoute.asp
 
 
 .\js\bootstrap.min.js

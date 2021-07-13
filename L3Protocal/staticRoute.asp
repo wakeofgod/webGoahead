@@ -102,9 +102,12 @@
         </div>
     </div>
     <div>
-        <form id="hPostForm" method="post">
+        <form id="hPostForm" method="post" action="/goform/staticFormPost">
             <input name="hDesk" value="" />
             <input name="hHop" value="" />
+        </form>
+        <form id="hDeleteForm" method="post" action="/goform/staticFormDelete">
+            <input name="hDesk" value="" />
         </form>
     </div>
     <script>
@@ -114,6 +117,7 @@
         var typeArray = ["static", "connected"];
         var statusArray = ["pending", "active"];
         function getData() {
+            let staticData = "<%staticAspGetAll();%>";
             dataset = [
                 ["0.0.0.0/0", "static", "[1/1]", "1.1.1.221", "pending"],
                 ["1.1.1.111/24", "connected", "[0/0]", "1.1.1.111", "active"]

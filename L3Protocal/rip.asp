@@ -22,13 +22,16 @@
     </div>
     <div class="container-fluid" id="ripInfo">
         <div class="row" style="margin-top: 20px;">
-            <label class="col-md-offset-4 col-md-1 control-label" style="text-transform: uppercase;">Redistributing:</label>
+            <label class="col-md-offset-4 col-md-1 control-label"
+                style="text-transform: uppercase;">Redistributing:</label>
             <label class="col-md-1 control-label" style="color: red;">static</label>
-            <label class="col-md-2 control-label" style="text-transform: uppercase;">Default redistribution metric:</label>
+            <label class="col-md-2 control-label" style="text-transform: uppercase;">Default redistribution
+                metric:</label>
             <label class="col-md-1 control-label" style="color: red;">1</label>
         </div>
         <div class="row" style="margin-top: 20px;">
-            <label class="col-md-offset-4 col-md-2 control-label" style="text-transform: uppercase;">Default version control:</label>
+            <label class="col-md-offset-4 col-md-2 control-label" style="text-transform: uppercase;">Default version
+                control:</label>
             <label class="col-md-2 control-label" style="color: red;">send version 2, receive any version</label>
         </div>
     </div>
@@ -64,7 +67,8 @@
                             <tr>
                                 <td>Network:</td>
                                 <td>
-                                    <input id="editNet" type="text" title="端口输入框" placeholder="xxx.xxx.xxx.xxx/xx" style="width: 100%;">
+                                    <input id="editNet" type="text" title="端口输入框" placeholder="xxx.xxx.xxx.xxx/xx"
+                                        style="width: 100%;">
                                 </td>
                             </tr>
                         </tbody>
@@ -96,7 +100,7 @@
         var html = ('');
         var isCreateNew = false;
         function getData() {
-            let ripData= "<%ripAspGetAll();%>";
+            let ripData = "<%ripAspGetAll();%>";
             let ripInfoData = "<%ripAspGetInfo();%>";
             dataset = [
                 ["1.1.1.0/24", "2.1.1.1", "1 self", "0", "01:48"],
@@ -108,8 +112,8 @@
             if (!currentStatus) {
                 $("#btnAdd").attr("disabled", "disabled");
                 $("#btnDisable").attr("disabled", "disabled");
-                $("#ripInfo").attr("style","display:none;");
-                $("#ripTable").attr("style","display:none;");
+                $("#ripInfo").attr("style", "display:none;");
+                $("#ripTable").attr("style", "display:none;");
             }
             else {
                 $("#btnEnable").attr("disabled", "disabled");
@@ -134,12 +138,13 @@
         }
 
         function checkData(route) {
+            var flag = true;
             let regRoute = /^(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\/([1-9]|[1-2]\d|3[0-2])$/;
             if (!regRoute.test(route)) {
                 alert("输入地址不合法");
-                return false;
+                flag = false;
             }
-            return true;
+            return flag;
         }
 
         $("#btnEnable").click(function () {
