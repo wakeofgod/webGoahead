@@ -8,6 +8,39 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
+    <style type=text/css>
+        .mySelect {
+            width: 100%;
+            height: 25px;
+            border: 1px solid;
+            overflow: auto;
+            max-width: 100px;
+        }
+
+        input[type=checkbox] {
+            /* visibility: hidden;
+            display: none; */
+            opacity: 0;
+            z-index: 9;
+
+        }
+
+        .mark::before {
+            content: '\a0';
+            display: inline-block;
+            border: 1px solid silver;
+            text-align: center;
+            width: 20px;
+            height: 20px;
+            font-weight: bold;
+        }
+
+        input[type="checkbox"]:checked+.mark::before {
+            content: '\2713';
+            color: #FA8E53;
+            background-color: #007FFF;
+        }
+    </style>
 </head>
 
 <body>
@@ -22,35 +55,107 @@
     </div>
     <div class="container-fluid" id="ripInfo">
         <div class="row" style="margin-top: 20px;">
-            <label class="col-md-offset-4 col-md-1 control-label"
-                style="text-transform: uppercase;">Redistributing:</label>
-            <label class="col-md-1 control-label" style="color: red;">static</label>
-            <label class="col-md-2 control-label" style="text-transform: uppercase;">Default redistribution
-                metric:</label>
-            <label class="col-md-1 control-label" style="color: red;">1</label>
+            <label class="col-md-offset-4 col-md-3 control-label" id="info1">
+
+            </label>
+            <label class="col-md-3 control-label" id="info2">
+
+            </label>
         </div>
         <div class="row" style="margin-top: 20px;">
-            <label class="col-md-offset-4 col-md-2 control-label" style="text-transform: uppercase;">Default version
-                control:</label>
-            <label class="col-md-2 control-label" style="color: red;">send version 2, receive any version</label>
+            <label class="col-md-offset-4 col-md-3 control-label" id="info3">
+
+            </label>
+            <label class="col-md-3 control-label" id="info4">
+
+            </label>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+            <label class="col-md-offset-4 col-md-3 control-label" id="info5">
+
+            </label>
+            <label class="col-md-3 control-label" id="info6">
+
+            </label>
+        </div>
+        <div class="row" style="margin-top: 20px;">
+            <label class="col-md-offset-4 col-md-4 control-label" id="info7"></label>
         </div>
     </div>
-    <div id="ripTable">
-        <table class="table table-striped table-bordered " style="max-width:600px;margin: 10px auto;">
+    <div class="row" id="ripRedis">
+        <div class="col-md-offset-3 col-md-4" id="ripTable">
+            <table class="table table-striped table-bordered " style="max-width:600px;margin: 10px;">
+                <thead style="font-weight: bolder;">
+                    <tr>
+                        <td width="20%">Routing for Networks</td>
+                        <td width="10%">操作</td>
+                    </tr>
+                </thead>
+                <tbody id="ripBody">
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-1">
+            <label>Redistributing:</label>
+        </div>
+        <div class="col-md-3">
+            <div style="width:100%;height:28px;overflow:hidden;">
+                <input type="text" id="selRedisGroup" onclick="myclick();" readonly="true"
+                    style="width:100%;height:28px;">
+            </div>
+            <div id="selectdiv" style="display: none;" onmouseover="mousein()" onmouseout="mouseout()">
+                <div>
+                    <input name="mycheckbox" type="checkbox" onclick="mycheck(this)" value="0" id="checkboxFourInput0"
+                        textvalue="connected">
+                    <label for="checkboxFourInput0" name="mychecklabel" class="mark">connected</label>
+                </div>
+                <div>
+                    <input name="mycheckbox" type="checkbox" onclick="mycheck(this)" value="1" id="checkboxFourInput1"
+                        textvalue="static">
+                    <label for="checkboxFourInput1" name="mychecklabel" class="mark">static</label>
+                </div>
+                <div>
+                    <input name="mycheckbox" type="checkbox" onclick="mycheck(this)" value="2" id="checkboxFourInput2"
+                        textvalue="ospf">
+                    <label for="checkboxFourInput2" name="mychecklabel" class="mark">ospf</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <button type="button" class="btn btn-primary" id="btnSubmit" style="margin-left: 20px;">提交</button>
+        </div>
+    </div>
+
+
+
+
+    <div id="ripRouteTable">
+        <table class="table table-striped table-bordered " style="width: 95;margin: 10px;">
             <thead style="font-weight: bolder;">
                 <tr>
                     <td width="20%">Network</td>
-                    <td width="10%">操作</td>
+                    <td width="20%">Next Hop</td>
+                    <td width="15%">Metric</td>
+                    <td width="15%">From Tag</td>
+                    <td width="15%">Time</td>
                 </tr>
             </thead>
-            <tbody id="ripBody">
-                <td>
+            <tbody id="ripRouteBody">
+                <!-- <td>
                     <span name="txtNet" value="0.0.0.0/0">0.0.0.0/0</span>
                 </td>
                 <td>
-                    <button type="button" class="btn btn-primary" style="margin-left:20px;" name="btnDelete"
-                        value="row1">删除</button>
+                    <span name="txtHop" value="0.0.0.0/0">0.0.0.0/0</span>
                 </td>
+                <td>
+                    <span name="txtMetric" value="0.0.0.0/0">0.0.0.0/0</span>
+                </td>
+                <td>
+                    <span name="txtTag" value="0.0.0.0/0">0.0.0.0/0</span>
+                </td>
+                <td>
+                    <span name="txtTime" value="0.0.0.0/0">0.0.0.0/0</span>
+                </td> -->
             </tbody>
         </table>
     </div>
@@ -94,18 +199,72 @@
     </div>
     <script>
         var currentStatus = 1;
-        var dataset = [];
-        var datainfo = [];
+        var dataSet = [];
+        var dataInfo = [];
+        var dataRouteSet = [];
+        var redisArray = ["connected", "static", "ospf"];
+        var currentRedis = [];
+        var selectedlist = [];
+        var selectednamelist = [];
         var selectNet = "";
         var html = ('');
         var isCreateNew = false;
+        var indiv = false;
+        var selecteddiv = document.getElementById("selectdiv");
         function getData() {
             let ripData = "<%ripAspGetAll();%>";
             let ripInfoData = "<%ripAspGetInfo();%>";
-            dataset = [
-                ["1.1.1.0/24", "2.1.1.1", "1 self", "0", "01:48"],
-                ["2.1.1.0/24", "3.1.1.1", "1 self", "0", "01:05"]
-            ];
+            let ripStatus = "<%ripAspGetStatus();%>";
+            let ripRouteData = "<%ripAspGetAllRoute();%>";
+            currentStatus = parseInt(ripStatus.trim());
+            if (ripData.trim() != "") {
+                ripData = ripData.trim();
+                if (ripData.lastIndexOf('|') == ripData.length - 1) {
+                    ripData = ripData.substring(0, ripData.length - 1);
+                }
+                let tmpRipData = ripData.split('|');
+                let tCount = tmpRipData.length;
+                if (tCount > 0) {
+                    dataSet = [];
+                    for (let i = 0; i < tCount; i++) {
+                        dataSet.push([tmpRipData[i]]);
+                    }
+                }
+            }
+            if (ripInfoData.trim() != "") {
+                ripInfoData = ripInfoData.trim();
+                if (ripInfoData.lastIndexOf(',') == ripInfoData.length - 1) {
+                    ripInfoData = ripInfoData.substring(0, ripInfoData.length - 1);
+                }
+                tmpInfoData = ripInfoData.split(',');
+                dataInfo.push(tmpInfoData[0], tmpInfoData[1], tmpInfoData[2], tmpInfoData[3], tmpInfoData[4], tmpInfoData[5], tmpInfoData[6].concat(',', tmpInfoData[7]));
+            }
+            if (ripRouteData.trim() != "") {
+                if (ripRouteData.lastIndexOf('|') == ripRouteData.length - 1) {
+                    ripRouteData = ripRouteData.substring(0, ripRouteData.length - 1);
+                }
+                let tmpRouteData = ripRouteData.split('|');
+                let tCount = tmpRouteData.length;
+                if (tCount > 0) {
+                    dataRouteSet = [];
+                    for (let i = 0; i < tCount; i++) {
+                        let rowData = tmpRouteData[i].split(',');
+                        dataRouteSet.push([rowData[0], rowData[1], rowData[2].trim(), rowData[3], rowData[4]]);
+                    }
+                }
+            }
+            if (dataInfo.length > 1) {
+                selectednamelist = [];
+                let tmpRedis = dataInfo[4];
+                let index = tmpRedis.indexOf(':');
+                //tirm去掉头尾空格，拆分以两个空格为准
+                tmpRedis = tmpRedis.substring(index + 1).trim();
+                if(tmpRedis!=""){
+                    selectednamelist = tmpRedis.split('  ');
+                }
+                document.getElementById("selRedisGroup").value = selectednamelist;
+                resetDropDown(selectednamelist);
+            }
         }
 
         function loadPage() {
@@ -114,6 +273,7 @@
                 $("#btnDisable").attr("disabled", "disabled");
                 $("#ripInfo").attr("style", "display:none;");
                 $("#ripTable").attr("style", "display:none;");
+                $("#ripRedis").attr("style", "display:none;");
             }
             else {
                 $("#btnEnable").attr("disabled", "disabled");
@@ -121,19 +281,43 @@
                 $("#btnDisable").removeAttr("disabled");
                 $("#ripInfo").removeAttr("style");
                 $("#ripTable").removeAttr("style");
+                $("#ripRedis").removeAttr("style");
             }
-            if (currentStatus && dataset.length > 0) {
-                let dCount = dataset.length;
+            if (currentStatus && dataSet.length > 0) {
+                let dCount = dataSet.length;
                 html = ('');
                 for (let i = 0; i < dCount; i++) {
                     html += ('<tr>');
-                    html += ('<td><span name="txtNet" value="' + dataset[i][0] + '">' + dataset[i][0] + '</span></td>');
+                    html += ('<td><span name="txtNet" value="' + dataSet[i][0] + '">' + dataSet[i][0] + '</span></td>');
                     html += ('<td>');
-                    html += ('<button type="button" class="btn btn-primary" style="margin-left:20px;"  name="btnDelete" value="' + dataset[i][0] + '">删除</button>');
+                    html += ('<button type="button" class="btn btn-primary" style="margin-left:20px;"  name="btnDelete" value="' + dataSet[i][0] + '">删除</button>');
                     html += ('</td');
                     html += ('</tr>');
                 }
                 $("#ripBody").html(html);
+            }
+            if (dataInfo.length > 1) {
+                $("#info1").html(dataInfo[0]);
+                $("#info2").html(dataInfo[1]);
+                $("#info3").html(dataInfo[2]);
+                $("#info4").html(dataInfo[3]);
+                $("#info5").html(dataInfo[4]);
+                $("#info6").html(dataInfo[5]);
+                $("#info7").html(dataInfo[6]);
+            }
+            if (currentStatus && dataRouteSet.length > 0) {
+                let dCount = dataRouteSet.length;
+                html = ('');
+                for (let i = 0; i < dCount; i++) {
+                    html += ('<tr>');
+                    html += ('<td><span name="txtNet" value="' + dataRouteSet[i][0] + '">' + dataRouteSet[i][0] + '</span></td>');
+                    html += ('<td><span name="txtHop" value="' + dataRouteSet[i][1] + '">' + dataRouteSet[i][1] + '</span></td>');
+                    html += ('<td><span name="txtMetric" value="' + dataRouteSet[i][2] + '">' + dataRouteSet[i][2] + '</span></td>');
+                    html += ('<td><span name="txtTag" value="' + dataRouteSet[i][3] + '">' + dataRouteSet[i][3] + '</span></td>');
+                    html += ('<td><span name="txtTime" value="' + dataRouteSet[i][4] + '">' + dataRouteSet[i][4] + '</span></td>');
+                    html += ('</tr>');
+                }
+                $("#ripRouteBody").html(html);
             }
         }
 
@@ -147,12 +331,64 @@
             return flag;
         }
 
+        //点击sel，展示多选框
+        function myclick() {
+            selecteddiv.style.display = "block";
+        }
+
+        //鼠标进入多选框的div【selectdiv】
+        function mousein() {
+            indiv = true;
+        }
+
+        //鼠标离开多选框的div【selectdiv】
+        function mouseout() {
+            indiv = false;
+        }
+
+        //checkbox的点击事件
+        function mycheck(obj) {
+            debugger;
+            if (obj.checked) {
+                selectedlist.push(obj.value);
+                selectednamelist.push($(obj).attr("textValue"));
+            } else {
+                for (var i = 0; i < selectedlist.length; i++) {
+                    if (selectedlist[i] == obj.value) {
+                        selectedlist.splice(i, 1);
+                        selectednamelist.splice(i, 1);
+                    }
+                }
+            }
+            document.getElementById("selRedisGroup").value = selectednamelist;
+        }
+
+        function resetDropDown(redisGroup) {
+            selectedlist = [];
+            var checkBoxList = document.getElementsByName("mycheckbox");
+            var nCount = redisGroup.length;
+            for (var i = 0; i < nCount; i++) {
+                var tmpNum = redisArray.findIndex(value => value == redisGroup[i]);
+                selectedlist.push(tmpNum);
+            }
+
+            for (var j = 0; j < checkBoxList.length; j++) {
+                for (var k = 0; k < selectedlist.length; k++) {
+                    if (j == selectedlist[k]) {
+                        checkBoxList[j].setAttribute("checked", "checked");
+                    }
+                }
+            }
+        }
+
         $("#btnEnable").click(function () {
-            alert("111");
+            $("[name='hEnable']").val(1);
+            $("#hEnableForm").submit();
         });
 
         $("#btnDisable").click(function () {
-            alert("222");
+            $("[name='hEnable']").val(0);
+            $("#hEnableForm").submit();
         });
 
         $("#btnAdd").click(function () {
@@ -171,7 +407,8 @@
         $("#btnRipSave").click(function () {
             let route = $("#editNet").val();
             if (checkData(route)) {
-                alert("输入合法");
+                $("[name='hNetwork']").val(route);
+                $("#hPostForm").submit();
             }
         });
 
@@ -185,12 +422,24 @@
         });
 
         $("#ripBody").on('click', '[name="btnDelete"]', function () {
-            alert($(this).attr("value"));
+            let route = $(this).attr("value");
+            if (route.trim() != "") {
+                $("[name='hDelete']").val(route);
+                $("#hDeleteForm").submit();
+            }
         });
 
         $(document).ready(function () {
             getData();
             loadPage();
         });
+
+        //鼠标点击事件，如果点击在 selectedbutton，或者是在多选框div中的点击事件，不作处理。其他情况的点击事件，将多选空div隐藏
+        document.onclick = function (event) {
+            if (event.target.id == "selRedisGroup" || indiv) {
+                return;
+            }
+            selecteddiv.style.display = "none";
+        };
     </script>
 </body>
