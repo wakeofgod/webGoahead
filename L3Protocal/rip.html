@@ -70,19 +70,14 @@
 
             </label>
         </div>
-        <div class="row" style="margin-top: 20px;">
-            <label class="col-md-offset-4 col-md-3 control-label" id="info5">
-
-            </label>
+        <div class="row" style="margin: 20px 0px;">
+            <label class="col-md-offset-4 col-md-3 control-label" id="info7"></label>
             <label class="col-md-3 control-label" id="info6">
 
             </label>
         </div>
-        <div class="row" style="margin-top: 20px;">
-            <label class="col-md-offset-4 col-md-4 control-label" id="info7"></label>
-        </div>
     </div>
-    <div class="row">
+    <div class="row" id="ripRedis">
         <div class="col-md-offset-3 col-md-4" id="ripTable">
             <table class="table table-striped table-bordered " style="max-width:600px;margin: 10px;">
                 <thead style="font-weight: bolder;">
@@ -234,6 +229,7 @@
                 $("#btnDisable").attr("disabled", "disabled");
                 $("#ripInfo").attr("style", "display:none;");
                 $("#ripTable").attr("style", "display:none;");
+                $("#ripRedis").attr("style", "display:none;");
             }
             else {
                 $("#btnEnable").attr("disabled", "disabled");
@@ -241,6 +237,7 @@
                 $("#btnDisable").removeAttr("disabled");
                 $("#ripInfo").removeAttr("style");
                 $("#ripTable").removeAttr("style");
+                $("#ripRedis").removeAttr("style");
             }
             if (currentStatus && dataset.length > 0) {
                 let dCount = dataset.length;
@@ -265,7 +262,7 @@
                 $("#info2").html(dataInfo[1]);
                 $("#info3").html(dataInfo[2]);
                 $("#info4").html(dataInfo[3]);
-                $("#info5").html(dataInfo[4]);
+                //$("#info5").html(dataInfo[4]);
                 $("#info6").html(dataInfo[5]);
                 $("#info7").html(dataInfo[6]);
             }
@@ -328,17 +325,13 @@
 
         function resetDropDown(redisGroup) {
             selectedlist = [];
-            selectednamelist = [];
             var checkBoxList = document.getElementsByName("mycheckbox");
-            var tmpList = redisGroup.split(' ');
-            var nCount = tmpList.length;
-            if (ethGroup.trim() != "") {
-                selectednamelist = tmpList;
-                for (var i = 0; i < nCount; i++) {
-                    var tmpNum = redisArray.findIndex(value => value == tmpList[i]);
-                    selectedlist.push(tmpNum);
-                }
+            var nCount = redisGroup.length;
+            for (var i = 0; i < nCount; i++) {
+                var tmpNum = redisArray.findIndex(value => value == redisGroup[i]);
+                selectedlist.push(tmpNum);
             }
+
             for (var j = 0; j < checkBoxList.length; j++) {
                 for (var k = 0; k < selectedlist.length; k++) {
                     if (j == selectedlist[k]) {

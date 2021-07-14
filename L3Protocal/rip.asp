@@ -70,16 +70,11 @@
 
             </label>
         </div>
-        <div class="row" style="margin-top: 20px;">
-            <label class="col-md-offset-4 col-md-3 control-label" id="info5">
-
-            </label>
+        <div class="row" style="margin: 20px 0px;">
+            <label class="col-md-offset-4 col-md-3 control-label" id="info5"></label>
             <label class="col-md-3 control-label" id="info6">
 
             </label>
-        </div>
-        <div class="row" style="margin-top: 20px;">
-            <label class="col-md-offset-4 col-md-4 control-label" id="info7"></label>
         </div>
     </div>
     <div class="row" id="ripRedis">
@@ -196,6 +191,9 @@
         <form id="hEnableForm" style="visibility: hidden; display: none;" method="post" action="/goform/ripFormEnable">
             <input name="hEnable" value="" />
         </form>
+        <form id="hRedisForm" style="visibility: hidden; display: none;" method="post" action="/goform/ripFormRedis">
+            <input name="hRedis" value="" />
+        </form>
     </div>
     <script>
         var currentStatus = 1;
@@ -237,7 +235,8 @@
                     ripInfoData = ripInfoData.substring(0, ripInfoData.length - 1);
                 }
                 tmpInfoData = ripInfoData.split(',');
-                dataInfo.push(tmpInfoData[0], tmpInfoData[1], tmpInfoData[2], tmpInfoData[3], tmpInfoData[4], tmpInfoData[5], tmpInfoData[6].concat(',', tmpInfoData[7]));
+                debugger;
+                dataInfo.push(tmpInfoData[0].trim(), tmpInfoData[1].trim(), tmpInfoData[2].trim(), tmpInfoData[3].trim(), tmpInfoData[4].trim(), tmpInfoData[5].trim().concat(',', tmpInfoData[6].trim()));
             }
             if (ripRouteData.trim() != "") {
                 if (ripRouteData.lastIndexOf('|') == ripRouteData.length - 1) {
@@ -303,7 +302,6 @@
                 $("#info4").html(dataInfo[3]);
                 $("#info5").html(dataInfo[4]);
                 $("#info6").html(dataInfo[5]);
-                $("#info7").html(dataInfo[6]);
             }
             if (currentStatus && dataRouteSet.length > 0) {
                 let dCount = dataRouteSet.length;
@@ -348,7 +346,6 @@
 
         //checkbox的点击事件
         function mycheck(obj) {
-            debugger;
             if (obj.checked) {
                 selectedlist.push(obj.value);
                 selectednamelist.push($(obj).attr("textValue"));
@@ -427,6 +424,13 @@
                 $("[name='hDelete']").val(route);
                 $("#hDeleteForm").submit();
             }
+        });
+
+        $("#btnSubmit").click(function(){
+            let tmpStr = selectednamelist.join(',');
+            debugger;
+            $("[name='hRedis']").val(tmpStr.trim());
+            $("#hRedisForm").submit();
         });
 
         $(document).ready(function () {
