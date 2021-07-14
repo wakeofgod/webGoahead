@@ -54,7 +54,7 @@
         <button type="button" class="btn btn-primary" id="btnAdd" style="margin-left: 20px;">新建</button>
     </div>
     <div class="container-fluid" id="ripInfo">
-        <div class="row" style="margin-top: 20px;">
+        <div class="row" style="margin: 20px 0px;">
             <label class="col-md-offset-4 col-md-3 control-label" id="info1">
 
             </label>
@@ -62,7 +62,7 @@
 
             </label>
         </div>
-        <div class="row" style="margin-top: 20px;">
+        <div class="row" style="margin: 20px 0px;">
             <label class="col-md-offset-4 col-md-3 control-label" id="info3">
 
             </label>
@@ -136,21 +136,7 @@
                 </tr>
             </thead>
             <tbody id="ripRouteBody">
-                <!-- <td>
-                    <span name="txtNet" value="0.0.0.0/0">0.0.0.0/0</span>
-                </td>
-                <td>
-                    <span name="txtHop" value="0.0.0.0/0">0.0.0.0/0</span>
-                </td>
-                <td>
-                    <span name="txtMetric" value="0.0.0.0/0">0.0.0.0/0</span>
-                </td>
-                <td>
-                    <span name="txtTag" value="0.0.0.0/0">0.0.0.0/0</span>
-                </td>
-                <td>
-                    <span name="txtTime" value="0.0.0.0/0">0.0.0.0/0</span>
-                </td> -->
+
             </tbody>
         </table>
     </div>
@@ -235,7 +221,6 @@
                     ripInfoData = ripInfoData.substring(0, ripInfoData.length - 1);
                 }
                 tmpInfoData = ripInfoData.split(',');
-                debugger;
                 dataInfo.push(tmpInfoData[0].trim(), tmpInfoData[1].trim(), tmpInfoData[2].trim(), tmpInfoData[3].trim(), tmpInfoData[4].trim(), tmpInfoData[5].trim().concat(',', tmpInfoData[6].trim()));
             }
             if (ripRouteData.trim() != "") {
@@ -428,7 +413,6 @@
 
         $("#btnSubmit").click(function(){
             let tmpStr = selectednamelist.join(',');
-            debugger;
             $("[name='hRedis']").val(tmpStr.trim());
             $("#hRedisForm").submit();
         });
