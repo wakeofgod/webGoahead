@@ -14,12 +14,6 @@ newmenu.html
 .\cable\autoupgrade.asp
 .\cable\cableConfig.asp
 
-.\img\menu_img\menu_img1.gif
-.\img\menu_img\menu_img2.gif
-.\img\menu_img\menu_img3.gif
-.\img\menu_img\menu_img4.gif
-.\img\menu_img\menu_img5.gif
-.\img\menu_img\menu_img6.gif
 .\img\banner.gif
 .\img\banner2.gif
 .\img\bgimage.gif
