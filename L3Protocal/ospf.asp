@@ -129,37 +129,6 @@
     </div>
     <div class="container-fluid" id="ospfTableGroup">
         <div class="row" style="max-width: 1900px;">
-            <div class="col-md-6 col-lg-6" style="height:300px; overflow-y:auto;">
-                <h3 style="text-align: center;text-transform: uppercase;">ospf neighbor</h3>
-                <table class="table table-striped table-bordered " style="margin: 10px;">
-                    <thead>
-                        <tr>
-                            <td>Neighbor Id</td>
-                            <td>Pri</td>
-                            <td>State</td>
-                            <td>Dead Time</td>
-                            <td>Address</td>
-                            <td>Interface</td>
-                            <td>RXmtL</td>
-                            <td>RqstL</td>
-                            <td>DBsmL</td>
-                        </tr>
-                    </thead>
-                    <tbody id="neighborBody">
-                        <tr>
-                            <td><span name="txtNId">Neighbor Id</span></td>
-                            <td><span name="txtPri">Pri</span></td>
-                            <td><span name="txtState">State</span></td>
-                            <td><span name="txtDead">Dead Time</span></td>
-                            <td><span name="txtAddress">Address</span></td>
-                            <td><span name="txtInterface">Interface </span></td>
-                            <td><span name="txtRXmtL">RXmtL</span></td>
-                            <td><span name="txtRqstL">RqstL</span></td>
-                            <td><span name="txtDBsmL">DBsmL</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
             <div class="col-md-6 col-lg-6" style="height:300px;overflow-y:auto;">
                 <h3 style="text-align: center;text-transform: uppercase;">ospf route</h3>
                 <table class="table table-striped table-bordered " style="margin: 10px;">
@@ -208,6 +177,37 @@
                     </tbody>
                 </table>
             </div>
+            <div class="col-md-12 col-lg-12" style="height:300px; overflow-y:auto;">
+                <h3 style="text-align: center;text-transform: uppercase;">ospf neighbor</h3>
+                <table class="table table-striped table-bordered " style="margin: 10px;">
+                    <thead>
+                        <tr>
+                            <td>Neighbor Id</td>
+                            <td>Pri</td>
+                            <td>State</td>
+                            <td>Dead Time</td>
+                            <td>Address</td>
+                            <td>Interface</td>
+                            <td>RXmtL</td>
+                            <td>RqstL</td>
+                            <td>DBsmL</td>
+                        </tr>
+                    </thead>
+                    <tbody id="neighborBody">
+                        <tr>
+                            <td><span name="txtNId">Neighbor Id</span></td>
+                            <td><span name="txtPri">Pri</span></td>
+                            <td><span name="txtState">State</span></td>
+                            <td><span name="txtDead">Dead Time</span></td>
+                            <td><span name="txtAddress">Address</span></td>
+                            <td><span name="txtInterface">Interface </span></td>
+                            <td><span name="txtRXmtL">RXmtL</span></td>
+                            <td><span name="txtRqstL">RqstL</span></td>
+                            <td><span name="txtDBsmL">DBsmL</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div class="modal fade" id="modeModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -247,10 +247,14 @@
         <form id="hEnableForm" style="visibility: hidden; display: none;" method="post" action="/goform/ospfFormEnable">
             <input name="hEnable" value="" />
         </form>
+        <form id="hRedisForm" style="visibility: hidden; display: none;" method="post" action="/goform/ospfFormRedis">
+            <input name="hRedis" value="" />
+        </form>
     </div>
     <script>
         var currentStatus = 1;
         var dataSet = [];
+        var dataInfo = [];
         var neighborSet = [];
         var routeSet = [];
         var databaseSet = [];
@@ -262,10 +266,12 @@
         var selecteddiv = document.getElementById("selectdiv");
         var html = ('');
         function getData() {
-            dataset = [
-                ["1.1.1.0/24"],
-                ["2.1.1.0/24"]
-            ];
+            let ospfStautsData = "<%ospfAspGetStatus();%>";
+            let ospfInfoData ="<%ospfAspGetInfo();%>";
+            let ospfNetData = "<%ospfAspGetNet();%>";
+            let ospfNeighborData = "<%ospfAspGetNeighbor();%>";
+            let ospfDatabaseData = "<%ospfAspGetDatabase();%>";
+            let ospfRouteData = "<%ospfAspGetRoute();%>";
         }
 
         function loadPage() {
@@ -407,11 +413,13 @@
 
 
         $("#btnEnable").click(function () {
-            alert("111");
+            $("[name='hEnable']").val(1);
+            $("#hEnableForm").submit();
         });
 
         $("#btnDisable").click(function () {
-            alert("222");
+            $("[name='hEnable']").val(0);
+            $("#hEnableForm").submit();
         });
 
         $("#btnAdd").click(function () {
@@ -427,10 +435,18 @@
 
         $("#btnSubmit").click(function () {
             alert(selectednamelist);
+            let tmpStr = selectednamelist.join(',');
+            $("[name='hRedis']").val(tmpStr.trim());
+            $("#hRedisForm").submit();
         });
 
         $("#ospfBody").on('click', '[name="btnDelete"]', function () {
             alert($(this).attr("value"));
+            let route = $(this).attr("value");
+            if (route.trim() != "") {
+                $("[name='hDelete']").val(route);
+                $("#hDeleteForm").submit();
+            }
         });
 
         $(document).ready(function () {

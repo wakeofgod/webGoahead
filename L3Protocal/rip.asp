@@ -379,10 +379,6 @@
             isCreateNew = true;
             $("#myModalLabel").html("新增");
             $("#editNet").val("");
-            $("#editHop").html("");
-            $("#editMetric").html("");
-            $("#editTag").html("");
-            $("#editTime").html("");
             $("#modeModal").modal('show');
         });
 
