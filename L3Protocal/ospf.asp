@@ -130,6 +130,7 @@
     <div class="container-fluid" id="ospfTableGroup">
         <div class="row" style="max-width: 1900px;">
             <div class="col-md-6 col-lg-6" style="height:300px; overflow-y:auto;">
+                <h3 style="text-align: center;text-transform: uppercase;">ospf neighbor</h3>
                 <table class="table table-striped table-bordered " style="margin: 10px;">
                     <thead>
                         <tr>
@@ -160,6 +161,7 @@
                 </table>
             </div>
             <div class="col-md-6 col-lg-6" style="height:300px;overflow-y:auto;">
+                <h3 style="text-align: center;text-transform: uppercase;">ospf route</h3>
                 <table class="table table-striped table-bordered " style="margin: 10px;">
                     <thead>
                         <tr>
@@ -177,6 +179,31 @@
                             <td>Metric</td>
                             <td>From Tag</td>
                             <td>Time</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6 col-lg-6" style="height:300px;overflow-y:auto;margin-top: 20px;">
+                <h3 style="text-align: center;text-transform: uppercase;">ospf database</h3>
+                <table class="table table-striped table-bordered " style="margin: 10px;">
+                    <thead>
+                        <tr>
+                            <td>Link ID</td>
+                            <td>ADV Router</td>
+                            <td>Age</td>
+                            <td>Seq#</td>
+                            <td>CkSum</td>
+                            <td>Route</td>
+                        </tr>
+                    </thead>
+                    <tbody id="databaseBody">
+                        <tr>
+                            <td><span name="txtLink" value="Link">Link ID</span></td>
+                            <td><span name="txtAdv" value="ADV Router">ADV Router</span></td>
+                            <td><span name="txtAge" value="Age">Age</span></td>
+                            <td><span name="txtSeq" value="Seq">Seq</span></td>
+                            <td><span name="txtCkSum" value="Link">CkSum</span></td>
+                            <td><span name="txtRoute" value="Route">Route</span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -226,6 +253,7 @@
         var dataSet = [];
         var neighborSet = [];
         var routeSet = [];
+        var databaseSet = [];
         var redisArray = ["connected", "static", "rip"];
         var currentRedis = [];
         var selectedlist = [];
@@ -300,6 +328,21 @@
                     html += ('</tr>');
                 }
                 $("#routeBody").html(html);
+            }
+            let bCount= databaseSet.length;
+            if(currentStatus && bCount>0){
+                html = ('');
+                for (let i = 0; i < rCount; i++) {
+                    html += ('<tr>');
+                    html += ('<td><span name="txtLink" value="' + databaseSet[i][0] + '">' + databaseSet[i][0] + '</span></td>');
+                    html += ('<td><span name="txtAdv" value="' + databaseSet[i][1] + '">' + databaseSet[i][1] + '</span></td>');
+                    html += ('<td><span name="txtAge" value="' + databaseSet[i][2] + '">' + databaseSet[i][2] + '</span></td>');
+                    html += ('<td><span name="txtSeq" value="' + databaseSet[i][3] + '">' + databaseSet[i][3] + '</span></td>');
+                    html += ('<td><span name="txtCkSum" value="' + databaseSet[i][4] + '">' + databaseSet[i][4] + '</span></td>');
+                    html += ('<td><span name="txtRoute" value="' + databaseSet[i][5] + '">' + databaseSet[i][5] + '</span></td>');
+                    html += ('</tr>');
+                }
+                $("#databaseBody").html(html);
             }
         }
 

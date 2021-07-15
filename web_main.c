@@ -94,6 +94,25 @@ static void sysReboot(webs_t wp, char_t *path, char_t *query);
 static void sysLogDownLoad(webs_t wp, char_t *path, char_t *query);
 static void sysLogClear(webs_t wp, char_t *path, char_t *query);
 
+static int ripAspGetAll(int eid, webs_t wp, int argc, char_t **argv);
+static int ripAspGetAllRoute(int eid, webs_t wp, int argc, char_t **argv);
+static int ripAspGetInfo(int eid, webs_t wp, int argc, char_t **argv);
+static int ripAspGetStatus(int eid, webs_t wp, int argc, char_t **argv);
+static void ripFormEnable(webs_t wp, char_t *path, char_t *query);
+static void ripFormPost(webs_t wp, char_t *path, char_t *query);
+static void ripFormDelete(webs_t wp, char_t *path, char_t *query);
+static void ripFormRedis(webs_t wp, char_t *path, char_t *query);
+
+static int ospfAspGetAll(int eid, webs_t wp, int argc, char_t **argv);
+static int ospfAspGetInfo(int eid, webs_t wp, int argc, char_t **argv);
+static void ospfFormEnable(webs_t wp, char_t *path, char_t *query);
+static void ospfFormPost(webs_t wp, char_t *path, char_t *query);
+static void ospfFormDelete(webs_t wp, char_t *path, char_t *query);
+
+static int staticAspGetAll(int eid, webs_t wp, int argc, char_t **argv);
+static void staticFormPost(webs_t wp, char_t *path, char_t *query);
+static void staticFormDelete(webs_t wp, char_t *path, char_t *query);
+
 /*********************************** Code *************************************/
 /*
  *	Main -- entry point from LINUX
@@ -314,6 +333,25 @@ static int initWebs(int demo)
 	websFormDefine(T("sysReboot"), sysReboot);
 	websFormDefine(T("sysLogDownLoad"), sysLogDownLoad);
 	websFormDefine(T("sysLogClear"), sysLogClear);
+
+	websAspDefine(T("ripAspGetAll"), ripAspGetAll);
+	websAspDefine(T("ripAspGetAllRoute"), ripAspGetAllRoute);
+	websAspDefine(T("ripAspGetInfo"), ripAspGetInfo);
+	websAspDefine(T("ripAspGetStatus"), ripAspGetStatus);
+	websFormDefine(T("ripFormEnable"), ripFormEnable);
+	websFormDefine(T("ripFormPost"), ripFormPost);
+	websFormDefine(T("ripFormDelete"), ripFormDelete);
+	websFormDefine(T("ripFormRedis"), ripFormRedis);
+
+	websAspDefine(T("ospfAspGetAll"), ospfAspGetAll);
+	websAspDefine(T("ospfAspGetInfo"), ospfAspGetInfo);
+	websFormDefine(T("ospfFormEnable"), ospfFormEnable);
+	websFormDefine(T("ospfFormPost"), ospfFormPost);
+	websFormDefine(T("ospfFormDelete"), ospfFormDelete);
+
+	websAspDefine(T("staticAspGetAll"), staticAspGetAll);
+	websFormDefine(T("staticFormPost"), staticFormPost);
+	websFormDefine(T("staticFormDelete"), staticFormDelete);
 /*
  *	Create the Form handlers for the User Management pages
  */
@@ -651,10 +689,6 @@ static void sysRestore(webs_t wp, char_t *path, char_t *query)
 
 static void sysReboot(webs_t wp, char_t *path, char_t *query)
 {
-	printf("\r\n %s \r\n", "before ajax");
-	websWrite(wp, T("%s"), "this is a test");
-	printf("\r\n %s \r\n", "after ajax");
-	return websDone(wp, 200);
 }
 
 static void sysLogDownLoad(webs_t wp, char_t *path, char_t *query)
@@ -665,4 +699,101 @@ static void sysLogClear(webs_t wp, char_t *path, char_t *query)
 {
 }
 
+#pragma endregion
+
+#pragma region L3Protocal
+static int ripAspGetAll(int eid, webs_t wp, int argc, char_t **argv)
+{
+	memset(data_buffer, 0, sizeof(data_buffer));
+	rip_get_networks(data_buffer);
+	return websWrite(wp, T("%s"), data_buffer);
+}
+
+static int ripAspGetAllRoute(int eid, webs_t wp, int argc, char_t **argv)
+{
+	memset(data_buffer, 0, sizeof(data_buffer));
+	rip_show_all(data_buffer);
+	return websWrite(wp, T("%s"), data_buffer);
+}
+
+static int ripAspGetStatus(int eid, webs_t wp, int argc, char_t **argv)
+{
+	int res = rip_get_enable();
+	return websWrite(wp, T("%d"), res);
+}
+
+static int ripAspGetInfo(int eid, webs_t wp, int argc, char_t **argv)
+{
+	memset(data_buffer, 0, sizeof(data_buffer));
+	rip_show_status(data_buffer);
+	return websWrite(wp, T("%s"), data_buffer);
+}
+
+static void ripFormEnable(webs_t wp, char_t *path, char_t *query)
+{
+	char_t *hEnable;
+	hEnable = websGetVar(wp, T("hEnable"), T("1"));
+	printf("\r\n enable= %s\r\n", hEnable);
+	rip_set_enable(atoi(hEnable));
+	websRedirect(wp, "L3Protocal/rip.asp");
+}
+
+static void ripFormPost(webs_t wp, char_t *path, char_t *query)
+{
+	char_t *hRoute;
+	hRoute = websGetVar(wp, T("hNetwork"), T("1"));
+	printf("\r\n route= %s\r\n", hRoute);
+	rip_set_add_network(hRoute);
+	websRedirect(wp, "L3Protocal/rip.asp");
+}
+
+static void ripFormDelete(webs_t wp, char_t *path, char_t *query)
+{
+	char_t *hRoute;
+	hRoute = websGetVar(wp, T("hDelete"), T("1"));
+	printf("\r\n route= %s\r\n", hRoute);
+	rip_set_delete_network(hRoute);
+	websRedirect(wp, "L3Protocal/rip.asp");
+}
+
+static void ripFormRedis(webs_t wp, char_t *path, char_t *query)
+{
+	char_t *hRedis;
+	hRedis= websGetVar(wp, T("hRedis"), T("1"));
+	printf("\r\n route= %s\r\n", hRedis);
+	rip_set_redistribute(hRedis);
+	websRedirect(wp, "L3Protocal/rip.asp");
+}
+
+static int ospfAspGetAll(int eid, webs_t wp, int argc, char_t **argv)
+{
+}
+
+static int ospfAspGetInfo(int eid, webs_t wp, int argc, char_t **argv)
+{
+}
+
+static void ospfFormEnable(webs_t wp, char_t *path, char_t *query)
+{
+}
+
+static void ospfFormPost(webs_t wp, char_t *path, char_t *query)
+{
+}
+
+static void ospfFormDelete(webs_t wp, char_t *path, char_t *query)
+{
+}
+//
+static int staticAspGetAll(int eid, webs_t wp, int argc, char_t **argv)
+{
+}
+
+static void staticFormPost(webs_t wp, char_t *path, char_t *query)
+{
+}
+
+static void staticFormDelete(webs_t wp, char_t *path, char_t *query)
+{
+}
 #pragma endregion
