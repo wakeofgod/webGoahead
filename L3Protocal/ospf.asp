@@ -78,29 +78,32 @@
         </div>
     </div>
     <div class="row" id="ospfRedis" style="max-width: 98%;">
-        <div id="ospfTable" class="col-md-4 col-lg-4" style="height: 300px;overflow-y: auto;">
-            <table class="table table-striped table-bordered " style="max-width: 500px; margin-left: 20px;">
-            <thead style="font-weight: bolder;">
-                <tr>
-                        <td width="300">Network</td>
-                        <td width="100">操作</td>
-                    </tr>
-                </thead>
-                <tbody id="ospfBody">
-                    <td>
-                        <span name="txtNet" value="0.0.0.0/0">0.0.0.0/0</span>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-primary" style="margin-left:20px;" name="btnDelete"
-                            value="row1">删除</button>
-                    </td>
-                </tbody>
-            </table>
+        <div id="ospfTable" class="col-md-4 col-lg-4">
+            <h3 style="text-align: center;text-transform: uppercase;">network</h3>
+            <div style="height: 300px;overflow-y: auto;overflow-x: hidden;">
+                <table class="table table-striped table-bordered " style="margin:0px 20px;">
+                    <thead style="font-weight: bolder;">
+                        <tr>
+                            <td>Network</td>
+                            <td>操作</td>
+                        </tr>
+                    </thead>
+                    <tbody id="ospfBody">
+                        <td>
+                            <span name="txtNet" value="0.0.0.0/0">0.0.0.0/0</span>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" style="margin-left:20px;" name="btnDelete"
+                                value="row1">删除</button>
+                        </td>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="col-md-offset-2 col-lg-offset-2 col-lg-1 col-md-1">
+        <div class="col-md-offset-3 col-lg-offset-3 col-lg-1 col-md-1">
             <label>Redistributing:</label>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <div style="width:100%;height:28px;overflow:hidden;">
                 <input type="text" id="selRedisGroup" onclick="myclick();" readonly="true"
                     style="width:100%;height:28px;">
@@ -129,84 +132,91 @@
     </div>
     <div class="container-fluid" id="ospfTableGroup">
         <div class="row" style="max-width: 1900px;">
-            <div class="col-md-6 col-lg-6" style="height:300px;overflow-y:auto;">
+            <div class="col-md-6 col-lg-6">
                 <h3 style="text-align: center;text-transform: uppercase;">ospf route</h3>
-                <table class="table table-striped table-bordered " style="margin: 10px;">
-                    <thead>
-                        <tr>
-                            <td>Network</td>
-                            <td>Next Hop</td>
-                            <td>Metric</td>
-                            <td>From Tag</td>
-                            <td>Time</td>
-                        </tr>
-                    </thead>
-                    <tbody id="routeBody">
-                        <tr>
-                            <td>Network</td>
-                            <td>Next Hop</td>
-                            <td>Metric</td>
-                            <td>From Tag</td>
-                            <td>Time</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div style="height:300px;overflow-y:auto;overflow-x: hidden;">
+                    <table class="table table-striped table-bordered " style="margin: 10px;">
+                        <thead style="font-weight: bolder;">
+                            <tr>
+                                <td>Network</td>
+                                <td>Next Hop</td>
+                                <td>Metric</td>
+                                <td>From Tag</td>
+                                <td>Time</td>
+                            </tr>
+                        </thead>
+                        <tbody id="routeBody">
+                            <tr>
+                                <td>Network</td>
+                                <td>Next Hop</td>
+                                <td>Metric</td>
+                                <td>From Tag</td>
+                                <td>Time</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="col-md-6 col-lg-6" style="height:300px;overflow-y:auto;margin-top: 20px;">
+            <div class="col-md-6 col-lg-6" >
                 <h3 style="text-align: center;text-transform: uppercase;">ospf database</h3>
-                <table class="table table-striped table-bordered " style="margin: 10px;">
-                    <thead>
-                        <tr>
-                            <td>Link ID</td>
-                            <td>ADV Router</td>
-                            <td>Age</td>
-                            <td>Seq#</td>
-                            <td>CkSum</td>
-                            <td>Route</td>
-                        </tr>
-                    </thead>
-                    <tbody id="databaseBody">
-                        <tr>
-                            <td><span name="txtLink" value="Link">Link ID</span></td>
-                            <td><span name="txtAdv" value="ADV Router">ADV Router</span></td>
-                            <td><span name="txtAge" value="Age">Age</span></td>
-                            <td><span name="txtSeq" value="Seq">Seq</span></td>
-                            <td><span name="txtCkSum" value="Link">CkSum</span></td>
-                            <td><span name="txtRoute" value="Route">Route</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div style="height:300px;overflow-y:auto;overflow-x: hidden; margin-top: 20px;">
+                    <table class="table table-striped table-bordered " style="margin: 10px;">
+                        <thead style="font-weight: bolder;">
+                            <tr>
+                                <td>Link ID</td>
+                                <td>ADV Router</td>
+                                <td>Age</td>
+                                <td>Seq#</td>
+                                <td>CkSum</td>
+                                <td>Route</td>
+                            </tr>
+                        </thead>
+                        <tbody id="databaseBody">
+                            <tr>
+                                <td><span name="txtLink" value="Link">Link ID</span></td>
+                                <td><span name="txtAdv" value="ADV Router">ADV Router</span></td>
+                                <td><span name="txtAge" value="Age">Age</span></td>
+                                <td><span name="txtSeq" value="Seq">Seq</span></td>
+                                <td><span name="txtCkSum" value="Link">CkSum</span></td>
+                                <td><span name="txtRoute" value="Route">Route</span></td>
+                            </tr>
+                        </tbody>
+                    </table>  
+                </div>
             </div>
-            <div class="col-md-12 col-lg-12" style="height:300px; overflow-y:auto;">
+            <div class="col-md-12 col-lg-12">
                 <h3 style="text-align: center;text-transform: uppercase;">ospf neighbor</h3>
-                <table class="table table-striped table-bordered " style="margin: 10px;">
-                    <thead>
-                        <tr>
-                            <td>Neighbor Id</td>
-                            <td>Pri</td>
-                            <td>State</td>
-                            <td>Dead Time</td>
-                            <td>Address</td>
-                            <td>Interface</td>
-                            <td>RXmtL</td>
-                            <td>RqstL</td>
-                            <td>DBsmL</td>
-                        </tr>
-                    </thead>
-                    <tbody id="neighborBody">
-                        <tr>
-                            <td><span name="txtNId">Neighbor Id</span></td>
-                            <td><span name="txtPri">Pri</span></td>
-                            <td><span name="txtState">State</span></td>
-                            <td><span name="txtDead">Dead Time</span></td>
-                            <td><span name="txtAddress">Address</span></td>
-                            <td><span name="txtInterface">Interface </span></td>
-                            <td><span name="txtRXmtL">RXmtL</span></td>
-                            <td><span name="txtRqstL">RqstL</span></td>
-                            <td><span name="txtDBsmL">DBsmL</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div style="height:300px; overflow-y:auto;overflow-x: hidden;">
+                    <table class="table table-striped table-bordered " style="margin: 10px;">
+                        <thead style="font-weight: bolder;">
+                            <tr>
+                                <td>Neighbor Id</td>
+                                <td>Pri</td>
+                                <td>State</td>
+                                <td>Dead Time</td>
+                                <td>Address</td>
+                                <td>Interface</td>
+                                <td>RXmtL</td>
+                                <td>RqstL</td>
+                                <td>DBsmL</td>
+                            </tr>
+                        </thead>
+                        <tbody id="neighborBody">
+                            <tr>
+                                <td><span name="txtNId">Neighbor Id</span></td>
+                                <td><span name="txtPri">Pri</span></td>
+                                <td><span name="txtState">State</span></td>
+                                <td><span name="txtDead">Dead Time</span></td>
+                                <td><span name="txtAddress">Address</span></td>
+                                <td><span name="txtInterface">Interface </span></td>
+                                <td><span name="txtRXmtL">RXmtL</span></td>
+                                <td><span name="txtRqstL">RqstL</span></td>
+                                <td><span name="txtDBsmL">DBsmL</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
             </div>
         </div>
     </div>
