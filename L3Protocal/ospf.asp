@@ -132,20 +132,20 @@
         <div class="row" style="max-width: 1900px;">
             <div class="col-md-6 col-lg-6">
                 <h3 style="text-align: center;text-transform: uppercase;">ospf route</h3>
-                <div>
+                <div id="routeHead">
                     <table class="table table-striped table-bordered ">
                         <thead style="font-weight: bolder;">
                             <tr>
-                                <td style="width: 175px;">Network</td>
-                                <td style="width: 175px;">Next Hop</td>
-                                <td style="width: 100px;">Metric</td>
-                                <td style="width: 100px;">From Tag</td>
-                                <td >Time</td>
+                                <td style="width: 25%;">Network</td>
+                                <td style="width: 25%;">Next Hop</td>
+                                <td style="width: 15%;">Metric</td>
+                                <td style="width: 20%;">From Tag</td>
+                                <td>Time</td>
                             </tr>
                         </thead>
                     </table>
                 </div>
-                <div style="height:300px;overflow-y:auto;overflow-x: hidden;margin-top: -22px;">
+                <div style="height:300px;overflow-y:auto;overflow-x: hidden;margin-top: -22px;" id="routeTable">
                     <table class="table table-striped table-bordered ">
                         <tbody id="routeBody">
 
@@ -155,21 +155,21 @@
             </div>
             <div class="col-md-6 col-lg-6">
                 <h3 style="text-align: center;text-transform: uppercase;">ospf database</h3>
-                <div>
+                <div id="databaseHead">
                     <table class="table table-striped table-bordered ">
                         <thead style="font-weight: bolder;">
                             <tr>
-                                <td style="width: 150px;">Link ID</td>
-                                <td style="width: 150px;">ADV Router</td>
-                                <td style="width: 100px;">Age</td>
-                                <td style="width: 150px;">Seq#</td>
-                                <td style="width: 100px;">CkSum</td>
+                                <td style="width:15%;">Link ID</td>
+                                <td style="width:20%;">ADV Router</td>
+                                <td style="width:15%;">Age</td>
+                                <td style="width:15%;">Seq#</td>
+                                <td style="width:15%;">CkSum</td>
                                 <td>Route</td>
                             </tr>
                         </thead>
                     </table>
                 </div>
-                <div style="height:300px;overflow-y:auto;overflow-x: hidden; margin-top: -22px;">
+                <div style="height:300px;overflow-y:auto;overflow-x: hidden; margin-top: -22px;" id="databaseTable">
                     <table class="table table-striped table-bordered ">
                         <tbody id="databaseBody">
                         </tbody>
@@ -178,24 +178,24 @@
             </div>
             <div class="col-md-12 col-lg-12">
                 <h3 style="text-align: center;text-transform: uppercase;">ospf neighbor</h3>
-                <div>
+                <div id="neighborHead">
                     <table class="table table-striped table-bordered ">
                         <thead style="font-weight: bolder;">
                             <tr>
-                                <td style="width: 175px;">Neighbor Id</td>
-                                <td style="width: 175px;">Pri</td>
-                                <td style="width: 175px;">State</td>
-                                <td style="width: 175px;">Dead Time</td>
-                                <td style="width: 175px;">Address</td>
-                                <td style="width: 175px;">Interface</td>
-                                <td style="width: 175px;">RXmtL</td>
-                                <td style="width: 175px;">RqstL</td>
+                                <td style="width: 15%;">Neighbor Id</td>
+                                <td style="width: 10%;">Pri</td>
+                                <td style="width: 10%;">State</td>
+                                <td style="width: 10%;">Dead Time</td>
+                                <td style="width: 15%;">Address</td>
+                                <td style="width: 10%;">Interface</td>
+                                <td style="width: 10%;">RXmtL</td>
+                                <td style="width: 10%;">RqstL</td>
                                 <td>DBsmL</td>
                             </tr>
                         </thead>
                     </table>            
                 </div>
-                <div style="height:300px; overflow-y:auto;overflow-x: hidden;margin-top: -22px;">
+                <div style="height:300px; overflow-y:auto;overflow-x: hidden;margin-top: -22px;" id="neighborTable">
                     <table class="table table-striped table-bordered ">
                         <tbody id="neighborBody">
 
@@ -311,14 +311,14 @@
                 html = ('');
                 for (let i = 0; i < nCount; i++) {
                     html += ('<tr>');
-                    html += ('<td style="width: 175px;"><span name="txtNId" value="' + neighborSet[i][0] + '">' + neighborSet[i][0] + '</span></td>');
-                    html += ('<td style="width: 175px;"><span name="txtPri" value="' + neighborSet[i][1] + '">' + neighborSet[i][1] + '</span></td>');
-                    html += ('<td style="width: 175px;"><span name="txtState" value="' + neighborSet[i][2] + '">' + neighborSet[i][2] + '</span></td>');
-                    html += ('<td style="width: 175px;"><span name="txtDead" value="' + neighborSet[i][3] + '">' + neighborSet[i][3] + '</span></td>');
-                    html += ('<td style="width: 175px;"><span name="txtAddress" value="' + neighborSet[i][4] + '">' + neighborSet[i][4] + '</span></td>');
-                    html += ('<td style="width: 175px;"><span name="txtInterface" value="' + neighborSet[i][5] + '">' + neighborSet[i][5] + '</span></td>');
-                    html += ('<td style="width: 175px;"><span name="txtRXmtL" value="' + neighborSet[i][6] + '">' + neighborSet[i][6] + '</span></td>');
-                    html += ('<td style="width: 175px;"><span name="txtRqstL" value="' + neighborSet[i][7] + '">' + neighborSet[i][7] + '</span></td>');
+                    html += ('<td style="width: 15%;"><span name="txtNId" value="' + neighborSet[i][0] + '">' + neighborSet[i][0] + '</span></td>');
+                    html += ('<td style="width: 10%;"><span name="txtPri" value="' + neighborSet[i][1] + '">' + neighborSet[i][1] + '</span></td>');
+                    html += ('<td style="width: 10%;"><span name="txtState" value="' + neighborSet[i][2] + '">' + neighborSet[i][2] + '</span></td>');
+                    html += ('<td style="width: 10%;"><span name="txtDead" value="' + neighborSet[i][3] + '">' + neighborSet[i][3] + '</span></td>');
+                    html += ('<td style="width: 15%;"><span name="txtAddress" value="' + neighborSet[i][4] + '">' + neighborSet[i][4] + '</span></td>');
+                    html += ('<td style="width: 10%;"><span name="txtInterface" value="' + neighborSet[i][5] + '">' + neighborSet[i][5] + '</span></td>');
+                    html += ('<td style="width: 10%;"><span name="txtRXmtL" value="' + neighborSet[i][6] + '">' + neighborSet[i][6] + '</span></td>');
+                    html += ('<td style="width: 10%;"><span name="txtRqstL" value="' + neighborSet[i][7] + '">' + neighborSet[i][7] + '</span></td>');
                     html += ('<td><span name="txtDBsmL" value="' + neighborSet[i][8] + '">' + neighborSet[i][8] + '</span></td>');
                     html += ('</tr>');
                 }
@@ -329,10 +329,10 @@
                 html = ('');
                 for (let i = 0; i < rCount; i++) {
                     html += ('<tr>');
-                    html += ('<td style="width: 175px;"><span name="txtNet" value="' + routeSet[i][0] + '">' + routeSet[i][0] + '</span></td>');
-                    html += ('<td style="width: 175px;"><span name="txtHop" value="' + routeSet[i][1] + '">' + routeSet[i][1] + '</span></td>');
-                    html += ('<td style="width: 100px;"><span name="txtMetric" value="' + routeSet[i][2] + '">' + routeSet[i][2] + '</span></td>');
-                    html += ('<td style="width: 100px;"><span name="txtTag" value="' + routeSet[i][3] + '">' + routeSet[i][3] + '</span></td>');
+                    html += ('<td style="width: 25%;"><span name="txtNet" value="' + routeSet[i][0] + '">' + routeSet[i][0] + '</span></td>');
+                    html += ('<td style="width: 25%;"><span name="txtHop" value="' + routeSet[i][1] + '">' + routeSet[i][1] + '</span></td>');
+                    html += ('<td style="width: 15%;"><span name="txtMetric" value="' + routeSet[i][2] + '">' + routeSet[i][2] + '</span></td>');
+                    html += ('<td style="width: 20%;"><span name="txtTag" value="' + routeSet[i][3] + '">' + routeSet[i][3] + '</span></td>');
                     html += ('<td><span name="txtTime" value="' + routeSet[i][4] + '">' + routeSet[i][4] + '</span></td>');
                     html += ('</tr>');
                 }
@@ -343,11 +343,11 @@
                 html = ('');
                 for (let i = 0; i < rCount; i++) {
                     html += ('<tr>');
-                    html += ('<td style="width: 150px;"><span name="txtLink" value="' + databaseSet[i][0] + '">' + databaseSet[i][0] + '</span></td>');
-                    html += ('<td style="width: 150px;"><span name="txtAdv" value="' + databaseSet[i][1] + '">' + databaseSet[i][1] + '</span></td>');
-                    html += ('<td style="width: 100px;"><span name="txtAge" value="' + databaseSet[i][2] + '">' + databaseSet[i][2] + '</span></td>');
-                    html += ('<td style="width: 150px;"><span name="txtSeq" value="' + databaseSet[i][3] + '">' + databaseSet[i][3] + '</span></td>');
-                    html += ('<td style="width: 100px;"><span name="txtCkSum" value="' + databaseSet[i][4] + '">' + databaseSet[i][4] + '</span></td>');
+                    html += ('<td style="width:15%;"><span name="txtLink" value="' + databaseSet[i][0] + '">' + databaseSet[i][0] + '</span></td>');
+                    html += ('<td style="width: 20%;"><span name="txtAdv" value="' + databaseSet[i][1] + '">' + databaseSet[i][1] + '</span></td>');
+                    html += ('<td style="width: 15%;"><span name="txtAge" value="' + databaseSet[i][2] + '">' + databaseSet[i][2] + '</span></td>');
+                    html += ('<td style="width: 15%;"><span name="txtSeq" value="' + databaseSet[i][3] + '">' + databaseSet[i][3] + '</span></td>');
+                    html += ('<td style="width: 15%;"><span name="txtCkSum" value="' + databaseSet[i][4] + '">' + databaseSet[i][4] + '</span></td>');
                     html += ('<td><span name="txtRoute" value="' + databaseSet[i][5] + '">' + databaseSet[i][5] + '</span></td>');
                     html += ('</tr>');
                 }
@@ -458,9 +458,30 @@
             }
         });
 
+        //检验是否有滚动条，有就把头部的div设置padding-right
+        function isScroll() {
+            let dHeight = $("#networkTable")[0].scrollHeight;
+            let nHeight = $("#neighborTable")[0].scrollHeight;
+            let bHeight = $("#databaseTable")[0].scrollHeight;
+            let rHeight = $("#routeTable")[0].scrollHeight;
+            if (dHeight > 300) {
+                $("#netHead").attr("style", "padding-right:17px;");
+            }
+            if (nHeight > 300) {
+                $("#neighborHead").attr("style", "padding-right:17px;");
+            }
+            if (rHeight > 300) {
+                $("#routeHead").attr("style", "padding-right:17px;");
+            }
+            if (bHeight > 300) {
+                $("#databaseHead").attr("style", "padding-right:17px;");
+            }
+        }
+
         $(document).ready(function () {
             getData();
             loadPage();
+            isScroll();
         });
 
         //鼠标点击事件，如果点击在 selectedbutton，或者是在多选框div中的点击事件，不作处理。其他情况的点击事件，将多选空div隐藏
