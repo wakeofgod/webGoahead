@@ -78,8 +78,8 @@
         </div>
     </div>
     <div class="row" id="ospfRedis" style="max-width: 98%;">
-        <div id="ospfTable" class="col-md-4 col-lg-4">
-            <h3 style="text-align: center;text-transform: uppercase;">network</h3>
+        <div id="ospfTable" class="col-md-offset-2 col-lg-offset-2 col-md-4 col-lg-4">
+            <h3 style="text-align: center;text-transform: uppercase;">ospf network</h3>
             <div style="height: 300px;overflow-y: auto;overflow-x: hidden;">
                 <table class="table table-striped table-bordered " style="margin:0px 20px;">
                     <thead style="font-weight: bolder;">
@@ -89,18 +89,12 @@
                         </tr>
                     </thead>
                     <tbody id="ospfBody">
-                        <td>
-                            <span name="txtNet" value="0.0.0.0/0">0.0.0.0/0</span>
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-primary" style="margin-left:20px;" name="btnDelete"
-                                value="row1">删除</button>
-                        </td>
+
                     </tbody>
                 </table>
             </div>
         </div>
-        <div class="col-md-offset-3 col-lg-offset-3 col-lg-1 col-md-1">
+        <div class="col-md-offset-1 col-lg-offset-1 col-lg-1 col-md-1">
             <label>Redistributing:</label>
         </div>
         <div class="col-md-2">
@@ -146,13 +140,7 @@
                             </tr>
                         </thead>
                         <tbody id="routeBody">
-                            <tr>
-                                <td>Network</td>
-                                <td>Next Hop</td>
-                                <td>Metric</td>
-                                <td>From Tag</td>
-                                <td>Time</td>
-                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -172,16 +160,8 @@
                             </tr>
                         </thead>
                         <tbody id="databaseBody">
-                            <tr>
-                                <td><span name="txtLink" value="Link">Link ID</span></td>
-                                <td><span name="txtAdv" value="ADV Router">ADV Router</span></td>
-                                <td><span name="txtAge" value="Age">Age</span></td>
-                                <td><span name="txtSeq" value="Seq">Seq</span></td>
-                                <td><span name="txtCkSum" value="Link">CkSum</span></td>
-                                <td><span name="txtRoute" value="Route">Route</span></td>
-                            </tr>
                         </tbody>
-                    </table>  
+                    </table>
                 </div>
             </div>
             <div class="col-md-12 col-lg-12">
@@ -202,17 +182,7 @@
                             </tr>
                         </thead>
                         <tbody id="neighborBody">
-                            <tr>
-                                <td><span name="txtNId">Neighbor Id</span></td>
-                                <td><span name="txtPri">Pri</span></td>
-                                <td><span name="txtState">State</span></td>
-                                <td><span name="txtDead">Dead Time</span></td>
-                                <td><span name="txtAddress">Address</span></td>
-                                <td><span name="txtInterface">Interface </span></td>
-                                <td><span name="txtRXmtL">RXmtL</span></td>
-                                <td><span name="txtRqstL">RqstL</span></td>
-                                <td><span name="txtDBsmL">DBsmL</span></td>
-                            </tr>
+
                         </tbody>
                     </table>
                 </div>
@@ -234,6 +204,13 @@
                                 <td>Network:</td>
                                 <td>
                                     <input id="editNet" type="text" title="端口输入框" placeholder="xxx.xxx.xxx.xxx/xx"
+                                        style="width: 100%;">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Area:</td>
+                                <td>
+                                    <input id="editArea" type="text" title="区域输入框" placeholder="区域,默认0"
                                         style="width: 100%;">
                                 </td>
                             </tr>
@@ -362,12 +339,15 @@
             }
         }
 
-        function checkData(route) {
+        function checkData(route, area) {
             let flag = true;
             let regRoute = /^(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\/([1-9]|[1-2]\d|3[0-2])$/;
             if (!regRoute.test(route)) {
                 alert("输入地址不合法");
                 flag = false;
+            }
+            else if (area.trim() == "") {
+                area = 0;
             }
             return flag;
         }
@@ -433,12 +413,15 @@
         });
 
         $("#btnAdd").click(function () {
+            $("#editNet").val("");
+            $("#editArea").val("");
             $("#modeModal").modal('show');
         });
 
         $("#btnOspfSave").click(function(){
             let route = $("#editNet").val();
-            if (checkData(route)) {
+            let area = $("#editArea").val();
+            if (checkData(route, area)) {
                 alert("输入合法");
             }
         });
