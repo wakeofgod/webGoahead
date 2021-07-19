@@ -78,19 +78,20 @@
         </div>
     </div>
     <div class="row" id="ospfRedis" style="max-width: 98%;">
-        <div id="ospfTable" class="col-md-offset-2 col-lg-offset-2 col-md-4 col-lg-4">
+        <div id="ospfTable" class="col-md-offset-2 col-lg-offset-2 col-md-4 col-lg-4"
+            style="transform: translateX(11%);">
             <h3 style="text-align: center;text-transform: uppercase;">ospf network</h3>
-            <div>
+            <div id="netHead">
                 <table class="table table-striped table-bordered">
                     <thead style="font-weight: bolder;">
                         <tr>
-                            <td style="width:350px;">Network</td>
+                            <td style="width:70%;">Network</td>
                             <td>操作</td>
                         </tr>
                     </thead>
                 </table>
             </div>
-            <div style="height: 300px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;">
+            <div style="height: 300px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;" id="networkTable">
                 <table class="table table-striped table-bordered ">
                     <tbody id="ospfBody">
 
@@ -193,7 +194,7 @@
                                 <td>DBsmL</td>
                             </tr>
                         </thead>
-                    </table>            
+                    </table>
                 </div>
                 <div style="height:300px; overflow-y:auto;overflow-x: hidden;margin-top: -22px;" id="neighborTable">
                     <table class="table table-striped table-bordered ">
@@ -270,11 +271,13 @@
         var html = ('');
         function getData() {
             let ospfStautsData = "<%ospfAspGetStatus();%>";
-            let ospfInfoData ="<%ospfAspGetInfo();%>";
+            let ospfInfoData = "<%ospfAspGetInfo();%>";
             let ospfNetData = "<%ospfAspGetNet();%>";
             let ospfNeighborData = "<%ospfAspGetNeighbor();%>";
             let ospfDatabaseData = "<%ospfAspGetDatabase();%>";
             let ospfRouteData = "<%ospfAspGetRoute();%>";
+
+            currentStatus = parseInt(ospfStautsData);
         }
 
         function loadPage() {
@@ -290,7 +293,7 @@
                 $("#btnAdd").removeAttr("disabled");
                 $("#btnDisable").removeAttr("disabled");
                 $("#ospfInfo").removeAttr("style");
-                $("#ospfRedis").attr("style","width:95%;");
+                $("#ospfRedis").attr("style", "width:95%;");
                 $("#ospfTableGroup").removeAttr("style");
             }
             let dCount = dataSet.length;
@@ -298,9 +301,9 @@
                 html = ('');
                 for (let i = 0; i < dCount; i++) {
                     html += ('<tr>');
-                    html += ('<td style="width:350px;"><span name="txtNet" value="' + dataSet[i][0] + '">' + dataSet[i][0] + '</span></td>');
+                    html += ('<td style="width:70%;"><span name="txtNet" value="' + dataSet[i][0] + '">' + dataSet[i][0] + '</span></td>');
                     html += ('<td>');
-                    html += ('<button type="button" class="btn btn-primary" style="margin-left:20px;"  name="btnDelete" value="' + dataSet[i][0] + '">删除</button>');
+                    html += ('<button type="button" class="btn btn-primary" style="margin-left:30%;"  name="btnDelete" value="' + dataSet[i][0] + '">删除</button>');
                     html += ('</td');
                     html += ('</tr>');
                 }
@@ -338,8 +341,8 @@
                 }
                 $("#routeBody").html(html);
             }
-            let bCount= databaseSet.length;
-            if(currentStatus && bCount>0){
+            let bCount = databaseSet.length;
+            if (currentStatus && bCount > 0) {
                 html = ('');
                 for (let i = 0; i < rCount; i++) {
                     html += ('<tr>');
@@ -434,11 +437,13 @@
             $("#modeModal").modal('show');
         });
 
-        $("#btnOspfSave").click(function(){
+        $("#btnOspfSave").click(function () {
             let route = $("#editNet").val();
             let area = $("#editArea").val();
             if (checkData(route, area)) {
-                alert("输入合法");
+                let network = route.concat(',', area);
+                $("[name='hNetwork']").val(network);
+                $("#hPostForm").submit();
             }
         });
 
