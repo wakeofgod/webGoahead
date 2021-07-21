@@ -103,11 +103,16 @@ static void ripFormPost(webs_t wp, char_t *path, char_t *query);
 static void ripFormDelete(webs_t wp, char_t *path, char_t *query);
 static void ripFormRedis(webs_t wp, char_t *path, char_t *query);
 
-static int ospfAspGetAll(int eid, webs_t wp, int argc, char_t **argv);
+static int ospfAspGetNet(int eid, webs_t wp, int argc, char_t **argv);
 static int ospfAspGetInfo(int eid, webs_t wp, int argc, char_t **argv);
+static int ospfAspGetStatus(int eid, webs_t wp, int argc, char_t **argv);
+static int ospfAspGetNeighbor(int eid, webs_t wp, int argc, char_t **argv);
+static int ospfAspGetDatabase(int eid, webs_t wp, int argc, char_t **argv);
+static int ospfAspGetRoute(int eid, webs_t wp, int argc, char_t **argv);
 static void ospfFormEnable(webs_t wp, char_t *path, char_t *query);
 static void ospfFormPost(webs_t wp, char_t *path, char_t *query);
 static void ospfFormDelete(webs_t wp, char_t *path, char_t *query);
+static void ospfFormRedis(webs_t wp, char_t *path, char_t *query);
 
 static int staticAspGetAll(int eid, webs_t wp, int argc, char_t **argv);
 static void staticFormPost(webs_t wp, char_t *path, char_t *query);
@@ -343,11 +348,17 @@ static int initWebs(int demo)
 	websFormDefine(T("ripFormDelete"), ripFormDelete);
 	websFormDefine(T("ripFormRedis"), ripFormRedis);
 
-	websAspDefine(T("ospfAspGetAll"), ospfAspGetAll);
+	websAspDefine(T("ospfAspGetNet"), ospfAspGetNet);
 	websAspDefine(T("ospfAspGetInfo"), ospfAspGetInfo);
+	websAspDefine(T("ospfAspGetStatus"), ospfAspGetStatus);
+	websAspDefine(T("ospfAspGetNeighbor"), ospfAspGetNeighbor);
+	websAspDefine(T("ospfAspGetDatabase"), ospfAspGetDatabase);
+	websAspDefine(T("ospfAspGetRoute"), ospfAspGetRoute);
+
 	websFormDefine(T("ospfFormEnable"), ospfFormEnable);
 	websFormDefine(T("ospfFormPost"), ospfFormPost);
 	websFormDefine(T("ospfFormDelete"), ospfFormDelete);
+	websFormDefine(T("ospfFormRedis"), ospfFormRedis);
 
 	websAspDefine(T("staticAspGetAll"), staticAspGetAll);
 	websFormDefine(T("staticFormPost"), staticFormPost);
@@ -661,8 +672,6 @@ static void igmpFormPost(webs_t wp, char_t *path, char_t *query)
 	hStatus = websGetVar(wp, T("hStatus"), T("1"));
 	hAging = websGetVar(wp, T("hAging"), T("0"));
 	hFast = websGetVar(wp, T("hFast"), T("0"));
-	printf("\r\n %s,%s,%s\r\n", hStatus, hAging, hFast);
-	sleep(1);
 
 	web_l2igmp_set_var(hStatus, hAging, hFast);
 	websRedirect(wp, "interface/igmp.asp");
@@ -702,6 +711,7 @@ static void sysLogClear(webs_t wp, char_t *path, char_t *query)
 #pragma endregion
 
 #pragma region L3Protocal
+#pragma region rip
 static int ripAspGetAll(int eid, webs_t wp, int argc, char_t **argv)
 {
 	memset(data_buffer, 0, sizeof(data_buffer));
@@ -733,7 +743,6 @@ static void ripFormEnable(webs_t wp, char_t *path, char_t *query)
 {
 	char_t *hEnable;
 	hEnable = websGetVar(wp, T("hEnable"), T("1"));
-	printf("\r\n enable= %s\r\n", hEnable);
 	rip_set_enable(atoi(hEnable));
 	websRedirect(wp, "L3Protocal/rip.asp");
 }
@@ -742,7 +751,6 @@ static void ripFormPost(webs_t wp, char_t *path, char_t *query)
 {
 	char_t *hRoute;
 	hRoute = websGetVar(wp, T("hNetwork"), T("1"));
-	printf("\r\n route= %s\r\n", hRoute);
 	rip_set_add_network(hRoute);
 	websRedirect(wp, "L3Protocal/rip.asp");
 }
@@ -751,7 +759,6 @@ static void ripFormDelete(webs_t wp, char_t *path, char_t *query)
 {
 	char_t *hRoute;
 	hRoute = websGetVar(wp, T("hDelete"), T("1"));
-	printf("\r\n route= %s\r\n", hRoute);
 	rip_set_delete_network(hRoute);
 	websRedirect(wp, "L3Protocal/rip.asp");
 }
@@ -760,35 +767,89 @@ static void ripFormRedis(webs_t wp, char_t *path, char_t *query)
 {
 	char_t *hRedis;
 	hRedis= websGetVar(wp, T("hRedis"), T("1"));
-	printf("\r\n route= %s\r\n", hRedis);
 	rip_set_redistribute(hRedis);
 	websRedirect(wp, "L3Protocal/rip.asp");
 }
+#pragma endregion 
 
-static int ospfAspGetAll(int eid, webs_t wp, int argc, char_t **argv)
+#pragma region ospf
+static int ospfAspGetNet(int eid, webs_t wp, int argc, char_t **argv)
 {
+	memset(data_buffer, 0, sizeof(data_buffer));
+	ospf_show_config_network(data_buffer);
+	return websWrite(wp, T("%s"), data_buffer);
 }
 
 static int ospfAspGetInfo(int eid, webs_t wp, int argc, char_t **argv)
 {
+	memset(data_buffer, 0, sizeof(data_buffer));
+	ospf_get_redistribute(data_buffer);
+	return websWrite(wp, T("%s"), data_buffer);
+}
+
+static int ospfAspGetStatus(int eid, webs_t wp, int argc, char_t **argv)
+{
+	int res = ospf_get_enable();
+	return websWrite(wp, T("%d"), res);
+}
+static int ospfAspGetNeighbor(int eid, webs_t wp, int argc, char_t **argv)
+{
+	memset(data_buffer, 0, sizeof(data_buffer));
+	ospf_show_neighbour(data_buffer);
+	return websWrite(wp, T("%s"), data_buffer);
+}
+static int ospfAspGetDatabase(int eid, webs_t wp, int argc, char_t **argv)
+{
+	memset(data_buffer, 0, sizeof(data_buffer));
+	ospf_show_database(data_buffer);
+	return websWrite(wp, T("%s"), data_buffer);
+}
+
+static int ospfAspGetRoute(int eid, webs_t wp, int argc, char_t **argv)
+{
+	memset(data_buffer, 0, sizeof(data_buffer));
+	ospf_show_route(data_buffer);
+	return websWrite(wp, T("%s"), data_buffer);
 }
 
 static void ospfFormEnable(webs_t wp, char_t *path, char_t *query)
 {
+	char_t *hEnable;
+	hEnable = websGetVar(wp, T("hEnable"), T("1"));
+	printf("henable is %s\r\n",hEnable);
+	sleep(1);
+	ospf_set_enable(atoi(hEnable));
+	websRedirect(wp, "L3Protocal/ospf.asp");
 }
 
 static void ospfFormPost(webs_t wp, char_t *path, char_t *query)
 {
+	char_t *hRoute;
+	hRoute = websGetVar(wp, T("hNetwork"), T("1"));
+	ospf_set_add_network(hRoute);
+	websRedirect(wp, "L3Protocal/ospf.asp");
 }
 
 static void ospfFormDelete(webs_t wp, char_t *path, char_t *query)
 {
+	char_t *hRoute;
+	hRoute = websGetVar(wp, T("hDelete"), T("1"));
+	ospf_set_delete_network(hRoute);
+	websRedirect(wp, "L3Protocal/ospf.asp");
 }
-//
+static void ospfFormRedis(webs_t wp, char_t *path, char_t *query)
+{
+	char_t *hRedis;
+	hRedis= websGetVar(wp, T("hRedis"), T("1"));
+	ospf_set_redistribute(hRedis);
+	websRedirect(wp, "L3Protocal/ospf.asp");
+}
+#pragma endregion
+#pragma region staticRoute
 static int staticAspGetAll(int eid, webs_t wp, int argc, char_t **argv)
 {
-}
 
+}
 static void staticFormPost(webs_t wp, char_t *path, char_t *query)
 {
 }
@@ -796,4 +857,5 @@ static void staticFormPost(webs_t wp, char_t *path, char_t *query)
 static void staticFormDelete(webs_t wp, char_t *path, char_t *query)
 {
 }
+#pragma endregion
 #pragma endregion
