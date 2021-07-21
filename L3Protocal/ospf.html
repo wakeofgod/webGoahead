@@ -84,7 +84,8 @@
                 <table class="table table-striped table-bordered">
                     <thead style="font-weight: bolder;">
                         <tr>
-                            <td style="width:70%;">Network</td>
+                            <td style="width:35%;">Network</td>
+                            <td style="width:35%;">Area</td>
                             <td>操作</td>
                         </tr>
                     </thead>
@@ -334,7 +335,8 @@
                 html = ('');
                 for (let i = 0; i < dCount; i++) {
                     html += ('<tr>');
-                    html += ('<td style="width:70%;"><span name="txtNet" value="' + dataSet[i][0] + '">' + dataSet[i][0] + '</span></td>');
+                    html += ('<td style="width:35%;"><span name="txtNet" value="' + dataSet[i][0] + '">' + dataSet[i][0] + '</span></td>');
+                    html += ('<td style="width:35%;"><span name="txtArea" value="' + dataSet[i][1] + '">' + dataSet[i][1] + '</span></td>');
                     html += ('<td>');
                     html += ('<button type="button" class="btn btn-primary" style="margin-left:30%;"  name="btnDelete" value="' + dataSet[i][0] + '">删除</button>');
                     html += ('</td');
@@ -484,15 +486,19 @@
         });
 
         $("#btnSubmit").click(function () {
-            alert(selectednamelist);
+            if (currentRedis.toString() == selectednamelist.toString()) {
+                alert("没有更改");
+                return;
+            }
             let tmpStr = selectednamelist.join(',');
             $("[name='hRedis']").val(tmpStr.trim());
             $("#hRedisForm").submit();
         });
 
         $("#ospfBody").on('click', '[name="btnDelete"]', function () {
-            alert($(this).attr("value"));
-            let route = $(this).attr("value");
+            let network = $(this).parents("tr").find("[name='txtNet']").attr("value");
+            let area = $(this).parents("tr").find("[name='txtArea']").attr("value");
+            let route = network.concat(',',area);
             if (route.trim() != "") {
                 $("[name='hDelete']").val(route);
                 $("#hDeleteForm").submit();

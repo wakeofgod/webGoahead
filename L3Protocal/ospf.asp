@@ -53,38 +53,16 @@
         <button type="button" class="btn btn-primary" id="btnDisable" style="margin-left: 20px;">不使能</button>
         <button type="button" class="btn btn-primary" id="btnAdd" style="margin-left: 20px;">新建</button>
     </div>
-    <div class="container-fluid" id="ospfInfo">
-        <div class="row" style="margin: 20px 0px;">
-            <label class="col-md-offset-4 col-md-3 control-label" id="info1">
-                info1
-            </label>
-            <label class="col-md-3 control-label" id="info2">
-                info2
-            </label>
-        </div>
-        <div class="row" style="margin: 20px 0px;">
-            <label class="col-md-offset-4 col-md-3 control-label" id="info3">
-                info3
-            </label>
-            <label class="col-md-3 control-label" id="info4">
-                info4
-            </label>
-        </div>
-        <div class="row" style="margin: 20px 0px;">
-            <label class="col-md-offset-4 col-md-3 control-label" id="info5">info5</label>
-            <label class="col-md-3 control-label" id="info6">
-                info6
-            </label>
-        </div>
-    </div>
     <div class="row" id="ospfRedis" style="max-width: 98%;">
-        <div id="ospfTable" class="col-md-offset-2 col-lg-offset-2 col-md-4 col-lg-4" style="transform: translateX(11%);">
+        <div id="ospfTable" class="col-md-offset-2 col-lg-offset-2 col-md-4 col-lg-4"
+            style="transform: translateX(11%);">
             <h3 style="text-align: center;text-transform: uppercase;">ospf network</h3>
             <div id="netHead">
                 <table class="table table-striped table-bordered">
                     <thead style="font-weight: bolder;">
                         <tr>
-                            <td style="width:70%;">Network</td>
+                            <td style="width:35%;">Network</td>
+                            <td style="width:35%;">Area</td>
                             <td>操作</td>
                         </tr>
                     </thead>
@@ -283,30 +261,78 @@
                 let dCount = tmpDatabase.length;
                 if (dCount > 0) {
                     databaseSet = [];
-                    for(let i = 0;i<dCount;i++){
-                        if(tmpDatabase[i].trim()!="")
-                        {
+                    for (let i = 0; i < dCount; i++) {
+                        if (tmpDatabase[i].trim() != "") {
                             let rowData = tmpDatabase[i].split(',');
-                            databaseSet.push([rowData[0],rowData[1],rowData[2],rowData[3],rowData[4],rowData[5]]);
+                            databaseSet.push([rowData[0], rowData[1], rowData[2], rowData[3], rowData[4], rowData[5]]);
                         }
                     }
                 }
             }
 
-            if(ospfRouteData.trim()!=""){
+            if (ospfRouteData.trim() != "") {
                 ospfRouteData = ospfRouteData.trim();
                 if (ospfRouteData.lastIndexOf('|') == ospfRouteData.length - 1) {
                     ospfRouteData = ospfRouteData.substring(0, ospfRouteData.length - 1);
                 }
-                let tmpRouteData =ospfRouteData.split('|');
+                let tmpRouteData = ospfRouteData.split('|');
                 let rCount = tmpRouteData.length;
-                if(rCount>0){
+                if (rCount > 0) {
                     routeSet = [];
-                    for(let i =0;i<rCount;i++){
-                        if(tmpRouteData[i].trim()!=""){
+                    for (let i = 0; i < rCount; i++) {
+                        if (tmpRouteData[i].trim() != "") {
                             let rowData = tmpRouteData[i].split(',');
-                            routeSet.push([rowData[0],rowData[1],rowData[2],rowData[3]]);
+                            routeSet.push([rowData[0], rowData[1], rowData[2], rowData[3]]);
                         }
+                    }
+                }
+            }
+
+            if (ospfNeighborData.trim() != "") {
+                ospfNeighborData = ospfNeighborData.trim();
+                if (ospfNeighborData.lastIndexOf('|') == ospfNeighborData.length - 1) {
+                    ospfNeighborData = ospfNeighborData.substring(0, ospfNeighborData.length - 1);
+                }
+                let tmpNeighborData = ospfNeighborData.split('|');
+                let nCount = tmpNeighborData.length;
+                if (nCount > 0) {
+                    neighborSet = [];
+                    for (let i = 0; i < nCount; i++) {
+                        if (tmpNeighborData[i].trim() != "") {
+                            let rowData = tmpNeighborData[i].split(',');
+                            neighborSet.push([rowData[0], rowData[1], rowData[2], rowData[3], rowData[4], rowData[5], rowData[6], rowData[7], rowData[8]]);
+                        }
+                    }
+                }
+            }
+
+            if (ospfInfoData.trim() != "") {
+                selectednamelist = [];
+                ospfInfoData = ospfInfoData.trim();
+                if (ospfInfoData.lastIndexOf(',') == ospfInfoData.length - 1) {
+                    ospfInfoData = ospfInfoData.substring(0, ospfInfoData.length - 1);
+                }
+                selectednamelist = ospfInfoData.split(',');
+                for (let i = 0; i < selectednamelist.length; i++) {
+                    selectednamelist[i] = selectednamelist[i].trim();
+                    currentRedis.push(selectednamelist[i]);
+                }
+                document.getElementById("selRedisGroup").value = selectednamelist;
+                resetDropDown(selectednamelist);
+            }
+
+            if(ospfNetData.trim()!=""){
+                ospfNetData = ospfNetData.trim();
+                if(ospfNetData.lastIndexOf('|')== ospfNetData.length-1){
+                    ospfNetData = ospfNetData.substring(0,ospfNetData.length-1);
+                }
+                let tmpNetData = ospfNetData.split('|');
+                let nCount = tmpNetData.length;
+                if(nCount>0){
+                    dataSet = [];
+                    for(let i =0;i<nCount;i++){
+                        let rowData = tmpNetData[i].split(',');
+                        dataSet.push([rowData[0].trim(),rowData[1].trim()]);
                     }
                 }
             }
@@ -335,7 +361,8 @@
                 html = ('');
                 for (let i = 0; i < dCount; i++) {
                     html += ('<tr>');
-                    html += ('<td style="width:70%;"><span name="txtNet" value="' + dataSet[i][0] + '">' + dataSet[i][0] + '</span></td>');
+                    html += ('<td style="width:35%;"><span name="txtNet" value="' + dataSet[i][0] + '">' + dataSet[i][0] + '</span></td>');
+                    html += ('<td style="width:35%;"><span name="txtArea" value="' + dataSet[i][1] + '">' + dataSet[i][1] + '</span></td>');
                     html += ('<td>');
                     html += ('<button type="button" class="btn btn-primary" style="margin-left:30%;"  name="btnDelete" value="' + dataSet[i][0] + '">删除</button>');
                     html += ('</td');
@@ -487,15 +514,19 @@
         });
 
         $("#btnSubmit").click(function () {
-            alert(selectednamelist);
+            if (currentRedis.toString() == selectednamelist.toString()) {
+                alert("没有更改");
+                return;
+            }
             let tmpStr = selectednamelist.join(',');
             $("[name='hRedis']").val(tmpStr.trim());
             $("#hRedisForm").submit();
         });
 
         $("#ospfBody").on('click', '[name="btnDelete"]', function () {
-            alert($(this).attr("value"));
-            let route = $(this).attr("value");
+            let network = $(this).parents("tr").find("[name='txtNet']").attr("value");
+            let area = $(this).parents("tr").find("[name='txtArea']").attr("value");
+            let route = network.concat(',',area);
             if (route.trim() != "") {
                 $("[name='hDelete']").val(route);
                 $("#hDeleteForm").submit();
