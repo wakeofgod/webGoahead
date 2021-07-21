@@ -78,8 +78,7 @@
         </div>
     </div>
     <div class="row" id="ospfRedis" style="max-width: 98%;">
-        <div id="ospfTable" class="col-md-offset-2 col-lg-offset-2 col-md-4 col-lg-4"
-            style="transform: translateX(11%);">
+        <div id="ospfTable" class="col-md-offset-2 col-lg-offset-2 col-md-4 col-lg-4" style="transform: translateX(11%);">
             <h3 style="text-align: center;text-transform: uppercase;">ospf network</h3>
             <div id="netHead">
                 <table class="table table-striped table-bordered">
@@ -137,11 +136,10 @@
                     <table class="table table-striped table-bordered ">
                         <thead style="font-weight: bolder;">
                             <tr>
-                                <td style="width: 25%;">Network</td>
-                                <td style="width: 25%;">Next Hop</td>
-                                <td style="width: 15%;">Metric</td>
-                                <td style="width: 20%;">From Tag</td>
-                                <td>Time</td>
+                                <td style="width: 25%;"></td>
+                                <td style="width: 25%;">Route</td>
+                                <td style="width: 15%;">Area</td>
+                                <td>Description</td>
                             </tr>
                         </thead>
                     </table>
@@ -276,6 +274,42 @@
             let ospfNeighborData = "<%ospfAspGetNeighbor();%>";
             let ospfDatabaseData = "<%ospfAspGetDatabase();%>";
             let ospfRouteData = "<%ospfAspGetRoute();%>";
+            if (ospfDatabaseData.trim() != "") {
+                ospfDatabaseData = ospfDatabaseData.trim();
+                if (ospfDatabaseData.lastIndexOf('|') == ospfDatabaseData.length - 1) {
+                    ospfDatabaseData = ospfDatabaseData.substring(0, ospfDatabaseData.length - 1);
+                }
+                let tmpDatabase = ospfDatabaseData.split('|');
+                let dCount = tmpDatabase.length;
+                if (dCount > 0) {
+                    databaseSet = [];
+                    for(let i = 0;i<dCount;i++){
+                        if(tmpDatabase[i].trim()!="")
+                        {
+                            let rowData = tmpDatabase[i].split(',');
+                            databaseSet.push([rowData[0],rowData[1],rowData[2],rowData[3],rowData[4],rowData[5]]);
+                        }
+                    }
+                }
+            }
+
+            if(ospfRouteData.trim()!=""){
+                ospfRouteData = ospfRouteData.trim();
+                if (ospfRouteData.lastIndexOf('|') == ospfRouteData.length - 1) {
+                    ospfRouteData = ospfRouteData.substring(0, ospfRouteData.length - 1);
+                }
+                let tmpRouteData =ospfRouteData.split('|');
+                let rCount = tmpRouteData.length;
+                if(rCount>0){
+                    routeSet = [];
+                    for(let i =0;i<rCount;i++){
+                        if(tmpRouteData[i].trim()!=""){
+                            let rowData = tmpRouteData[i].split(',');
+                            routeSet.push([rowData[0],rowData[1],rowData[2],rowData[3]]);
+                        }
+                    }
+                }
+            }
 
             currentStatus = parseInt(ospfStautsData);
         }
@@ -335,8 +369,8 @@
                     html += ('<td style="width: 25%;"><span name="txtNet" value="' + routeSet[i][0] + '">' + routeSet[i][0] + '</span></td>');
                     html += ('<td style="width: 25%;"><span name="txtHop" value="' + routeSet[i][1] + '">' + routeSet[i][1] + '</span></td>');
                     html += ('<td style="width: 15%;"><span name="txtMetric" value="' + routeSet[i][2] + '">' + routeSet[i][2] + '</span></td>');
-                    html += ('<td style="width: 20%;"><span name="txtTag" value="' + routeSet[i][3] + '">' + routeSet[i][3] + '</span></td>');
-                    html += ('<td><span name="txtTime" value="' + routeSet[i][4] + '">' + routeSet[i][4] + '</span></td>');
+                    // html += ('<td style="width: 20%;"><span name="txtTag" value="' + routeSet[i][3] + '">' + routeSet[i][3] + '</span></td>');
+                    html += ('<td><span name="txtTime" value="' + routeSet[i][3] + '">' + routeSet[i][3] + '</span></td>');
                     html += ('</tr>');
                 }
                 $("#routeBody").html(html);
@@ -344,7 +378,7 @@
             let bCount = databaseSet.length;
             if (currentStatus && bCount > 0) {
                 html = ('');
-                for (let i = 0; i < rCount; i++) {
+                for (let i = 0; i < bCount; i++) {
                     html += ('<tr>');
                     html += ('<td style="width:15%;"><span name="txtLink" value="' + databaseSet[i][0] + '">' + databaseSet[i][0] + '</span></td>');
                     html += ('<td style="width: 20%;"><span name="txtAdv" value="' + databaseSet[i][1] + '">' + databaseSet[i][1] + '</span></td>');
@@ -361,12 +395,14 @@
         function checkData(route, area) {
             let flag = true;
             let regRoute = /^(?:(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\/([1-9]|[1-2]\d|3[0-2])$/;
+            let regArea = /^[0-9]+$/;
             if (!regRoute.test(route)) {
                 alert("输入地址不合法");
                 flag = false;
             }
-            else if (area.trim() == "") {
-                area = 0;
+            else if (!regArea.test(area)) {
+                alert("area必须为正整数");
+                flag = false;
             }
             return flag;
         }
@@ -440,6 +476,9 @@
         $("#btnOspfSave").click(function () {
             let route = $("#editNet").val();
             let area = $("#editArea").val();
+            if (area.trim() == "") {
+                area = 0;
+            }
             if (checkData(route, area)) {
                 let network = route.concat(',', area);
                 $("[name='hNetwork']").val(network);
