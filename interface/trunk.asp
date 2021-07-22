@@ -67,36 +67,7 @@
                 </tr>
             </thead>
             <tbody id="tBody">
-                <!-- <tr>
-                    <td id="row1" name="txtTrunkNo" value="1">trunk1</td>
-                    <td>
-                        <span name="txtDes" value="测试数据1">测试数据1</span>
-                    </td>
-                    <td>
-                        <span name="txtManStatus" value="up">up</span>
-                    </td>
-                    <td>
-                        <span name="txtOperStatus" value="up">up</span>
-                    </td>
-                    <td>
-                        <span name="txtStrategy" value="port-based">port-based</span>
-                    </td>
-                    <td>
-                        <span name="txtPvid" value="2">1</span>
-                    </td>
-                    <td>
-                        <span name="txtMtu" value="1500">1500</span>
-                    </td>
-                    <td>
-                        <span name="txtEthGroup" value="eth0/5 eth0/6">eth0/5 eth0/6</span>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" value="row1">修改
-                        </button>
-                        <button type="button" class="btn btn-primary" name="btnDelete" value="row1">删除
-                        </button>
-                    </td>
-                </tr> -->
+                
             </tbody>
         </table>
     </form>

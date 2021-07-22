@@ -399,6 +399,24 @@
                 flag = false;
                 alert("mtu格式错误，1000至3000的数字");
             }
+            else if (ethGroup.trim() != "") {
+                var tmpRowArray = ethGroup.trim().split(',');
+                var tRCount = tmpRowArray.length;
+                if (tRCount > 8) {
+                    flag = false;
+                    alert("eth最多选择8个");
+                }
+                for (var index = 0; index < tmpRowArray.length; index++) {
+                    if(oldRowData.trim()!=""&& oldRowData.findIndex(value=>value == tmpRowArray[index])>=0){
+                        continue;
+                    }
+                    else if (selectedAllList.findIndex(value => value == tmpRowArray[index]) >= 0) {
+                        flag = false;
+                        alert("eth不能被多个trunk使用");
+                        break;
+                    }
+                }
+            }
 
             return flag;
         }

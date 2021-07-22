@@ -10,7 +10,7 @@
     <script src="../js/bootstrap.min.js"></script>
     <style>
         .current {
-            background-color: #ff3333;
+            background-color: #FFA07A;
             color: white;
             font: bold;
         }
@@ -85,8 +85,8 @@
         </div>
         <div style="transform:translateY(-50px); float: right;margin-right: 50px;">
             <label>当前模式:</label>
-            <label style="color: red;" id="txtCurrentType"></label>
-            <btn type="button" id="btnMode" class="btn btn-warning">
+            <label style="color: #FFA07A;" id="txtCurrentType"></label>
+            <btn type="button" id="btnMode" class="btn" style="color: #fff; background-color: #f9a11b;">
                 模式切换
             </btn>
         </div>
@@ -104,9 +104,9 @@
             </div>
             <div class="row" id="titleVlan" style="display: none;">
                 <label class="col-md-2 control-label">当前选中的VLAN是:</label>
-                <label class="col-md-1"style="color: red;" id="txtVlanName"></label>
+                <label class="col-md-1"style="color: #FFA07A;" id="txtVlanName"></label>
                 <label class="col-md-1 control-label">状态:</label>
-                <label class="col-md-1 control-label"style="color: red;" id="txtVlanStatus"></label>
+                <label class="col-md-1 control-label"style="color:#FFA07A;" id="txtVlanStatus"></label>
                 <button type="button" id="btnPvstEnalbe" class="btn btn-primary">使能
                 </button>
                 <button type="button" id="btnPvstDisable" class="btn btn-primary">不使能
@@ -128,59 +128,14 @@
                     </tr>
                 </thead>
                 <tbody id="bodyMstp">
-                    <tr>
-                        <td>trunkMSTP</td>
-                        <td>
-                            300
-                        </td>
-                        <td>
-                            test vlanMSTP
-                        </td>
-                        <td>
-                            up
-                        </td>
-                        <td>
-                            eth0/17 eth0/18
-                        </td>
-                        <td>trunk1
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-primary">修改
-                            </button>
-                            <button type="button" class="btn btn-primary">删除
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>trunkMSTP</td>
-                        <td>
-                            400
-                        </td>
-                        <td>
-                            test vlanMSTP
-                        </td>
-                        <td>
-                            up
-                        </td>
-                        <td>
-                            eth0/27 eth0/28
-                        </td>
-                        <td>trunk1
-                        </td>
-                        <td>
-                            <button type="button" class="btn btn-primary">修改
-                            </button>
-                            <button type="button" class="btn btn-primary">删除
-                            </button>
-                        </td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
         <div class="tab-pane fade" id="divALL" style="width: 95%; height:100px;">
             <div class="row" id="divCstTitle">
                 <label class="col-md-2 control-label">CST当前状态是:</label>
-                <label class="col-md-1"style="color: red;" id="txtCstStatus"></label>
+                <label class="col-md-1"style="color: #FFA07A;" id="txtCstStatus"></label>
                 <button type="button" id="btnCstEnalbe" class="btn btn-primary">使能
                 </button>
                 <button type="button" id="btnCstDisable" class="btn btn-primary">不使能
@@ -214,7 +169,7 @@
                 <div class=" col-md-1" style="font-weight: bolder;">Forward Delay:</div>
                 <div class="col-md-1">15</div>
             </div>
-            <hr size=1 style=" height:2px;border:none;background-color: green;">
+            <hr size=1 style=" height:2px;border:none;background-color:#6B8E23;">
             <div class="row">
                 <div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Bridge ID Mac Address</div>
                 <div class="col-md-2">00:01:01:01:01:01</div>
@@ -255,19 +210,7 @@
                 </tr>
             </thead>
             <tbody id="bodyVlanEth">
-                <!-- <tr>
-                    <td>eth0/0</td>
-                    <td>128</td>
-                    <td>200000</td>
-                    <td>Dis</td>
-                    <td>Discarding</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr> -->
+
             </tbody>
         </table>
     </div>
@@ -499,7 +442,7 @@
                     html += ('<div class=" col-md-1" style="font-weight: bolder;">Forward Delay:</div>');
                     html += ('<div class="col-md-1">' + selectedTree[i][6] + '</div>');
                     html += ('</div>');
-                    html += ('<hr size=1 style=" height:2px;border:none;background-color: green;">');
+                    html += ('<hr size=1 style=" height:2px;border:none;background-color: #6B8E23;">');
                     html += ('<div class="row">');
                     html += ('<div class="col-md-offset-4 col-md-2" style="font-weight: bolder;">Bridge ID Mac Address</div>');
                     html += ('<div class="col-md-2">' + selectedTree[i][7] + '</div>');
@@ -536,7 +479,7 @@
             $("#titleVlan").attr("style", "margin-top:20px;");
         }
         function startCst() {
-            $("#divCstTitle").attr("style", "width: 95%; height:100px;");
+            $("#divCstTitle").attr("style", "width: 95%; height:100px;margin-top:20px;");
         }
         function stopCst() {
             $("#divCstTitle").attr("style", "display:none");

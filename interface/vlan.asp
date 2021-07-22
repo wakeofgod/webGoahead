@@ -72,54 +72,7 @@
                 </tr>
             </thead>
             <tbody id="tBody">
-                <tr>
-                    <td id="row1" name="txtVlanName" value="1">trunk1</td>
-                    <td>
-                        <span name="txtVlanType" value="1">Static</span>
-                    </td>
-                    <td>
-                        <span name="txtVlanDes" value="test vlan">test vlan</span>
-                    </td>
-                    <td>
-                        <span name="txtVlanStatus" value="1">up</span>
-                    </td>
-                    <td>
-                        <span name="txtEthGroup" value="eth0/7 eth0/8">eth0/7 eth0/8</span>
-                    </td>
-                    <td>
-                        <span name="txtTrunkGroup" value="trunk1">trunk1</span>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" value="row1">修改
-                        </button>
-                        <button type="button" class="btn btn-primary" name="btnDelete" value="row1">删除
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td id="row2" name="txtVlanName" value="2">trunk2</td>
-                    <td>
-                        <span name="txtVlanType" value="2">Dynamic</span>
-                    </td>
-                    <td>
-                        <span name="txtVlanDes" value="test vlan2">test vlan2</span>
-                    </td>
-                    <td>
-                        <span name="txtVlanStatus" value="0">down</span>
-                    </td>
-                    <td>
-                        <span name="txtEthGroup" value="eth0/1 eth0/2">eth0/1 eth0/2</span>
-                    </td>
-                    <td>
-                        <span name="txtTrunkGroup" value="trunk3">trunk3</span>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" value="row2">修改
-                        </button>
-                        <button type="button" class="btn btn-primary" name="btnDelete" value="row2">删除
-                        </button>
-                    </td>
-                </tr>
+
             </tbody>
         </table>
     </form>

@@ -17,7 +17,7 @@
     <div class="container-fluid">
         <div class="row" style="margin-top: 20px;">
             <label class="col-md-offset-4 col-md-1" style="text-transform: uppercase;">IGMP状态:</label>
-            <label class="col-md-1" style="color: red;" id="txtIgmpStatus">不使能</label>
+            <label class="col-md-1" style="color: #FFA07A;" id="txtIgmpStatus">不使能</label>
             <div class="col-md-2">
                 <button type="button" id="btnIgmpEnable" class="btn btn-primary">使能</button>
                 <button type="button" id="btnIgmpDiasabe" class="btn btn-primary">不使能</button>
@@ -25,12 +25,12 @@
         </div>
         <div class="row" style="margin-top: 20px;">
             <label class="col-md-offset-4 col-md-1 control-label" style="text-transform: uppercase;">AGING TIME:</label>
-            <label class="col-md-1 control-label" style="color: red;" id="txtAgingOld">oldvalue</label>
+            <label class="col-md-1 control-label" style="color:#FFA07A;" id="txtAgingOld">oldvalue</label>
             <input id="txtAging" placeholder="输入后按enter键保存" />
         </div>
         <div class="row" style="margin-top: 20px;">
             <label class="col-md-offset-4 col-md-1 control-label" style="text-transform: uppercase;">fast-leave:</label>
-            <label class="col-md-1 control-label" style="color: red;" id="txtFast">使能</label>
+            <label class="col-md-1 control-label" style="color:#FFA07A;" id="txtFast">使能</label>
             <div class="col-md-2">
                 <button type="button" id="btnFastEnable" class="btn btn-primary">使能</button>
                 <button type="button" id="btnFastDisable" class="btn btn-primary">不使能</button>

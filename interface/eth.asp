@@ -16,12 +16,6 @@
             overflow: auto;
             max-width: 100px;
         }
-
-        /* .table>tbody>tr>td
-        {
-            vertical-align:center !important;
-            display: table-cell;
-        } */
     </style>
     <script>
 
@@ -34,7 +28,7 @@
         ETH配置</h3>
     <br>
     <div style="height: 50px;">
-        <button type="button" class="btn btn-success" style="float: right !important; margin-right: 5%;"
+        <button type="button" class="btn" style="float: right !important; margin-right: 5%; background-color: #6B8E23;color: #fff;"
             id="btnRefresh">刷新</button>
     </div>
     <form>
@@ -54,60 +48,7 @@
                 </tr>
             </thead>
             <tbody id="tBody">
-                <tr>
-                    <td id="row1" name="txtPortNo" value="eth0/0">eth0/0</td>
-                    <td>
-                        <span name="txtPort" value="0101">0101</span>
-                    </td>
-                    <td>
-                        <span name="selStatus" value="0">down</span>
-                    </td>
-                    <td name="txtStatus" value="down">down</td>
-                    <td>
-                        <span name="txtPvid" value="100">100</span>
-                    </td>
-                    <td>
-                        <span name="selRate" value="3">200</span>
-                    </td>
-                    <td name="txtRate" value="full-1000">full-1000</td>
-                    <td>
-                        <span name="selFlow" value="1">enable</span>
-                    </td>
-                    <td>
-                        <span name="txtMtu" value="1010">1010</span>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit"
-                            value="row1">编辑</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td id="row2" name="txtPortNo" value="eth0/1">eth0/1</td>
-                    <td>
-                        <span name="txtPort" value="0202">0202</span>
-                    </td>
-                    <td>
-                        <span name="selStatus" value="0">down</span>
-                    </td>
-                    <td name="txtStatus">down</td>
-                    <td>
-                        <span name="txtPvid" value="100">100</span>
-                    </td>
-                    <td>
-                        <span name="selRate" value="3">100</span>
-                    </td>
-                    <td>full-1000</td>
-                    <td>
-                        <span name="selFlow" value="1">enable</span>
-                    </td>
-                    <td>
-                        <span name="txtMtu" value="2020">2020</span>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit"
-                            value="row1">编辑</button>
-                    </td>
-                </tr>
+                
             </tbody>
         </table>
     </form>
