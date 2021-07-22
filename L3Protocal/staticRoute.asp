@@ -19,7 +19,7 @@
         <button type="button" class="btn btn-primary" id="btnAdd" style="margin-left: 20px;">新建</button>
     </div>
     <div>
-        <table class="table table-striped table-bordered " style="width: 95%;margin-top: 10px;">
+        <table class="table table-striped table-bordered " style="width: 95%;margin-top: 10px;" id="staticTable">
             <thead style="font-weight: bolder;">
                 <tr>
                     <td width="20%">desk/mask</td>
@@ -31,39 +31,7 @@
                 </tr>
             </thead>
             <tbody id="staticBody">
-                <tr>
-                    <td>
-                        <span name="txtDesk" value="0.0.0.0/0">0.0.0.0/0</span>
-                    </td>
-                    <td>
-                        <span name="txtType" value="static">static</span>
-                    </td>
-                    <td>
-                        <span name="txtDm" value="static">[1/1]</span>
-                    </td>
-                    <td>
-                        <span name="txtGateway" value="1.1.1.221">1.1.1.221</span>
-                    </td>
-                    <td>
-                        <span name="txtStatus" value="1.1.1.221">pending</span>
-                    </td>
-                    <td>
-                        <button type="button" class="btn btn-primary" name="btnEdit" value="row1">编辑</button>
-                        <button type="button" class="btn btn-primary" style="margin-left:20px;" name="btnDelete"
-                            value="row1">删除</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>1.1.1.111/24</td>
-                    <td>connected</td>
-                    <td>[0/0]</td>
-                    <td>1.1.1.111</td>
-                    <td>active</td>
-                    <td>
-                        <button type="button" class="btn btn-primary" style="margin-left:20px;" name="btnDelete"
-                            value="row1">删除</button>
-                    </td>
-                </tr>
+
             </tbody>
         </table>
     </div>
@@ -102,12 +70,11 @@
         </div>
     </div>
     <div>
-        <form id="hPostForm" method="post" action="/goform/staticFormPost">
-            <input name="hDesk" value="" />
-            <input name="hHop" value="" />
+        <form id="hPostForm" style="visibility: hidden; display: none;" method="post" action="/goform/staticFormPost">
+            <input name="hAdd" value="" />
         </form>
-        <form id="hDeleteForm" method="post" action="/goform/staticFormDelete">
-            <input name="hDesk" value="" />
+        <form id="hDeleteForm" style="visibility: hidden; display: none;" method="post" action="/goform/staticFormDelete">
+            <input name="hDelete" value="" />
         </form>
     </div>
     <script>
@@ -118,29 +85,92 @@
         var statusArray = ["pending", "active"];
         function getData() {
             let staticData = "<%staticAspGetAll();%>";
-            dataset = [
-                ["0.0.0.0/0", "static", "[1/1]", "1.1.1.221", "pending"],
-                ["1.1.1.111/24", "connected", "[0/0]", "1.1.1.111", "active"]
-            ];
+            if (staticData.trim() != "") {
+                staticData = staticData.trim();
+                if (staticData.lastIndexOf('|') == staticData.length - 1) {
+                    staticData = staticData.substring(0, staticData.length - 1);
+                }
+                let tmpStatic = staticData.split('|');
+                let sCount = tmpStatic.length;
+                if (sCount > 0) {
+                    dataset = [];
+                    for (let i = 0; i < sCount; i++) {
+                        let rowData = tmpStatic[i].split(',');
+                        dataset.push([rowData[0].trim(), rowData[1].trim(), rowData[2].trim(), rowData[3].trim(), rowData[4].trim()]);
+                    }
+                }
+            }
         }
 
         function loadPage() {
             let dCount = dataset.length;
             if (dCount > 0) {
                 html = ('');
+                let tmpStr = "";
                 for (let i = 0; i < dCount; i++) {
                     html += ('<tr>');
-                    html += ('<td><span name="txtDesk" value="' + dataset[i][0] + '">' + dataset[i][0] + '</span></td>');
+                    if (dataset[i][0].trim() != "") {
+                        tmpStr = dataset[i][0].trim();
+                        html += ('<td><span name="txtDesk" value="' + dataset[i][0] + '">' + dataset[i][0] + '</span></td>');
+                    }
+                    else {
+                        html += ('<td></td>');
+                    }
                     html += ('<td><span name="txtType" value="' + dataset[i][1] + '">' + dataset[i][1] + '</span></td>');
                     html += ('<td><span name="txtDm" value="' + dataset[i][2] + '">' + dataset[i][2] + '</span></td>');
                     html += ('<td><span name="txtGateway" value="' + dataset[i][3] + '">' + dataset[i][3] + '</span></td>');
                     html += ('<td><span name="txtStatus" value="' + dataset[i][4] + '">' + dataset[i][4] + '</span></td>');
                     html += ('<td>');
-                    html += ('<button type="button" class="btn btn-primary" style="margin-left:20px;"  name="btnDelete" value="' + dataset[i][0] + '">删除</button>');
+                    if (dataset[i][0].trim() != "") {
+                        html += ('<button type="button" class="btn btn-primary" style="margin-left:20px;"  name="btnDelete" maskvalue="' + dataset[i][0] + '" hopvalue ="' + dataset[i][3] + '">删除</button>');
+                    }
+                    else {
+                        html += ('<button type="button" class="btn btn-primary" style="margin-left:20px;"  name="btnDelete" maskvalue="' + tmpStr + '" hopvalue ="' + dataset[i][3] + '">删除</button>');
+                    }
+
                     html += ('</td');
                     html += ('</tr>');
                 }
                 $("#staticBody").html(html);
+                mergeTable();
+            }
+        }
+
+        function mergeTable() {
+            let tab = document.getElementById("staticTable");
+            let nRow = tab.rows.length;
+            let nCol = tab.rows[0].cells.length;
+            let start = 1, count = 0, current = 1;
+            let tmpStr = "";
+            for (let i = 1; i < nRow; i++) {
+                tmpStr = tab.rows[i].cells[0].innerHTML;
+                //排除第一行
+                if (tmpStr.trim() != "" && ((start + count) == i)) {
+                    continue;
+                }
+                else if (tmpStr.trim() != "" && ((start + count) != i)) {
+                    if (count >= 1) {
+                        $(tab.rows[start].cells[0]).attr("rowspan", count + 1);
+                        for (let j = start + 1; j < i; j++) {
+                            $(tab.rows[j].cells[0]).attr("style", "display:none");
+                        }
+                    }
+                    //重新赋值
+                    start = i;
+                    count = 0;
+                }
+                else if (tmpStr.trim() == "") {
+                    count++;
+                }
+                //最后一行
+                if (i == nRow - 1) {
+                    if (count >= 1) {
+                        $(tab.rows[start].cells[0]).attr("rowspan", count + 1);
+                        for (let j = start + 1; j <= i; j++) {
+                            $(tab.rows[j].cells[0]).attr("style", "display:none");
+                        }
+                    }
+                }
             }
         }
 
@@ -161,7 +191,17 @@
 
 
         $("#staticBody").on('click', '[name="btnDelete"]', function () {
-            alert("delete");
+            let mask = $(this).attr("maskvalue");
+            let hop = $(this).attr("hopvalue");
+            let type = $(this).parents("tr").find("[name='txtType']").attr("value");
+            if (type == "static") {
+                let route = mask.concat(",", hop);
+                $("[name='hDelete']").val(route);
+                $("#hDeleteForm").submit();
+            }
+            else {
+                alert("非静态路由,不能删除");
+            }
         });
 
         $("#btnAdd").click(function () {
@@ -169,10 +209,12 @@
         });
 
         $("#btnStaticSave").click(function () {
-            let network = $("#editDesk").val();
+            let mask = $("#editDesk").val();
             let nexthop = $("#editHop").val();
-            if (checkData(network, nexthop)) {
-                alert("输入合法");
+            if (checkData(mask, nexthop)) {
+                let route = mask.concat(",", nexthop);
+                $("[name='hAdd']").val(route);
+                $("#hPostForm").submit();
             }
         });
 
