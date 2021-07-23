@@ -31,27 +31,89 @@
         <button type="button" class="btn" style="float: right !important; margin-right: 5%; background-color: #6B8E23;color: #fff;"
             id="btnRefresh">刷新</button>
     </div>
-    <form>
-        <table id="myTable" class="table table-striped table-bordered table-hover" style="width: 95%;">
-            <thead style="font-weight: bolder;">
-                <tr>
-                    <td width="10%">端口编号</td>
-                    <td width="15%">端口描述</td>
-                    <td width="10%">管理状态</td>
-                    <td width="10%">物理状态</td>
-                    <td width="10%">Pvid</td>
-                    <td width="10%">配置速率</td>
-                    <td width="10%">实际速率</td>
-                    <td width="10%">流控使能</td>
-                    <td width="15%">MTU</td>
-                    <td>操作</td>
-                </tr>
-            </thead>
-            <tbody id="tBody">
-                
-            </tbody>
-        </table>
-    </form>
+    <div class="container-fluid" style="width: 95%;">
+        <div class="row">
+            <div id="ethHead">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead style="font-weight: bolder;">
+                        <tr>
+                            <td width="10%">端口编号</td>
+                            <td width="10%">端口描述</td>
+                            <td width="10%">管理状态</td>
+                            <td width="10%">物理状态</td>
+                            <td width="10%">Pvid</td>
+                            <td width="10%">配置速率</td>
+                            <td width="10%">实际速率</td>
+                            <td width="10%">流控使能</td>
+                            <td width="10%">MTU</td>
+                            <td>操作</td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div style="height:750px;overflow-y:auto;overflow-x: hidden;margin-top: -22px;" id="ethTable">
+                <table id="myTable" class="table table-striped table-bordered table-hover">
+                    <tbody id="tBody">
+                        <tr>
+                            <td id="row1" name="txtPortNo" value="eth0/0">eth0/0</td>
+                            <td>
+                                <span name="txtPort" value="0101">0101</span>
+                            </td>
+                            <td>
+                                <span name="selStatus" value="0">down</span>
+                            </td>
+                            <td name="txtStatus" value="down">down</td>
+                            <td>
+                                <span name="txtPvid" value="100">100</span>
+                            </td>
+                            <td>
+                                <span name="selRate" value="3">200</span>
+                            </td>
+                            <td name="txtRate" value="full-1000">full-1000</td>
+                            <td>
+                                <span name="selFlow" value="1">enable</span>
+                            </td>
+                            <td>
+                                <span name="txtMtu" value="1010">1010</span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit"
+                                    value="row1">编辑</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="row2" name="txtPortNo" value="eth0/1">eth0/1</td>
+                            <td>
+                                <span name="txtPort" value="0202">0202</span>
+                            </td>
+                            <td>
+                                <span name="selStatus" value="0">down</span>
+                            </td>
+                            <td name="txtStatus">down</td>
+                            <td>
+                                <span name="txtPvid" value="100">100</span>
+                            </td>
+                            <td>
+                                <span name="selRate" value="3">100</span>
+                            </td>
+                            <td>full-1000</td>
+                            <td>
+                                <span name="selFlow" value="1">enable</span>
+                            </td>
+                            <td>
+                                <span name="txtMtu" value="2020">2020</span>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit"
+                                    value="row1">编辑</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -149,11 +211,11 @@
         //模拟数据
         //可能会出现的问题，webserver获取的数据和下拉框模拟的不一致
 
-        var dataset = [];
-        var statusArray = ["down", "up"];
-        var rateArray = ["auto", "half-10", "full-10", "half-100", "full-100", "half-1000", "full-1000", "full-10000"];
-        var rateTxtArray = ["N/A","auto" ,"half-10", "full-10", "half-100", "full-100", "half-1000", "full-1000", "full-10000"];
-        var flowArray = ["disable", "enable"];
+        let dataset = [];
+        let statusArray = ["down", "up"];
+        let rateArray = ["auto", "half-10", "full-10", "half-100", "full-100", "half-1000", "full-1000", "full-10000"];
+        let rateTxtArray = ["N/A","auto" ,"half-10", "full-10", "half-100", "full-100", "half-1000", "full-1000", "full-10000"];
+        let flowArray = ["disable", "enable"];
         function getData() {
             var ethData = "<%ethAspGetAll();%>";
             var tempdata = ethData.split('|');
@@ -185,27 +247,27 @@
         }
 
         function loadPage() {
-            var count = dataset.length;
+            let count = dataset.length;
             if (count > 0) {
-                var html = ('');
-                for (var i = 0; i < count; i++) {
+                let html = ('');
+                for (let i = 0; i < count; i++) {
                     html += ('<tr>');
-                    html += ('<td id="row' + i + '"  name="txtPortNo" value ="' + dataset[i][0] + '">' + dataset[i][0] + '</td>');
-                    html += ('<td> <span name="txtPort" value="' + dataset[i][1] + '">' + dataset[i][1] + '</span></td>');
-                    html += ('<td><span name="selStatus" value="' + dataset[i][2] + '">' + statusArray[dataset[i][2]] + '</span></td>');
-                    html += ('<td name="txtStatus" value="' + dataset[i][3] + '" >' + statusArray[dataset[i][3]] + '</td>');
-                    html += ('<td><span name="txtPvid" value="' + dataset[i][4] + '">' + dataset[i][4] + '</span></td>')
-                    html += ('<td><span name="selRate" value="' + dataset[i][5] + '">' + rateArray[dataset[i][5] - 1] + '</span></td>')
-                    html += ('<td name="txtRate" value="' + dataset[i][6] + '">' + rateTxtArray[dataset[i][6]]+ '</td>');
-                    html += ('<td><span name="selFlow" value="' + dataset[i][7] + '">' + flowArray[dataset[i][7]] + '</span></td>');
-                    html += ('<td><span name="txtMtu" value="' + dataset[i][8] + '">' + dataset[i][8] + '</span></td>');
+                    html += ('<td width="10%" id="row' + i + '"  name="txtPortNo" value ="' + dataset[i][0] + '">' + dataset[i][0] + '</td>');
+                    html += ('<td width="10%"> <span name="txtPort" value="' + dataset[i][1] + '">' + dataset[i][1] + '</span></td>');
+                    html += ('<td width="10%"><span name="selStatus" value="' + dataset[i][2] + '">' + statusArray[dataset[i][2]] + '</span></td>');
+                    html += ('<td width="10%" name="txtStatus" value="' + dataset[i][3] + '" >' + statusArray[dataset[i][3]] + '</td>');
+                    html += ('<td width="10%"><span name="txtPvid" value="' + dataset[i][4] + '">' + dataset[i][4] + '</span></td>')
+                    html += ('<td width="10%"><span name="selRate" value="' + dataset[i][5] + '">' + rateArray[dataset[i][5] - 1] + '</span></td>')
+                    html += ('<td width="10%" name="txtRate" value="' + dataset[i][6] + '">' + rateTxtArray[dataset[i][6]] + '</td>');
+                    html += ('<td width="10%"><span name="selFlow" value="' + dataset[i][7] + '">' + flowArray[dataset[i][7]] + '</span></td>');
+                    html += ('<td width="10%"><span name="txtMtu" value="' + dataset[i][8] + '">' + dataset[i][8] + '</span></td>');
                     html += ('<td><button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" value="row' + i + '">编辑</button></td>');
                     html += ('</tr>');
                 }
                 $("#tBody").html(html);
             }
         }
-        var selectRow;
+        let selectRow;
         $("#tBody").on('click', '[name="btnEdit"]', function () {
             selectRow = $(this).attr("value");
             //先清空模态框的值
@@ -216,15 +278,15 @@
             $("#editRate").val();
 
             //  展示页面统一用span不显示下拉框和文本，只有编辑页面显示
-            var port = $(this).parents("tr").find("[name='txtPort']").attr("value");
-            var portNo = $(this).parents("tr").find("[name='txtPortNo']").attr("value");
-            var status = $(this).parents("tr").find("[name='selStatus']").attr("value");
-            var statusTxt = $(this).parents("tr").find("[name='txtStatus']").attr("value");
-            var pvid = $(this).parents("tr").find("[name='txtPvid']").attr("value");
-            var rate = $(this).parents("tr").find("[name='selRate']").attr("value");
-            var rateTxt = $(this).parents("tr").find("[name='txtRate']").attr("value");
-            var mtu = $(this).parents("tr").find("[name='txtMtu']").attr("value");
-            var flow = $(this).parents("tr").find("[name='selFlow']").attr("value");
+            let port = $(this).parents("tr").find("[name='txtPort']").attr("value");
+            let portNo = $(this).parents("tr").find("[name='txtPortNo']").attr("value");
+            let status = $(this).parents("tr").find("[name='selStatus']").attr("value");
+            let statusTxt = $(this).parents("tr").find("[name='txtStatus']").attr("value");
+            let pvid = $(this).parents("tr").find("[name='txtPvid']").attr("value");
+            let rate = $(this).parents("tr").find("[name='selRate']").attr("value");
+            let rateTxt = $(this).parents("tr").find("[name='txtRate']").attr("value");
+            let mtu = $(this).parents("tr").find("[name='txtMtu']").attr("value");
+            let flow = $(this).parents("tr").find("[name='selFlow']").attr("value");
             //赋值
             $("#editPort").val(port);
             $("#editPortNo").html(portNo);
@@ -240,15 +302,15 @@
         });
 
         function checkData(port, pvid, mtu) {
-            var flag = true;
-            var regPort = /^[a-zA-Z][a-zA-Z0-9]{0,29}$/;
-            var regPvid = /^\d{1,4}$/;
-            var regMtu = /^\d{4}$/;
-            if (!regPort.test(port)&&port.trim()!="") {
+            let flag = true;
+            let regPort = /^[a-zA-Z][a-zA-Z0-9]{0,29}$/;
+            let regPvid = /^\d{1,4}$/;
+            let regMtu = /^\d{4}$/;
+            if (!regPort.test(port) && port.trim() != "") {
                 flag = false;
                 alert("端口格式错误，以字母开头最长30位");
             }
-            else if (!regPvid.test(pvid) || pvid > 4094|| pvid<2) {
+            else if (!regPvid.test(pvid) || pvid > 4094 || pvid < 2) {
                 flag = false;
                 alert("Pvid格式错误，2至4094的数字");
             }
@@ -258,17 +320,25 @@
             }
             return flag;
         }
+
+        function isScroll() {
+            let eHeight = $("#ethTable")[0].scrollHeight;
+            if (eHeight > 800) {
+                $("#ethHead").attr("style", "padding-right:17px;");
+            }
+        }
+
         $("#btnSave").click(function () {
             if (selectRow) {
-                var portNo = $("#editPortNo").html().trim();
-                var port = $("#editPort").val();
-                var status = $("#editStatus").val().trim();
-                var statusTxt = $("#eidtStatusTxt").html().trim();
-                var pvid = $("#editPvid").val().trim();
-                var rate = $("#editRate").val().trim();
-                var rateTxt = $("#editRateTxt").html().trim();
-                var mtu = $("#editMtu").val().trim();
-                var flow = $("#editFlow").val().trim();
+                let portNo = $("#editPortNo").html().trim();
+                let port = $("#editPort").val();
+                let status = $("#editStatus").val().trim();
+                let statusTxt = $("#eidtStatusTxt").html().trim();
+                let pvid = $("#editPvid").val().trim();
+                let rate = $("#editRate").val().trim();
+                let rateTxt = $("#editRateTxt").html().trim();
+                let mtu = $("#editMtu").val().trim();
+                let flow = $("#editFlow").val().trim();
                 if (!checkData(port, pvid, mtu)) {
                     return;
                 }
@@ -283,7 +353,7 @@
                 $("[name='hRateTxt']").val(rateTxt);
                 $("[name='hFlow']").val(flow);
                 $("[name='hMtu']").val(mtu);
-                var url = window.location.href;
+                let url = window.location.href;
                 $("#hForm").submit();
             }
         });
@@ -291,8 +361,11 @@
             window.location.reload();
         });
         $(document).ready(function () {
-             getData();
-             loadPage();
+            getData();
+            loadPage();
+            isScroll();
         });
     </script>
 </body>
+
+</html>

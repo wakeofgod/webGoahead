@@ -37,18 +37,29 @@
             </div>
         </div>
     </div>
-    <div style="margin-top: 20px;">
-        <table class="table table-striped table-bordered table-hover">
-            <thead>
-                <tr>
-                    <td>vlan</td>
-                    <td>mac-group</td>
-                    <td>port-list</td>
-                </tr>
-            </thead>
-            <tbody id="bodyIgmp">
-            </tbody>
-        </table>
+    <div class="container-fluid" style="width: 95%;">
+        <div style="margin-top: 20px;" id="igmpHead">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <td width="10%">vlan</td>
+                        <td width="40%">mac-group</td>
+                        <td>port-list</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div style="height: 600px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;" id="igmpTable">
+            <table class="table table-striped table-bordered table-hover">
+                <tbody id="bodyIgmp">
+                    <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div>
         <form id="hForm" style="display: none; visibility:hidden;" method="post" action="/goform/igmpFormPost">
@@ -103,8 +114,8 @@
                 html = ('');
                 for (let i = 0; i < tCount; i++) {
                     html += ('                <tr>');
-                    html += ('<td>' + dataset[i][0] + '</td>');
-                    html += ('<td>' + dataset[i][1] + '</td>');
+                    html += ('<td width="10%">' + dataset[i][0] + '</td>');
+                    html += ('<td width="40%">' + dataset[i][1] + '</td>');
                     html += ('<td>' + dataset[i][2] + '</td>');
                     html += ('</tr>');
                 }
@@ -131,6 +142,13 @@
             }
             return true;
         }
+
+        function isScroll() {
+            let eHeight = $("#igmpTable")[0].scrollHeight;
+            if (eHeight > 700) {
+                $("#igmpHead").attr("style", "padding-right:17px;margin-top:20px;");
+            }
+        } 
 
         $("#txtAging").on("keyup", function (event) {
             event.preventDefault();
@@ -192,6 +210,7 @@
         $(document).ready(function () {
             getData();
             loadPage();
+            isScroll();
         });
     </script>
 </body>

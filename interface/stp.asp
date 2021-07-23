@@ -104,9 +104,9 @@
             </div>
             <div class="row" id="titleVlan" style="display: none;">
                 <label class="col-md-2 control-label">当前选中的VLAN是:</label>
-                <label class="col-md-1"style="color: #FFA07A;" id="txtVlanName"></label>
+                <label class="col-md-1" style="color: #FFA07A;" id="txtVlanName"></label>
                 <label class="col-md-1 control-label">状态:</label>
-                <label class="col-md-1 control-label"style="color:#FFA07A;" id="txtVlanStatus"></label>
+                <label class="col-md-1 control-label" style="color:#FFA07A;" id="txtVlanStatus"></label>
                 <button type="button" id="btnPvstEnalbe" class="btn btn-primary">使能
                 </button>
                 <button type="button" id="btnPvstDisable" class="btn btn-primary">不使能
