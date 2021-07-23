@@ -77,68 +77,83 @@
             </label>
         </div>
     </div>
-    <div class="row" id="ripRedis">
-        <div class="col-md-offset-3 col-md-4" id="ripTable">
-            <table class="table table-striped table-bordered " style="max-width:600px;margin: 10px;">
-                <thead style="font-weight: bolder;">
-                    <tr>
-                        <td width="20%">Routing for Networks</td>
-                        <td width="10%">操作</td>
-                    </tr>
-                </thead>
-                <tbody id="ripBody">
-                </tbody>
-            </table>
-        </div>
-        <div class="col-md-1">
-            <label>Redistributing:</label>
-        </div>
-        <div class="col-md-3">
-            <div style="width:100%;height:28px;overflow:hidden;">
-                <input type="text" id="selRedisGroup" onclick="myclick();" readonly="true"
-                    style="width:100%;height:28px;">
-            </div>
-            <div id="selectdiv" style="display: none;" onmouseover="mousein()" onmouseout="mouseout()">
-                <div>
-                    <input name="mycheckbox" type="checkbox" onclick="mycheck(this)" value="0" id="checkboxFourInput0"
-                        textvalue="connected">
-                    <label for="checkboxFourInput0" name="mychecklabel" class="mark">connected</label>
+    <div class="container-fluid" id="ripRedis">
+        <div class="row">
+            <div class="col-md-offset-3 col-md-4">
+                <div id="ripHead">
+                    <table class="table table-striped table-bordered ">
+                        <thead style="font-weight: bolder;">
+                            <tr>
+                                <td width="80%">Routing for Networks</td>
+                                <td>操作</td>
+                            </tr>
+                        </thead>
+                    </table>
                 </div>
-                <div>
-                    <input name="mycheckbox" type="checkbox" onclick="mycheck(this)" value="1" id="checkboxFourInput1"
-                        textvalue="static">
-                    <label for="checkboxFourInput1" name="mychecklabel" class="mark">static</label>
-                </div>
-                <div>
-                    <input name="mycheckbox" type="checkbox" onclick="mycheck(this)" value="2" id="checkboxFourInput2"
-                        textvalue="ospf">
-                    <label for="checkboxFourInput2" name="mychecklabel" class="mark">ospf</label>
+                <div id="ripTable" style="height: 260px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;">
+                    <table class="table table-striped table-bordered">
+                        <tbody id="ripBody">
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </div>
-        <div class="col-md-1">
-            <button type="button" class="btn btn-primary" id="btnSubmit" style="margin-left: 20px;">提交</button>
+            <div class="col-md-1">
+                <label>Redistributing:</label>
+            </div>
+            <div class="col-md-3">
+                <div style="width:100%;height:28px;overflow:hidden;">
+                    <input type="text" id="selRedisGroup" onclick="myclick();" readonly="true"
+                        style="width:100%;height:28px;">
+                </div>
+                <div id="selectdiv" style="display: none;" onmouseover="mousein()" onmouseout="mouseout()">
+                    <div>
+                        <input name="mycheckbox" type="checkbox" onclick="mycheck(this)" value="0"
+                            id="checkboxFourInput0" textvalue="connected">
+                        <label for="checkboxFourInput0" name="mychecklabel" class="mark">connected</label>
+                    </div>
+                    <div>
+                        <input name="mycheckbox" type="checkbox" onclick="mycheck(this)" value="1"
+                            id="checkboxFourInput1" textvalue="static">
+                        <label for="checkboxFourInput1" name="mychecklabel" class="mark">static</label>
+                    </div>
+                    <div>
+                        <input name="mycheckbox" type="checkbox" onclick="mycheck(this)" value="2"
+                            id="checkboxFourInput2" textvalue="ospf">
+                        <label for="checkboxFourInput2" name="mychecklabel" class="mark">ospf</label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <button type="button" class="btn btn-primary" id="btnSubmit" style="margin-left: 20px;">提交</button>
+            </div>
         </div>
     </div>
 
 
 
+    <div class="container-fluid" style="width: 95%;">
+        <div class="row">
+            <div id="ripRouteHead">
+                <table class="table table-striped table-bordered ">
+                    <thead style="font-weight: bolder;">
+                        <tr>
+                            <td width="20%">Network</td>
+                            <td width="20%">Next Hop</td>
+                            <td width="15%">Metric</td>
+                            <td width="15%">From Tag</td>
+                            <td>Time</td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div id="ripRouteTable" style="height: 300px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;">
+                <table class="table table-striped table-bordered ">
+                    <tbody id="ripRouteBody">
 
-    <div id="ripRouteTable">
-        <table class="table table-striped table-bordered " style="width: 95;margin: 10px;">
-            <thead style="font-weight: bolder;">
-                <tr>
-                    <td width="20%">Network</td>
-                    <td width="20%">Next Hop</td>
-                    <td width="15%">Metric</td>
-                    <td width="15%">From Tag</td>
-                    <td width="15%">Time</td>
-                </tr>
-            </thead>
-            <tbody id="ripRouteBody">
-
-            </tbody>
-        </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
     <div class="modal fade" id="modeModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
@@ -264,7 +279,7 @@
                 $("#btnAdd").removeAttr("disabled");
                 $("#btnDisable").removeAttr("disabled");
                 $("#ripInfo").removeAttr("style");
-                $("#ripTable").removeAttr("style");
+                $("#ripTable").attr("style", "height: 260px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;");
                 $("#ripRedis").removeAttr("style");
             }
             if (currentStatus && dataSet.length > 0) {
@@ -293,10 +308,10 @@
                 html = ('');
                 for (let i = 0; i < dCount; i++) {
                     html += ('<tr>');
-                    html += ('<td><span name="txtNet" value="' + dataRouteSet[i][0] + '">' + dataRouteSet[i][0] + '</span></td>');
-                    html += ('<td><span name="txtHop" value="' + dataRouteSet[i][1] + '">' + dataRouteSet[i][1] + '</span></td>');
-                    html += ('<td><span name="txtMetric" value="' + dataRouteSet[i][2] + '">' + dataRouteSet[i][2] + '</span></td>');
-                    html += ('<td><span name="txtTag" value="' + dataRouteSet[i][3] + '">' + dataRouteSet[i][3] + '</span></td>');
+                    html += ('<td width="20%"><span name="txtNet" value="' + dataRouteSet[i][0] + '">' + dataRouteSet[i][0] + '</span></td>');
+                    html += ('<td width="20%"><span name="txtHop" value="' + dataRouteSet[i][1] + '">' + dataRouteSet[i][1] + '</span></td>');
+                    html += ('<td width="15%"><span name="txtMetric" value="' + dataRouteSet[i][2] + '">' + dataRouteSet[i][2] + '</span></td>');
+                    html += ('<td width="15%"><span name="txtTag" value="' + dataRouteSet[i][3] + '">' + dataRouteSet[i][3] + '</span></td>');
                     html += ('<td><span name="txtTime" value="' + dataRouteSet[i][4] + '">' + dataRouteSet[i][4] + '</span></td>');
                     html += ('</tr>');
                 }
@@ -363,6 +378,17 @@
             }
         }
 
+        function isScroll() {
+            let rHeight = $("#ripTable")[0].scrollHeight;
+            let tHeight = $("#ripRouteTable")[0].scrollHeight;
+            if (rHeight > 260) {
+                $("#ripHead").attr("style", "padding-right:17px;");
+            }
+            if(tHeight>300){
+                $("#ripRouteHead").attr("style", "padding-right:17px;");
+            }
+        }
+
         $("#btnEnable").click(function () {
             $("[name='hEnable']").val(1);
             $("#hEnableForm").submit();
@@ -416,6 +442,7 @@
         $(document).ready(function () {
             getData();
             loadPage();
+            isScroll();
         });
 
         //鼠标点击事件，如果点击在 selectedbutton，或者是在多选框div中的点击事件，不作处理。其他情况的点击事件，将多选空div隐藏

@@ -192,27 +192,33 @@
             </div>
         </div>
     </div>
-    <div id="vlanEthTable">
-        <table class="table table-striped table-bordered " style="width: 95%;margin-top: 10px;">
-            <thead style="font-weight: bolder;">
-                <tr>
-                    <td>Name</td>
-                    <td>Priority</td>
-                    <td>Cost</td>
-                    <td>Role</td>
-                    <td>Span State</td>
-                    <td>lk</td>
-                    <td>p2p</td>
-                    <td>eg </td>
-                    <td>Desi-Bridge-Id</td>
-                    <td>Dcost</td>
-                    <td>D-port</td>
-                </tr>
-            </thead>
-            <tbody id="bodyVlanEth">
+    <div class="container-fluid" style="width: 95%;">
+        <div id="vlanEthHead">
+            <table class="table table-striped table-bordered ">
+                <thead style="font-weight: bolder;">
+                    <tr>
+                        <td width="10%">Name</td>
+                        <td width="10%">Priority</td>
+                        <td width="10%">Cost</td>
+                        <td width="10%">Role</td>
+                        <td width="10%">Span State</td>
+                        <td width="5%">lk</td>
+                        <td width="5%">p2p</td>
+                        <td width="5%">eg </td>
+                        <td width="10%">Desi-Bridge-Id</td>
+                        <td width="10%">Dcost</td>
+                        <td>D-port</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div id="vlanEthTable" style="height: 400px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;">
+            <table class="table table-striped table-bordered ">
+                <tbody id="bodyVlanEth">
 
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="modal fade" id="modeModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
@@ -389,20 +395,21 @@
                 html = ('');
                 for (let i = 0; i < ethCount; i++) {
                     html += ('<tr>');
-                    html += ('<td >' + selectedEht[i][0] + '</td>');
-                    html += ('<td>' + selectedEht[i][1] + '</td>');
-                    html += ('<td>' + selectedEht[i][2] + '</td>');
-                    html += ('<td>' + selectedEht[i][3] + '</td>');
-                    html += ('<td>' + selectedEht[i][4] + '</td>');
-                    html += ('<td>' + selectedEht[i][5] + '</td>');
-                    html += ('<td>' + selectedEht[i][6] + '</td>');
-                    html += ('<td>' + selectedEht[i][7] + '</td>');
-                    html += ('<td>' + selectedEht[i][8] + '</td>');
-                    html += ('<td>' + selectedEht[i][9] + '</td>');
+                    html += ('<td width="10%">' + selectedEht[i][0] + '</td>');
+                    html += ('<td width="10%">' + selectedEht[i][1] + '</td>');
+                    html += ('<td width="10%">' + selectedEht[i][2] + '</td>');
+                    html += ('<td width="10%">' + selectedEht[i][3] + '</td>');
+                    html += ('<td width="10%">' + selectedEht[i][4] + '</td>');
+                    html += ('<td width="5%">' + selectedEht[i][5] + '</td>');
+                    html += ('<td width="5%">' + selectedEht[i][6] + '</td>');
+                    html += ('<td width="5%">' + selectedEht[i][7] + '</td>');
+                    html += ('<td width="10%">' + selectedEht[i][8] + '</td>');
+                    html += ('<td width="10%">' + selectedEht[i][9] + '</td>');
                     html += ('<td>' + selectedEht[i][10] + '</td>');
                     html += ('</tr>');
                 }
                 $("#bodyVlanEth").html(html);
+                isScroll();
             }
         }
 
@@ -485,6 +492,16 @@
             $("#divCstTitle").attr("style", "display:none");
         }
 
+        function isScroll() {
+            let eHeight = $("#vlanEthTable")[0].scrollHeight;
+            if (eHeight > 400) {
+                $("#vlanEthHead").attr("style", "padding-right:17px;margin-top:20px;");
+            }
+            else{
+                $("#vlanEthHead").attr("style", "margin-top:20px;");
+            }
+        }
+
         $("#myTab").on('click', "li", function () {
             //清除所有li的默认样式
             for (let i = 0; i < list.length; i++) {
@@ -496,7 +513,7 @@
                 $("#vlanEthTable").attr("style", "display:none;");
             }
             else {
-                $("#vlanEthTable").attr("style", "");
+                $("#vlanEthTable").attr("style", "height: 400px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;");
             }
         });
         $("#tablePVST tbody").on('click', "tr td:not(:last-child)", function () {
@@ -525,7 +542,7 @@
             if (vlanId != -1) {
                 $("#vlanDetail").attr("style", "margin-top:20px;");
                 $("#titleVlan").attr("style", "margin-top:20px;");
-                $("#vlanEthTable").attr("style", "");
+                $("#vlanEthTable").attr("style", "height: 400px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;");
                 $("#txtVlanName").html(vlanTxt);
                 $("#txtVlanStatus").html(statusTextArray[vlanStatus]);
                 selectedValnId = vlanId;

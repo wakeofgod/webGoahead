@@ -56,26 +56,29 @@
         设备VLAN配置</h3>
     <br>
     <div style="height: 50px;">
-        <button type="button" class="btn btn-primary" style="float: left !important;" id="btnCreate">新建</button>
+        <button type="button" class="btn btn-primary" style="float: left !important;margin-left: 5%;" id="btnCreate">新建</button>
     </div>
-    <form>
-        <table id="myTable" class="table table-striped table-bordered table-hover" style="width: 95%;">
-            <thead style="font-weight: bolder;">
-                <tr>
-                    <td width="10%">VLAN名称</td>
-                    <td width="10%">VLAN 类型</td>
-                    <td width="20%">VLAN 描述</td>
-                    <td width="10%">VLAN 状态</td>
-                    <td width="20%">ETH成员</td>
-                    <td width="20%">TRUNK成员</td>
-                    <td>操作</td>
-                </tr>
-            </thead>
-            <tbody id="tBody">
+    <div class="container-fluid" style="width: 95%;">
+        <div class="row">
+            <table id="myTable" class="table table-striped table-bordered table-hover" style="width: 95%;">
+                <thead style="font-weight: bolder;">
+                    <tr>
+                        <td width="10%">VLAN名称</td>
+                        <td width="10%">VLAN 类型</td>
+                        <td width="20%">VLAN 描述</td>
+                        <td width="10%">VLAN 状态</td>
+                        <td width="20%">ETH成员</td>
+                        <td width="20%">TRUNK成员</td>
+                        <td>操作</td>
+                    </tr>
+                </thead>
+                <tbody id="tBody">
 
-            </tbody>
-        </table>
-    </form>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

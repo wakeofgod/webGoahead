@@ -240,39 +240,45 @@
             </div>
         </div>
     </div>
-    <div id="vlanEthTable">
-        <table class="table table-striped table-bordered " style="width: 95%;margin-top: 10px;">
-            <thead style="font-weight: bolder;">
-                <tr>
-                    <td>Name</td>
-                    <td>Priority</td>
-                    <td>Cost</td>
-                    <td>Role</td>
-                    <td>Span State</td>
-                    <td>lk</td>
-                    <td>p2p</td>
-                    <td>eg </td>
-                    <td>Desi-Bridge-Id</td>
-                    <td>Dcost</td>
-                    <td>D-port</td>
-                </tr>
-            </thead>
-            <tbody id="bodyVlanEth">
-                <tr>
-                    <td>eth0/0</td>
-                    <td>128</td>
-                    <td>200000</td>
-                    <td>Dis</td>
-                    <td>Discarding</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </tbody>
-        </table>
+    <div class="container-fluid" style="width: 95%;">
+        <div id="vlanEthHead">
+            <table class="table table-striped table-bordered ">
+                <thead style="font-weight: bolder;">
+                    <tr>
+                        <td width="10%">Name</td>
+                        <td width="10%">Priority</td>
+                        <td width="10%">Cost</td>
+                        <td width="10%">Role</td>
+                        <td width="10%">Span State</td>
+                        <td width="5%">lk</td>
+                        <td width="5%">p2p</td>
+                        <td width="5%">eg </td>
+                        <td width="10%">Desi-Bridge-Id</td>
+                        <td width="10%">Dcost</td>
+                        <td>D-port</td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div id="vlanEthTable" style="height: 400px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;">
+            <table class="table table-striped table-bordered ">
+                <tbody id="bodyVlanEth">
+                    <tr>
+                        <td width="10%">eth0/0</td>
+                        <td width="10%">128</td>
+                        <td width="10%">200000</td>
+                        <td width="10%">Dis</td>
+                        <td width="10%">Discarding</td>
+                        <td width="5%"></td>
+                        <td width="5%"></td>
+                        <td width="5%"></td>
+                        <td width="10%"></td>
+                        <td width="10%"></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <div class="modal fade" id="modeModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog">
@@ -338,14 +344,26 @@
                 ["00:01:01:01:01:03", "32768", "0", "none", "20", "2", "15", "00:01:01:01:01:03", "32766", "2", "22", "2", "17", "3"]
             ];
             ethSetAll = [
-                ["eth0/0", "128", "2000000", "Dis", "Discarding", "", "1"],
-                ["eth0/1", "128", "2000000", "Dis", "Discarding", "", "1"],
-                ["eth0/2", "128", "20000", "Desi", "Forwarding", "32768", "1"],
-                ["eth0/3", "128", "2000000", "Desi", "Forwarding", "32768", "1"],
-                ["eth0/0", "128", "2000000", "Dis", "Discarding", "", "2"],
-                ["eth0/1", "128", "2000000", "Dis", "Discarding", "", "2"],
-                ["eth0/2", "128", "20000", "Desi", "Forwarding", "32768", "2"],
-                ["eth0/3", "128", "2000000", "Desi", "Forwarding", "32768", "2"],
+                ["eth0/0", "128", "2000000", "Dis", "Discarding","N","N","N","","" ,"", "1"],
+                ["eth0/1", "128", "2000000", "Dis", "Discarding","N","N","N","","" , "", "1"],
+                ["eth0/2", "128", "20000", "Desi", "Forwarding", "N","N","N","","" ,"32768", "1"],
+                ["eth0/3", "128", "2000000", "Desi", "Forwarding","N","N","N","","" , "32768", "1"],
+                ["eth0/4", "128", "2000000", "Dis", "Discarding","N","N","N","","" , "", "1"],
+                ["eth0/5", "128", "20000", "Desi", "Forwarding", "N","N","N","","" ,"32768", "1"],
+                ["eth0/6", "128", "2000000", "Desi", "Forwarding","N","N","N","","" , "32768", "1"],
+                ["eth0/7", "128", "2000000", "Dis", "Discarding","N","N","N","","" , "", "1"],
+                ["eth0/8", "128", "20000", "Desi", "Forwarding", "N","N","N","","" ,"32768", "1"],
+                ["eth0/9", "128", "2000000", "Desi", "Forwarding","N","N","N","","" , "32768", "1"],
+                ["eth0/10", "128", "2000000", "Dis", "Discarding","N","N","N","","" , "", "1"],
+                ["eth0/11", "128", "20000", "Desi", "Forwarding", "N","N","N","","" ,"32768", "1"],
+                ["eth0/12", "128", "2000000", "Desi", "Forwarding","N","N","N","","" , "32768", "1"],
+                ["eth0/13", "128", "2000000", "Dis", "Discarding","N","N","N","","" , "", "1"],
+                ["eth0/14", "128", "20000", "Desi", "Forwarding", "N","N","N","","" ,"32768", "1"],
+                ["eth0/15", "128", "2000000", "Desi", "Forwarding","N","N","N","","" , "32768", "1"],
+                ["eth0/0", "128", "2000000", "Dis", "Discarding", "N","N","N","","" ,"", "2"],
+                ["eth0/1", "128", "2000000", "Dis", "Discarding","N","N","N","","" , "", "2"],
+                ["eth0/2", "128", "20000", "Desi", "Forwarding", "N","N","N","","" ,"32768", "2"],
+                ["eth0/3", "128", "2000000", "Desi", "Forwarding", "N","N","N","","" ,"32768", "2"],
             ];
         }
 
@@ -396,20 +414,21 @@
                 html = ('');
                 for (let i = 0; i < ethCount; i++) {
                     html += ('<tr>');
-                    html += ('<td >' + selectedEht[i][0] + '</td>');
-                    html += ('<td>' + selectedEht[i][1] + '</td>');
-                    html += ('<td>' + selectedEht[i][2] + '</td>');
-                    html += ('<td>' + selectedEht[i][3] + '</td>');
-                    html += ('<td>' + selectedEht[i][4] + '</td>');
-                    html += ('<td>' + selectedEht[i][5] + '</td>');
-                    html += ('<td>' + selectedEht[i][6] + '</td>');
-                    html += ('<td>' + selectedEht[i][7] + '</td>');
-                    html += ('<td>' + selectedEht[i][8] + '</td>');
-                    html += ('<td>' + selectedEht[i][9] + '</td>');
+                    html += ('<td width="10%">' + selectedEht[i][0] + '</td>');
+                    html += ('<td width="10%">' + selectedEht[i][1] + '</td>');
+                    html += ('<td width="10%">' + selectedEht[i][2] + '</td>');
+                    html += ('<td width="10%">' + selectedEht[i][3] + '</td>');
+                    html += ('<td width="10%">' + selectedEht[i][4] + '</td>');
+                    html += ('<td width="5%">' + selectedEht[i][5] + '</td>');
+                    html += ('<td width="5%">' + selectedEht[i][6] + '</td>');
+                    html += ('<td width="5%">' + selectedEht[i][7] + '</td>');
+                    html += ('<td width="10%">' + selectedEht[i][8] + '</td>');
+                    html += ('<td width="10%">' + selectedEht[i][9] + '</td>');
                     html += ('<td>' + selectedEht[i][10] + '</td>');
                     html += ('</tr>');
                 }
                 $("#bodyVlanEth").html(html);
+                isScroll();
             }
         }
 
@@ -492,6 +511,16 @@
             $("#divCstTitle").attr("style", "display:none");
         }
 
+        function isScroll() {
+            let eHeight = $("#vlanEthTable")[0].scrollHeight;
+            if (eHeight > 400) {
+                $("#vlanEthHead").attr("style", "padding-right:17px;margin-top:20px;");
+            }
+            else{
+                $("#vlanEthHead").attr("style", "margin-top:20px;");
+            }
+        }
+
         $("#myTab").on('click', "li", function () {
             //清除所有li的默认样式
             for (let i = 0; i < list.length; i++) {
@@ -503,7 +532,7 @@
                 $("#vlanEthTable").attr("style", "display:none;");
             }
             else {
-                $("#vlanEthTable").attr("style", "");
+                $("#vlanEthTable").attr("style", "height: 400px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;");
             }
         });
         $("#tablePVST tbody").on('click', "tr td:not(:last-child)", function () {
@@ -532,7 +561,7 @@
             if (vlanId != -1) {
                 $("#vlanDetail").attr("style", "margin-top:20px;");
                 $("#titleVlan").attr("style", "margin-top:20px;");
-                $("#vlanEthTable").attr("style", "");
+                $("#vlanEthTable").attr("style", "height: 400px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;");
                 $("#txtVlanName").html(vlanTxt);
                 $("#txtVlanStatus").html(statusTextArray[vlanStatus]);
                 selectedValnId = vlanId;

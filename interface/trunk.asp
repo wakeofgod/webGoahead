@@ -49,28 +49,37 @@
         TRUNK配置</h3>
     <br>
     <div style="height: 50px;">
-        <button type="button" class="btn btn-primary" style="float: left !important;" id="btnCreate">新建</button>
+        <button type="button" class="btn btn-primary" style="float: left !important;margin-left: 5%;" id="btnCreate">新建</button>
     </div>
-    <form>
-        <table id="trunkTable" class="table table-striped table-bordered table-hover" style="width: 95%;">
-            <thead style="font-weight: bolder;">
-                <tr>
-                    <td width="10%">TRUNK名称</td>
-                    <td width="10%">TRUNK描述</td>
-                    <td width="10%">管理状态</td>
-                    <td width="10%">操作状态</td>
-                    <td width="10%">调度策略</td>
-                    <td width="10%">PVID</td>
-                    <td width="10%">MTU</td>
-                    <td width="20%">ETH成员</td>
-                    <td>操作</td>
-                </tr>
-            </thead>
-            <tbody id="tBody">
-                
-            </tbody>
-        </table>
-    </form>
+    <div class="container-fluid" style="width: 95%;">
+        <div class="row">
+            <div id="trunkHead">
+                <table class="table table-striped table-bordered table-hover">
+                    <thead style="font-weight: bolder;">
+                        <tr>
+                            <td width="10%">TRUNK名称</td>
+                            <td width="10%">TRUNK描述</td>
+                            <td width="10%">管理状态</td>
+                            <td width="10%">操作状态</td>
+                            <td width="10%">调度策略</td>
+                            <td width="10%">PVID</td>
+                            <td width="10%">MTU</td>
+                            <td width="20%">ETH成员</td>
+                            <td>操作</td>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div id="trunkTable" style="height:700px;overflow-y:auto;overflow-x: hidden;margin-top: -22px;">
+                <table class="table table-striped table-bordered table-hover">
+                    <tbody id="tBody">
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -245,21 +254,22 @@
                 var html = ('');
                 for (var i = 0; i < count; i++) {
                     html += ('<tr>');
-                    html += ('<td id="row' + dataset[i][0] + '" name="txtTrunkNo" value="' + dataset[i][0] + '">' + dataset[i][0] + '</td>');
-                    html += ('<td><span name="txtDes" value="' + dataset[i][1] + '">' + dataset[i][1] + '</span></td>');
-                    html += ('<td><span name="txtManStatus"value="' + dataset[i][2] + '" >' + statusArray[dataset[i][2]] + '</span> </td>');
-                    html += ('<td><span name="txtOperStatus"value="' + dataset[i][3] + '" >' + statusArray[dataset[i][3]] + '</span></td>');
-                    html += ('<td><span name="txtStrategy" value="' + dataset[i][4] + '">' + strategyArray[dataset[i][4]] + '</span></td>');
-                    html += ('<td> <span name="txtPvid" value="' + dataset[i][5] + '">' + dataset[i][5] + '</span> </td>');
-                    html += ('<td><span name="txtMtu" value="' + dataset[i][6] + '">' + dataset[i][6] + '</span></td>');
-                    html += ('<td><span name="txtEthGroup" value="' + dataset[i][7] + '">' + dataset[i][7] + '</span></td>');
+                    html += ('<td width="10%" id="row' + dataset[i][0] + '" name="txtTrunkNo" value="' + dataset[i][0] + '">' + dataset[i][0] + '</td>');
+                    html += ('<td width="10%"><span name="txtDes" value="' + dataset[i][1] + '">' + dataset[i][1] + '</span></td>');
+                    html += ('<td width="10%"><span name="txtManStatus"value="' + dataset[i][2] + '" >' + statusArray[dataset[i][2]] + '</span> </td>');
+                    html += ('<td width="10%"><span name="txtOperStatus"value="' + dataset[i][3] + '" >' + statusArray[dataset[i][3]] + '</span></td>');
+                    html += ('<td width="10%"><span name="txtStrategy" value="' + dataset[i][4] + '">' + strategyArray[dataset[i][4]] + '</span></td>');
+                    html += ('<td width="10%"> <span name="txtPvid" value="' + dataset[i][5] + '">' + dataset[i][5] + '</span> </td>');
+                    html += ('<td width="10%"><span name="txtMtu" value="' + dataset[i][6] + '">' + dataset[i][6] + '</span></td>');
+                    html += ('<td width="20%"><span name="txtEthGroup" value="' + dataset[i][7] + '">' + dataset[i][7] + '</span></td>');
                     html += ('<td>');
-                    html += ('<button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" value="row' + dataset[i][0] + '">修改</button>');
-                    html += ('<button type="button" class="btn btn-primary" name="btnDelete" value="' + dataset[i][0] + '">删除</button>');
+                    html += ('<button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" style="margin-left:10%;" value="row' + dataset[i][0] + '">修改</button>');
+                    html += ('<button type="button" class="btn btn-primary" name="btnDelete"  style="margin-left:10%;" value="' + dataset[i][0] + '">删除</button>');
                     html += ('</td>');
                     html += ('</tr>');
                 }
                 $("#tBody").html(html);
+                isScroll();
             }
         }
         function loadDropDown() {
@@ -368,7 +378,7 @@
                     alert("eth最多选择8个");
                 }
                 for (var index = 0; index < tmpRowArray.length; index++) {
-                    if(oldRowData.trim()!=""&& oldRowData.findIndex(value=>value == tmpRowArray[index])>=0){
+                    if (oldRowData.trim() != "" && oldRowData.findIndex(value => value == tmpRowArray[index]) >= 0) {
                         continue;
                     }
                     else if (selectedAllList.findIndex(value => value == tmpRowArray[index]) >= 0) {
@@ -378,9 +388,16 @@
                     }
                 }
             }
-
             return flag;
         }
+
+        function isScroll() {
+            let eHeight = $("#trunkTable")[0].scrollHeight;
+            if (eHeight > 700) {
+                $("#trunkHead").attr("style", "padding-right:17px;");
+            }
+        }
+
         //新建按钮点击事件
         $("#btnCreate").click(function () {
             isCreateNew = true;
