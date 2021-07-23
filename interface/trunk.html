@@ -261,6 +261,8 @@
         var existID = [];
         //判断是否是新建
         var isCreateNew = false;
+        //
+        var oldRowData = "";
 
         //鼠标是否在【多选下拉框div】上面（如果在div上面，需要控制鼠标的点击事件，不让div隐藏；否则要让该div隐藏）
         var indiv = false;
@@ -284,7 +286,7 @@
                 var html = ('');
                 for (var i = 0; i < count; i++) {
                     html += ('<tr>');
-                    html += ('<td id="row' + dataset[i][0] + '" name="txtTrunkNo" value="' + dataset[i][0] + '">trunk' + dataset[i][0] + '</td>');
+                    html += ('<td id="row' + dataset[i][0] + '" name="txtTrunkNo" value="' + dataset[i][0] + '">' + dataset[i][0] + '</td>');
                     html += ('<td><span name="txtDes" value="' + dataset[i][1] + '">' + dataset[i][1] + '</span></td>');
                     html += ('<td><span name="txtManStatus"value="' + dataset[i][2] + '" >' + statusArray[dataset[i][2]] + '</span> </td>');
                     html += ('<td><span name="txtOperStatus"value="' + dataset[i][3] + '" >' + statusArray[dataset[i][3]] + '</span></td>');
@@ -436,6 +438,7 @@
             $("#selEthGroup").val("");
             //重置复选框状态
             resetDropDown("");
+            oldRowData = "";
             $("#myModal").modal('show');
         });
         //修改按钮点击事件 每行
@@ -463,13 +466,15 @@
             $("#selEthGroup").val(ethGroup);
             $("#editManStatus").val(manStatus);
             $("#txtOperStatus").attr("value", operStatus).html(statusArray[operStatus]);
+            oldRowData = ethGroup;
             //更新复选框状态
             resetDropDown(ethGroup);
             $("#myModal").modal('show');
         });
         $("#tBody").on('click', '[name="btnDelete"]', function () {
-            var deleteId = $(this).attr("value")
-            alert(deleteId);
+            var deleteId = $(this).attr("value").trim();
+            $("[name='hId']").val(deleteId);
+            $("#hDeleteForm").submit();
         });
 
         $("#btnSave").click(function () {
@@ -488,6 +493,15 @@
             if (!checkData(trunkNo, trunDes, pvid, strategy, mtu, ethGroup)) {
                 return;
             }
+            $("[name='hNo']").val(trunkNo);
+            $("[name='hDes']").val(trunDes);
+            $("[name='hManStatus']").val(manStatus);
+            $("[name='hOperStatus']").val(operStatus);
+            $("[name='hPvid']").val(pvid);
+            $("[name='hStrategy']").val(strategy);
+            $("[name='hMtu']").val(mtu);
+            $("[name='hGroup']").val(ethGroup);
+            $("#hPostForm").submit();
         });
 
         //页面加载

@@ -228,7 +228,7 @@
             //赋值
             $("#editPort").val(port);
             $("#editPortNo").html(portNo);
-            $("#editMtu").val(mtu);
+            $("#editMtu").val(mtu.trim());
             $("#editStatus").val(status);
             $("#eidtStatusTxt").html(statusTxt);
             //asp不支持h5 文本框type=number属性
@@ -272,14 +272,6 @@
                 if (!checkData(port, pvid, mtu)) {
                     return;
                 }
-                //检查数据是否更改，如果没有任何更改，添加提示弹窗,待完成
-                $("#" + selectRow).parents("tr").find("[name='txtPort']").attr("value", port).text(port);
-                $("#" + selectRow).parents("tr").find("[name='selStatus']").attr("value", status).text(statusArray[status]);
-                $("#" + selectRow).parents("tr").find("[name='txtPvid']").attr("value", pvid).text(pvid);
-                $("#" + selectRow).parents("tr").find("[name='selRate']").attr("value", rate).text(rateArray[rate - 1]);
-                $("#" + selectRow).parents("tr").find("[name='txtMtu']").attr("value", mtu).text(mtu);
-                $("#" + selectRow).parents("tr").find("[name='selFlow']").attr("value", flow).text(flowArray[flow]);
-                $("#myModal").modal('hide');
 
                 //赋值给隐藏的form
                 $("[name='hNo']").val(portNo);

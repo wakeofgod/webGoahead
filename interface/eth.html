@@ -16,12 +16,6 @@
             overflow: auto;
             max-width: 100px;
         }
-
-        /* .table>tbody>tr>td
-        {
-            vertical-align:center !important;
-            display: table-cell;
-        } */
     </style>
     <script>
 
@@ -34,7 +28,7 @@
         ETH配置</h3>
     <br>
     <div style="height: 50px;">
-        <button type="button" class="btn btn-success" style="float: right !important; margin-right: 5%;"
+        <button type="button" class="btn" style="float: right !important; margin-right: 5%; background-color: #6B8E23;color: #fff;"
             id="btnRefresh">刷新</button>
     </div>
     <form>
@@ -147,8 +141,8 @@
                             <tr>
                                 <td>PVid</td>
                                 <td>
-                                    <input id="editPvid" type="number" title="PVID输入框" placeholder="请输入2至4094间的数字"
-                                        min="2" max="4094" style="width: 100%;">
+                                    <input id="editPvid" title="PVID输入框" placeholder="请输入2至4094间的数字" min="2" max="4094"
+                                        style="width: 100%;">
                                 </td>
                             </tr>
                             <tr>
@@ -178,8 +172,8 @@
                             </tr>
                             <tr>
                                 <td>MTU</td>
-                                <td><input type="number" title="MTU输入框" placeholder="请输入1000至3000的数字" id="editMtu"
-                                        min="1000" max="3000" style="width: 100%;"></td>
+                                <td><input title="MTU输入框" placeholder="请输入1000至3000的数字" id="editMtu" min="1000"
+                                        max="3000" style="width: 100%;"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -191,6 +185,19 @@
             </div>
         </div>
     </div>
+    <div>
+        <form id="hForm" style="visibility: hidden; display: none;" method="post" action="/goform/ethFormPost">
+            <input name="hNo" value="" />
+            <input name="hDes" value="" />
+            <input name="hStatus" value="" />
+            <input name="hStatusTxt" value="" />
+            <input name="hPvid" value="" />
+            <input name="hRate" value="" />
+            <input name="hRateTxt" value="" />
+            <input name="hFlow" value="" />
+            <input name="hMtu" value="" />
+        </form>
+    </div>
     <script>
         //模拟数据
         //可能会出现的问题，webserver获取的数据和下拉框模拟的不一致
@@ -198,6 +205,7 @@
         var dataset = [];
         var statusArray = ["down", "up"];
         var rateArray = ["auto", "half-10", "full-10", "half-100", "full-100", "half-1000", "full-1000", "full-10000"];
+        var rateTxtArray = ["N/A","auto" ,"half-10", "full-10", "half-100", "full-100", "half-1000", "full-1000", "full-10000"];
         var flowArray = ["disable", "enable"];
         function getData() {
             dataset = [
@@ -218,10 +226,10 @@
                     html += ('<td id="row' + i + '"  name="txtPortNo" value ="' + dataset[i][0] + '">' + dataset[i][0] + '</td>');
                     html += ('<td> <span name="txtPort" value="' + dataset[i][1] + '">' + dataset[i][1] + '</span></td>');
                     html += ('<td><span name="selStatus" value="' + dataset[i][2] + '">' + statusArray[dataset[i][2]] + '</span></td>');
-                    html += ('<td name="txtStatus" value="' + dataset[i][3] + '" >' + dataset[i][3] + '</td>');
+                    html += ('<td name="txtStatus" value="' + dataset[i][3] + '" >' + statusArray[dataset[i][3]] + '</td>');
                     html += ('<td><span name="txtPvid" value="' + dataset[i][4] + '">' + dataset[i][4] + '</span></td>')
                     html += ('<td><span name="selRate" value="' + dataset[i][5] + '">' + rateArray[dataset[i][5] - 1] + '</span></td>')
-                    html += ('<td name="txtRate" value="' + dataset[i][6] + '">' + dataset[i][6] + '</td>');
+                    html += ('<td name="txtRate" value="' + dataset[i][6] + '">' + rateTxtArray[dataset[i][6]]+ '</td>');
                     html += ('<td><span name="selFlow" value="' + dataset[i][7] + '">' + flowArray[dataset[i][7]] + '</span></td>');
                     html += ('<td><span name="txtMtu" value="' + dataset[i][8] + '">' + dataset[i][8] + '</span></td>');
                     html += ('<td><button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit" value="row' + i + '">编辑</button></td>');
@@ -256,7 +264,8 @@
             $("#editMtu").val(mtu.trim());
             $("#editStatus").val(status);
             $("#eidtStatusTxt").html(statusTxt);
-            $("#editPvid").val(pvid.trim());
+            //asp不支持h5 文本框type=number属性
+            $("#editPvid").val(pvid);
             $("#editRate").val(rate);
             $("#editRateTxt").html(rateTxt);
             $("#editFlow").val(flow);
@@ -268,11 +277,11 @@
             var regPort = /^[a-zA-Z][a-zA-Z0-9]{0,29}$/;
             var regPvid = /^\d{1,4}$/;
             var regMtu = /^\d{4}$/;
-            if (!regPort.test(port)) {
+            if (!regPort.test(port)&&port.trim()!="") {
                 flag = false;
                 alert("端口格式错误，以字母开头最长30位");
             }
-            else if (!regPvid.test(pvid) || pvid > 4094) {
+            else if (!regPvid.test(pvid) || pvid > 4094|| pvid<2) {
                 flag = false;
                 alert("Pvid格式错误，2至4094的数字");
             }
@@ -284,12 +293,15 @@
         }
         $("#btnSave").click(function () {
             if (selectRow) {
+                var portNo = $("#editPortNo").html().trim();
                 var port = $("#editPort").val();
-                var status = $("#editStatus").val();
+                var status = $("#editStatus").val().trim();
+                var statusTxt = $("#eidtStatusTxt").html().trim();
                 var pvid = $("#editPvid").val().trim();
-                var rate = $("#editRate").val();
+                var rate = $("#editRate").val().trim();
+                var rateTxt = $("#editRateTxt").html().trim();
                 var mtu = $("#editMtu").val().trim();
-                var flow = $("#editFlow").val();
+                var flow = $("#editFlow").val().trim();
                 if (!checkData(port, pvid, mtu)) {
                     return;
                 }
@@ -301,15 +313,27 @@
                 $("#" + selectRow).parents("tr").find("[name='txtMtu']").attr("value", mtu).text(mtu);
                 $("#" + selectRow).parents("tr").find("[name='selFlow']").attr("value", flow).text(flowArray[flow]);
                 $("#myModal").modal('hide');
+
+                //赋值给隐藏的form
+                $("[name='hNo']").val(portNo);
+                $("[name='hDes']").val(port);
+                $("[name='hStatus']").val(status);
+                $("[name='hStatusTxt']").val(statusTxt);
+                $("[name='hPvid']").val(pvid);
+                $("[name='hRate']").val(rate);
+                $("[name='hRateTxt']").val(rateTxt);
+                $("[name='hFlow']").val(flow);
+                $("[name='hMtu']").val(mtu);
+                var url = window.location.href;
+                $("#hForm").submit();
             }
         });
         $("#btnRefresh").click(function () {
-            getData();
-            loadPage();
+            window.location.reload();
         });
         $(document).ready(function () {
-            // getData();
-            // loadPage();
+             getData();
+             loadPage();
         });
     </script>
 </body>
