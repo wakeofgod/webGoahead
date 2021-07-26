@@ -18,11 +18,8 @@ newmenu.html
 .\img\banner2.gif
 .\img\bgimage.gif
 .\img\loading.gif
-.\img\logo.gif
 .\img\logo.png
-.\img\logo2.png
-.\img\logo3.png
-.\img\logoSmall.png
+.\img\logo4.png
 .\img\menu_img.gif
 
 

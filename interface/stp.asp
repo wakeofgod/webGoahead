@@ -212,7 +212,7 @@
                 </thead>
             </table>
         </div>
-        <div id="vlanEthTable" style="height: 400px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;">
+        <div id="vlanEthTable" style="height: 300px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;">
             <table class="table table-striped table-bordered ">
                 <tbody id="bodyVlanEth">
 
@@ -494,7 +494,7 @@
 
         function isScroll() {
             let eHeight = $("#vlanEthTable")[0].scrollHeight;
-            if (eHeight > 400) {
+            if (eHeight > 300) {
                 $("#vlanEthHead").attr("style", "padding-right:17px;margin-top:20px;");
             }
             else{
@@ -513,7 +513,7 @@
                 $("#vlanEthTable").attr("style", "display:none;");
             }
             else {
-                $("#vlanEthTable").attr("style", "height: 400px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;");
+                $("#vlanEthTable").attr("style", "height: 300px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;");
             }
         });
         $("#tablePVST tbody").on('click', "tr td:not(:last-child)", function () {
@@ -542,7 +542,7 @@
             if (vlanId != -1) {
                 $("#vlanDetail").attr("style", "margin-top:20px;");
                 $("#titleVlan").attr("style", "margin-top:20px;");
-                $("#vlanEthTable").attr("style", "height: 400px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;");
+                $("#vlanEthTable").attr("style", "height: 300px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;");
                 $("#txtVlanName").html(vlanTxt);
                 $("#txtVlanStatus").html(statusTextArray[vlanStatus]);
                 selectedValnId = vlanId;

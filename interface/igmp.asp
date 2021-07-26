@@ -49,14 +49,9 @@
                 </thead>
             </table>
         </div>
-        <div style="height: 600px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;" id="igmpTable">
+        <div style="height: 550px;overflow-y: auto;overflow-x: hidden;margin-top: -22px;" id="igmpTable">
             <table class="table table-striped table-bordered table-hover">
                 <tbody id="bodyIgmp">
-                    <tr>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>1</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -145,7 +140,7 @@
 
         function isScroll() {
             let eHeight = $("#igmpTable")[0].scrollHeight;
-            if (eHeight > 700) {
+            if (eHeight > 550) {
                 $("#igmpHead").attr("style", "padding-right:17px;margin-top:20px;");
             }
         } 

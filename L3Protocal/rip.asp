@@ -287,7 +287,7 @@
                 html = ('');
                 for (let i = 0; i < dCount; i++) {
                     html += ('<tr>');
-                    html += ('<td><span name="txtNet" value="' + dataSet[i][0] + '">' + dataSet[i][0] + '</span></td>');
+                    html += ('<td width="80%"><span name="txtNet" value="' + dataSet[i][0] + '">' + dataSet[i][0] + '</span></td>');
                     html += ('<td>');
                     html += ('<button type="button" class="btn btn-primary" style="margin-left:20px;"  name="btnDelete" value="' + dataSet[i][0] + '">删除</button>');
                     html += ('</td');
