@@ -53,30 +53,6 @@
         <button type="button" class="btn btn-primary" id="btnDisable" style="margin-left: 20px;">不使能</button>
         <button type="button" class="btn btn-primary" id="btnAdd" style="margin-left: 20px;">新建</button>
     </div>
-    <div class="container-fluid" id="ospfInfo">
-        <div class="row" style="margin: 20px 0px;">
-            <label class="col-md-offset-4 col-md-3 control-label" id="info1">
-                info1
-            </label>
-            <label class="col-md-3 control-label" id="info2">
-                info2
-            </label>
-        </div>
-        <div class="row" style="margin: 20px 0px;">
-            <label class="col-md-offset-4 col-md-3 control-label" id="info3">
-                info3
-            </label>
-            <label class="col-md-3 control-label" id="info4">
-                info4
-            </label>
-        </div>
-        <div class="row" style="margin: 20px 0px;">
-            <label class="col-md-offset-4 col-md-3 control-label" id="info5">info5</label>
-            <label class="col-md-3 control-label" id="info6">
-                info6
-            </label>
-        </div>
-    </div>
     <div class="row" id="ospfRedis" style="max-width: 98%;">
         <div id="ospfTable" class="col-md-offset-2 col-lg-offset-2 col-md-4 col-lg-4"
             style="transform: translateX(11%);">
@@ -303,15 +279,11 @@
         var selecteddiv = document.getElementById("selectdiv");
         var html = ('');
         function getData() {
-            // dataSet = [
-            //     ["1.1.1.0/24"],
-            //     ["2.1.1.0/24"]
-            // ];
             for (let i = 1; i < 30; i++) {
                 neighborSet.push([i, i, i, i, i, i, i, i, i]);
                 routeSet.push([i, i, i, i, i]);
                 databaseSet.push([i, i, i, i, i, i]);
-                dataSet.push(["2.1.1.0/24"]);
+                dataSet.push(["2.1.1.0/24",i]);
             }
         }
 
