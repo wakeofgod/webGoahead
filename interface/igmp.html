@@ -13,7 +13,7 @@
 <body>
     <h3
         style="font-weight: bolder; text-align: center;background-color: rgb(241,241,241);height: 48px;line-height: 48px;">
-        IGMP</h3>
+        IGMP Snooping</h3>
     <div class="container-fluid">
         <div class="row" style="margin-top: 20px;">
             <label class="col-md-offset-4 col-md-1" style="text-transform: uppercase;">IGMP状态:</label>
