@@ -13,10 +13,9 @@ newmenu.html
 .\img\bgimage.gif
 .\img\loading.gif
 .\img\logo.png
-.\img\logo4.png
 .\img\menu_img.gif
 
-
+.\deviceSetting\devInfo.html
 .\interface\eth.asp
 .\interface\trunk.asp
 .\interface\vlan.asp
