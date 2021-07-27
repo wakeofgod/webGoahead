@@ -5,14 +5,8 @@ top.html
 newmenu.html
 
 .\css\bootstrap.min.css
-.\css\globe.css
-.\css\menu_img.css
-.\css\table.css
 .\font-awesome-4.7.0\css\font-awesome.min.css
 .\font-awesome-4.7.0\fonts\fontawesome-webfont.woff2
-
-.\cable\autoupgrade.asp
-.\cable\cableConfig.asp
 
 .\img\banner.gif
 .\img\banner2.gif
@@ -38,10 +32,9 @@ newmenu.html
 
 
 .\js\bootstrap.min.js
-.\js\helpScript.js
 .\js\jquery.min.js
-.\js\navigatortab.js
-.\js\utils.js
+
+
 
 
 
