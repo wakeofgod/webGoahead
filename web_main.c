@@ -766,11 +766,11 @@ static void ripFormDelete(webs_t wp, char_t *path, char_t *query)
 static void ripFormRedis(webs_t wp, char_t *path, char_t *query)
 {
 	char_t *hRedis;
-	hRedis= websGetVar(wp, T("hRedis"), T("1"));
+	hRedis = websGetVar(wp, T("hRedis"), T("1"));
 	rip_set_redistribute(hRedis);
 	websRedirect(wp, "L3Protocal/rip.asp");
 }
-#pragma endregion 
+#pragma endregion
 
 #pragma region ospf
 static int ospfAspGetNet(int eid, webs_t wp, int argc, char_t **argv)
@@ -816,7 +816,7 @@ static void ospfFormEnable(webs_t wp, char_t *path, char_t *query)
 {
 	char_t *hEnable;
 	hEnable = websGetVar(wp, T("hEnable"), T("1"));
-	printf("henable is %s\r\n",hEnable);
+	printf("henable is %s\r\n", hEnable);
 	sleep(1);
 	ospf_set_enable(atoi(hEnable));
 	websRedirect(wp, "L3Protocal/ospf.asp");
@@ -840,7 +840,7 @@ static void ospfFormDelete(webs_t wp, char_t *path, char_t *query)
 static void ospfFormRedis(webs_t wp, char_t *path, char_t *query)
 {
 	char_t *hRedis;
-	hRedis= websGetVar(wp, T("hRedis"), T("1"));
+	hRedis = websGetVar(wp, T("hRedis"), T("1"));
 	ospf_set_redistribute(hRedis);
 	websRedirect(wp, "L3Protocal/ospf.asp");
 }
@@ -848,14 +848,24 @@ static void ospfFormRedis(webs_t wp, char_t *path, char_t *query)
 #pragma region staticRoute
 static int staticAspGetAll(int eid, webs_t wp, int argc, char_t **argv)
 {
-
+	memset(data_buffer, 0, sizeof(data_buffer));
+	ip_route_get_all(data_buffer);
+	return websWrite(wp, T("%s"), data_buffer);
 }
 static void staticFormPost(webs_t wp, char_t *path, char_t *query)
 {
+	char_t *hRoute;
+	hRoute = websGetVar(wp, T("hAdd"), T("1"));
+	ip_route_add(hRoute);
+	websRedirect(wp, "L3Protocal/staticRoute.asp");
 }
 
 static void staticFormDelete(webs_t wp, char_t *path, char_t *query)
 {
+	char_t *hRoute;
+	hRoute = websGetVar(wp, T("hDelete"), T("1"));
+	ip_route_del(hRoute);
+	websRedirect(wp, "L3Protocal/staticRoute.asp");
 }
 #pragma endregion
 #pragma endregion

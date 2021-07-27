@@ -8,38 +8,74 @@
     <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
-    <script>
-
-    </script>
+    <style>
+        .mylabel {          
+            font-weight: bolder;
+            font-size: 20px;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container-fluid" id="devInfo">
-        <div class="row" style="margin: 20px 0px;">
-            <label class="col-md-offset-4 col-md-3 control-label" id="info1">
-                1
-            </label>
-            <label class="col-md-3 control-label" id="info2">
-                2
-            </label>
-        </div>
-        <div class="row" style="margin: 20px 0px;">
-            <label class="col-md-offset-4 col-md-3 control-label" id="info3">
-                3
-            </label>
-            <label class="col-md-3 control-label" id="info4">
-                4
-            </label>
-        </div>
-        <div class="row" style="margin: 20px 0px;">
-            <label class="col-md-offset-4 col-md-3 control-label" id="info5">
-                5
-            </label>
-            <label class="col-md-3 control-label" id="info6">
-                6
-            </label>
+    <h3
+        style="font-weight: bolder; text-align: center;background-color: rgb(241,241,241);height: 48px;line-height: 48px;">
+        基本信息</h3>
+    <br>
+    <div class="container-fluid" style="margin: auto;">
+        <h3 style="text-align: center;text-transform: uppercase;font-weight: bolder;">产品名称</h3>
+        <div id="devInfo" style="margin: auto;width: 800px;">
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <td><label class="mylabel" id="info1">1</label></td>
+                    <td><label class="mylabel" id="info2">2</label></td>
+                </tr>
+                <tr>
+                    <td><label class="mylabel" id="info3">3</label></td>
+                    <td><label class="mylabel" id="info4">4</label></td>
+                </tr>
+                <tr>
+                    <td><label class="mylabel" id="info5">5</label></td>
+                    <td><label class="mylabel" id="info6">6</label></td>
+                </tr>
+                <tr>
+                    <td><label class="mylabel" id="info7">7</label></td>
+                    <td><label class="mylabel" id="info8">8</label></td>
+                </tr>
+            </table>
         </div>
     </div>
+    <script>
+        var dataSet = [];
+        function getData() {
+            dataSet = ["up time: 0d 0h 1m 45s",
+                "mac aging: 80(s)",
+                "l2 mac: 0a:22:22:14:40:18",
+                "l3 mac: 0a:33:33:14:40:18",
+                "hardware version: V1.2",
+                "platform version: V3.0",
+                "product version: HirunOS-V301R001B372",
+                "build time: Jul 19 2021"];
+        }
+
+        function loadPage() {
+            let nCount = dataSet.length;
+            if (nCount > 0) {
+                $("#info1").html(dataSet[0]);
+                $("#info2").html(dataSet[1]);
+                $("#info3").html(dataSet[2]);
+                $("#info4").html(dataSet[3]);
+                $("#info5").html(dataSet[4]);
+                $("#info6").html(dataSet[5]);
+                $("#info7").html(dataSet[6]);
+                $("#info8").html(dataSet[7]);
+            }
+        }
+
+        $(document).ready(function () {
+            getData();
+            loadPage();
+        });
+    </script>
 </body>
 
 </html>

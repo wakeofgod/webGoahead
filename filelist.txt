@@ -13,6 +13,7 @@ newmenu.html
 .\img\bgimage.gif
 .\img\loading.gif
 .\img\logo.png
+.\img\bgm.png
 .\img\menu_img.gif
 
 .\deviceSetting\devInfo.html
