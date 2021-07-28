@@ -4,7 +4,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>浠ュお</title>
+    <title>以太</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
@@ -19,27 +19,27 @@
 <body>
     <h3
         style="font-weight: bolder; text-align: center;background-color: rgb(241,241,241);height: 48px;line-height: 48px;">
-        鍩烘湰淇℃伅</h3>
+        基本信息</h3>
     <br>
     <div class="container-fluid" style="margin: auto;">
-        <h3 style="text-align: center;text-transform: uppercase;font-weight: bolder;">浜у搧鍚嶇О</h3>
+        <h3 style="text-align: center;text-transform: uppercase;font-weight: bolder;">产品名称</h3>
         <div id="devInfo" style="margin: auto;width: 800px;">
             <table class="table table-striped table-bordered">
                 <tr>
-                    <td><label class="mylabel" id="info1">1</label></td>
-                    <td><label class="mylabel" id="info2">2</label></td>
+                    <td><label class="mylabel" id="info1"></label></td>
+                    <td><label class="mylabel" id="info2"></label></td>
                 </tr>
                 <tr>
-                    <td><label class="mylabel" id="info3">3</label></td>
-                    <td><label class="mylabel" id="info4">4</label></td>
+                    <td><label class="mylabel" id="info3"></label></td>
+                    <td><label class="mylabel" id="info4"></label></td>
                 </tr>
                 <tr>
-                    <td><label class="mylabel" id="info5">5</label></td>
-                    <td><label class="mylabel" id="info6">6</label></td>
+                    <td><label class="mylabel" id="info5"></label></td>
+                    <td><label class="mylabel" id="info6"></label></td>
                 </tr>
                 <tr>
-                    <td><label class="mylabel" id="info7">7</label></td>
-                    <td><label class="mylabel" id="info8">8</label></td>
+                    <td><label class="mylabel" id="info7"></label></td>
+                    <td><label class="mylabel" id="info8"></label></td>
                 </tr>
             </table>
         </div>
@@ -47,14 +47,11 @@
     <script>
         var dataSet = [];
         function getData() {
-            dataSet = ["up time: 0d 0h 1m 45s",
-                "mac aging: 80(s)",
-                "l2 mac: 0a:22:22:14:40:18",
-                "l3 mac: 0a:33:33:14:40:18",
-                "hardware version: V1.2",
-                "platform version: V3.0",
-                "product version: HirunOS-V301R001B372",
-                "build time: Jul 19 2021"];
+            let basicData = "<%deviceAspGetBasic();%>";
+            if(basicData.trim()!=""){
+                basicData = basicData.trim();
+                dataSet = basicData.split(',');
+            }
         }
 
         function loadPage() {

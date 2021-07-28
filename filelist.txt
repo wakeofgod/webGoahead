@@ -16,7 +16,7 @@ newmenu.html
 .\img\bgm.png
 .\img\menu_img.gif
 
-.\deviceSetting\devInfo.html
+.\deviceSetting\devInfo.asp
 .\interface\eth.asp
 .\interface\trunk.asp
 .\interface\vlan.asp
