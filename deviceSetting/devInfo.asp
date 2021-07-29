@@ -4,14 +4,15 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>以太</title>
+    <title>璁惧</title>
     <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <style>
-        .mylabel {          
-            font-weight: bolder;
+        .mylabel {
             font-size: 20px;
+            text-transform: uppercase;
+            font-weight: bolder;
         }
     </style>
 </head>
@@ -19,27 +20,34 @@
 <body>
     <h3
         style="font-weight: bolder; text-align: center;background-color: rgb(241,241,241);height: 48px;line-height: 48px;">
-        基本信息</h3>
+        鍩烘湰淇℃伅</h3>
     <br>
     <div class="container-fluid" style="margin: auto;">
-        <h3 style="text-align: center;text-transform: uppercase;font-weight: bolder;">产品名称</h3>
         <div id="devInfo" style="margin: auto;width: 800px;">
             <table class="table table-striped table-bordered">
                 <tr>
-                    <td><label class="mylabel" id="info1"></label></td>
-                    <td><label class="mylabel" id="info2"></label></td>
+                    <td width="30%"><label class="mylabel">up time:</label></td>
+                    <td width="20%"><label id="info1"></label></td>
+                    <td width="30%"><label class="mylabel">mac aging:</label></td>
+                    <td width="20%"><label id="info2"></label></td>
                 </tr>
                 <tr>
-                    <td><label class="mylabel" id="info3"></label></td>
-                    <td><label class="mylabel" id="info4"></label></td>
+                    <td><label class="mylabel">l2 mac:</label></td>
+                    <td><label id="info3"></label></td>
+                    <td><label class="mylabel">l3 mac:</label></td>
+                    <td><label id="info4"></label></td>
                 </tr>
                 <tr>
-                    <td><label class="mylabel" id="info5"></label></td>
-                    <td><label class="mylabel" id="info6"></label></td>
+                    <td><label class="mylabel">hardware version:</label></td>
+                    <td><label id="info5"></label></td>
+                    <td><label class="mylabel">platform version:</label></td>
+                    <td><label id="info6"></label></td>
                 </tr>
                 <tr>
-                    <td><label class="mylabel" id="info7"></label></td>
-                    <td><label class="mylabel" id="info8"></label></td>
+                    <td><label class="mylabel">product version:</label></td>
+                    <td><label id="info7"></label></td>
+                    <td><label class="mylabel">build time:</label></td>
+                    <td><label id="info8"></label></td>
                 </tr>
             </table>
         </div>
@@ -48,8 +56,11 @@
         var dataSet = [];
         function getData() {
             let basicData = "<%deviceAspGetBasic();%>";
-            if(basicData.trim()!=""){
+            if (basicData.trim() != "") {
                 basicData = basicData.trim();
+                if (basicData.lastIndexOf(',') == basicData.length - 1) {
+                    basicData = basicData.substring(0, basicData.length - 1);
+                }
                 dataSet = basicData.split(',');
             }
         }

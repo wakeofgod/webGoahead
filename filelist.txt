@@ -24,7 +24,7 @@ newmenu.html
 .\interface\igmp.asp
 .\sysSetting\configinfo.asp
 .\sysSetting\log.html
-.\sysSetting\reboot.html
+.\sysSetting\reboot.asp
 .\sysSetting\upgrade.html
 .\L3Protocal\rip.asp
 .\L3Protocal\ospf.asp
