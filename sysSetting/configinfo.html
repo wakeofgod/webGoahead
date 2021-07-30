@@ -18,7 +18,7 @@
 
   <div class="container-fluid">
     <div style="margin: 20px 0px;">
-      <form name="sysConfigBackup" action=/sysConfigBackup.cfg method="post">
+      <form name="sysConfigBackup" action=/goform/sysSaveConfig method="post">
         <table width="600" height="90" border="0" cellpadding="0" cellspacing="0">
           <tr>
             <td height="20" colspan="2" class="tableTitle">软件配置备份</td>
@@ -76,7 +76,17 @@
       }
       xmlhttp.open("GET", "/ajax/", true);
       xmlhttp.send();
-
     }
+
+    function testAjax2() {
+      $.post("/goform/sysReboot", function (data) {
+      });
+    }
+
+    $(document).ready(function () {
+      //testAjax();
+    });
   </script>
 </body>
+
+</html>

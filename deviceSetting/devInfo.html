@@ -9,7 +9,7 @@
     <script src="../js/jquery.min.js"></script>
     <script src="../js/bootstrap.min.js"></script>
     <style>
-        .mylabel {          
+        .mylabel {
             font-weight: bolder;
             font-size: 20px;
         }
@@ -55,6 +55,8 @@
     <script>
         var dataSet = [];
         function getData() {
+            var date = new Date();
+            console.log(date);
             dataSet = ["up time: 0d 0h 1m 45s",
                 "mac aging: 80(s)",
                 "l2 mac: 0a:22:22:14:40:18",
@@ -79,9 +81,15 @@
             }
         }
 
-        $(document).ready(function () {
+        var timeFuc = setInterval(() => {
             getData();
             loadPage();
+        }, 1000);
+
+        $(document).ready(function () {
+            // getData();
+            // loadPage();
+            // timeFunc
         });
     </script>
 </body>

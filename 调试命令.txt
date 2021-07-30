@@ -26,4 +26,5 @@ source set-env.sh
 load tftp://192.168.2.233/vmlinux-ramfs
 g noinitrd init=/linuxrc console=ttyS0,115200
 mount -t nfs -o nolock 192.168.2.244:/mnt/hgfs/share /mnt
+cd mnt/web-HirunOS/main
 insmod dal.ko

@@ -16,7 +16,7 @@
     重启</h3>
   <br>
   <div class="container-fluid">
-    <form name="web_sys_reboot" action=/goform/sysRestore method="POST">
+    <form name="web_sys_reboot" action=/goform/sysReboot method="POST">
       <table width="600" height="70" border="0" cellpadding="0" cellspacing="0">
         <tr>
           <td height="20" colspan="2" class="tableTitle">设备重启</td>
@@ -35,3 +35,4 @@
     </form>
   </div>
 </body>
+</html>
