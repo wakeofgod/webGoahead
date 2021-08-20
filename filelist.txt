@@ -22,6 +22,7 @@ newmenu.html
 .\interface\vlan.asp
 .\interface\stp.asp
 .\interface\igmp.asp
+.\interface\eaps.html
 .\sysSetting\configinfo.asp
 .\sysSetting\log.html
 .\sysSetting\reboot.asp
@@ -29,7 +30,6 @@ newmenu.html
 .\L3Protocal\rip.asp
 .\L3Protocal\ospf.asp
 .\L3Protocal\staticRoute.asp
-
 
 .\js\bootstrap.min.js
 .\js\jquery.min.js
