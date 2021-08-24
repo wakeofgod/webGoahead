@@ -55,8 +55,6 @@
     <script>
         var dataSet = [];
         function getData() {
-            var date = new Date();
-            console.log(date);
             dataSet = ["up time: 0d 0h 1m 45s",
                 "mac aging: 80(s)",
                 "l2 mac: 0a:22:22:14:40:18",
@@ -80,16 +78,22 @@
                 $("#info8").html(dataSet[7]);
             }
         }
-
+        let iCount = 0;
         var timeFuc = setInterval(() => {
+            ++iCount;
             getData();
             loadPage();
+            console.log(iCount);
+            var date = new Date();
+            console.log(date);
+            if (iCount == 10) {
+                clearInterval(timeFuc);
+            }
         }, 1000);
 
         $(document).ready(function () {
-            // getData();
-            // loadPage();
-            // timeFunc
+            getData();
+            loadPage();
         });
     </script>
 </body>
