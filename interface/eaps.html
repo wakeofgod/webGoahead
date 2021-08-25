@@ -31,31 +31,32 @@
         <div class="row">
             <label class="col-md-1" style="text-transform: uppercase;">ERRP状态:</label>
             <label class="col-md-1" style="color: #FFA07A;" id="txtStatus">不使能</label>
-            <div class="col-md-2">
-                <button type="button" id="btnErrpEnable" class="btn btn-primary">使能</button>
-                <button type="button" id="btnErrpDiasabe" class="btn btn-primary">不使能</button>
+            <div class="col-md-4">
+                <button type="button" id="btnErrpEnable" class="btn btn-primary" style="margin-left: 20px;">使能</button>
+                <button type="button" id="btnErrpDiasabe" class="btn btn-primary"
+                    style="margin-left: 20px;">不使能</button>
+                <button type="button" id="btnAdd" class="btn btn-primary" style="margin-left: 20px;">新建</button>
             </div>
         </div>
         <div class="row">
-            <button class="btn btn-primary">添加</button>
-        </div>
-        <div class="row">
             <div id="errpHead">
+                <h3 style="text-align: center;text-transform: uppercase;">errp domain</h3>
                 <table class="table table-striped table-bordered table-hover">
                     <thead style="font-weight: bolder;">
                         <tr>
-                            <td >name</td>
-                            <td >id</td>
-                            <td >status</td>
-                            <td >work mode</td>
-                            <td >state</td>
-                            <td >control vlan</td>
-                            <td >protect vlan</td>
-                            <td >primary</td>
-                            <td >second</td>
-                            <td >hello time</td>
-                            <td >hello fail time</td>
-                            <td >up flush fail time</td>
+                            <td width="4%">id</td>
+                            <td width="4%">name</td>
+                            <td width="4%">status</td>
+                            <td width="8%">work mode</td>
+                            <td width="8%">protocal mode</td>
+                            <td width="4%">state</td>
+                            <td width="6%">control vlan</td>
+                            <td width="6%">protect vlan</td>
+                            <td width="6%">primary port</td>
+                            <td width="6%">second port</td>
+                            <td width="8%">hello time</td>
+                            <td width="8%">hello fail time</td>
+                            <td width="8%">up flush fail time</td>
                             <td>操作</td>
                         </tr>
                     </thead>
@@ -64,11 +65,6 @@
             <div style="height:650px;overflow-y:auto;overflow-x: hidden;margin-top: -22px;" id="errpTable">
                 <table id="myTable" class="table table-striped table-bordered table-hover">
                     <tbody id="tBody">
-                        <tr>
-                            <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" name="btnEdit">编辑</button>
-                            </td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -85,88 +81,85 @@
                     <table class="table table-striped table-bordered">
                         <tbody>
                             <tr>
+                                <td>Domain Id</td>
+                                <td><span id="editId"></span></td>
+                            </tr>
+                            <tr>
                                 <td>Domain name</td>
                                 <td>
-                                    <input id="domainName" maxlength="30" placeholder="请输入" type="text" title="端口输入框" style="width: 100%;">
+                                    <input id="editName" maxlength="30" placeholder="请输入名称" type="text" title="端口输入框"
+                                        style="width: 100%;">
                                 </td>
                             </tr>
                             <tr>
                                 <td>Domain mode</td>
                                 <td>
-                                    <select>
-                                        <option>master</option>
-                                        <option>transit</option>
+                                    <select id="selMode" title="模式下拉框" class="mySelect">
+                                        <option value="0">transit</option>
+                                        <option value="1">master</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Domain protocol</td>
+                                <td>
+                                    <select id="selProtocal" title="协议下拉框" class="mySelect">
+                                        <option value="0">errp</option>
+                                        <option value="1">eaps</option>
                                     </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Control vlan</td>
                                 <td>
-                                    <select>
-                                        <option>vlan 100</option>
-                                        <option>vlan 200</option>
-                                        <option>vlan 300</option>
-                                        <option>vlan 400</option>
-                                        <option>vlan 500</option>
-                                        <option>vlan 600</option>
+                                    <select id="selControl" title="control vlan" class="mySelect">
+
                                     </select>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Protect vlan</td>
                                 <td>
-                                    <select>
-                                        <option>vlan 100</option>
-                                        <option>vlan 200</option>
-                                        <option>vlan 300</option>
-                                        <option>vlan 400</option>
-                                        <option>vlan 500</option>
-                                        <option>vlan 600</option>
+                                    <select id="selProtect" title="protect vlan" class="mySelect">
+
                                     </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td>primary</td>
+                                <td>Primary port</td>
                                 <td>
-                                    <select>
-                                        <option>eth0/0</option>
-                                        <option>eth0/1</option>
-                                        <option>eth0/2</option>
-                                        <option>eth0/3</option>
-                                        <option>eth0/4</option>
-                                        <option>eth0/5</option>
+                                    <select id="selPriPort" title="primary port" class="mySelect">
+
                                     </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td>second</td>
+                                <td>Secondary port</td>
                                 <td>
-                                    <select>
-                                        <option>eth0/0</option>
-                                        <option>eth0/1</option>
-                                        <option>eth0/2</option>
-                                        <option>eth0/3</option>
-                                        <option>eth0/4</option>
-                                        <option>eth0/5</option>
+                                    <select id="selSecPort" title="secondary port" class="mySelect">
+
                                     </select>
                                 </td>
                             </tr>
                             <tr>
-                                <td>hello time</td>
+                                <td>Hello time</td>
                                 <td>
-                                    <input id="helloTime" maxlength="30" placeholder="请输入" type="text" title="端口输入框" style="width: 100%;">
+                                    <input id="helloTime" maxlength="30" placeholder="请输入1-50" type="text" title="端口输入框"
+                                        style="width: 100%;">
                                 </td>
                             </tr>
                             <tr>
-                                <td>hello fail time</td>
+                                <td>Hello fail time</td>
                                 <td>
-                                    <input id="helloFailTime" maxlength="30" placeholder="请输入" type="text" title="端口输入框" style="width: 100%;">
+                                    <input id="helloFailTime" maxlength="30" placeholder="请输入1-50" type="text"
+                                        title="端口输入框" style="width: 100%;">
                                 </td>
                             </tr>
                             <tr>
-                                <td>up flush fail time</td>
+                                <td>Up flush fail time</td>
                                 <td>
-                                    <input id="upFlushTime" maxlength="30" placeholder="请输入" type="text" title="端口输入框" style="width: 100%;">
+                                    <input id="upFlushTime" maxlength="30" placeholder="请输入1-50" type="text"
+                                        title="端口输入框" style="width: 100%;">
                                 </td>
                             </tr>
                         </tbody>
@@ -179,23 +172,269 @@
             </div>
         </div>
     </div>
+    <div>
+        <form id="hPostForm" style="visibility: hidden; display: none;" method="post" action="/goform/errpFormPost">
+            <input name="hId" value="" />
+            <input name="hName" value="" />
+            <input name="hMode" value="" />
+            <input name="hProtocol" value="" />
+            <input name="hControl" value="" />
+            <input name="hProtect" value="" />
+            <input name="hPrimary" value="" />
+            <input name="hSecond" value="" />
+            <input name="hHelloTime" value="" />
+            <input name="hFailTime" value="" />
+            <input name="hUpTime" value="" />
+        </form>
+        <form id="hEnableForm" style="visibility: hidden; display: none;" method="post" action="/goform/errpFormEnable">
+            <input name="hEnable" value="" />
+        </form>
+        <form id="hSingalForm" style="visibility: hidden; display: none;" method="post"
+            action="/goform/errpFormSingalEnable">
+            <input name="hSId" value="" />
+            <input name="hSName" value="" />
+            <input name="hSEnable" value="" />
+        </form>
+    </div>
     <script>
+        var currentStatus = 1;
+        var currentDomainId = 1;
         var dataset = [];
+        var ethPortSet = [];
+        var vlanSet = [];
+        var statusTextArray = ["不使能", "使能"];
+        var modeTextArray = ["transit", "master"];
+        var protocalArray = ["errp", "eaps"];
+        var html = "";
         function getData() {
+            //模拟数据
+            for (var i = 0; i < 20; i++) {
+                vlanSet.push(["vlan" + (i + 1)]);
+                ethPortSet.push(["eth0/" + (i)]);
+                dataset.push(
+                    [i + 1, i + 1, i % 2, i % 2, i % 2, i, "vlan" + (i + 1), "vlan" + (i + 1), "eth0/" + (i + 1), "eth0/" + (i + 1), i, i, i]
+                );
+            }
+        }
+
+        function loadPage() {
+            //按钮状态
+            if (!currentStatus) {
+                $("#btnAdd").attr("disabled", "disabled");
+                $("#btnErrpDiasabe").attr("disabled", "disabled");
+            }
+            else {
+                $("#btnErrpEnable").attr("disabled", "disabled");
+                $("#btnAdd").removeAttr("disabled");
+                $("#btnErrpDiasabe").removeAttr("disabled");
+            }
+            //加载vlan下拉框
+            let vCount = vlanSet.length;
+            if (vCount > 0) {
+                html = ('');
+                html += ('<option value ="-1" selected>请选择</option>');
+                for (let i = 0; i < vCount; i++) {
+                    if (vlanSet[i][0] == "default") {
+                        vlanSet[i][0] = "vlan1";
+                    }
+                    html += ('<option value="' + vlanSet[i] + '">' + vlanSet[i] + '</option>');
+                }
+                $("#selControl").html(html);
+                $("#selProtect").html(html);
+            }
+            //加载eth端口下拉框
+            let eCount = ethPortSet.length;
+            if (eCount > 0) {
+                html = ('');
+                html += ('<option value="-1" selected>请选择</option>');
+                for (let i = 0; i < eCount; i++) {
+                    html += ('<option value="' + ethPortSet[i] + '">' + ethPortSet[i] + '</option>');
+                }
+                $("#selPriPort").html(html);
+                $("#selSecPort").html(html);
+            }
+            //加载主页面table
+            let dCount = dataset.length;
+            if (dCount > 0) {
+                html = ('');
+                for (let i = 0; i < dCount; i++) {
+                    html += ('<tr>');
+                    html += ('<td width="4%"><span name="txtId" value="' + dataset[i][0] + '">' + dataset[i][0] + '</span></td>');
+                    html += ('<td width="4%"><span name="txtName" value="' + dataset[i][1] + '">' + dataset[i][1] + '</span></td>');
+                    html += ('<td width="4%"><span name="txtStatus" value="' + dataset[i][2] + '">' + statusTextArray[dataset[i][2]] + '</span></td>');
+                    html += ('<td width="8%"><span name="txtMode" value="' + dataset[i][3] + '">' + modeTextArray[dataset[i][3]] + '</span></td>');
+                    html += ('<td width="8%"><span name="txtProtocal" value="' + dataset[i][4] + '">' + protocalArray[dataset[i][4]] + '</span></td>');
+                    html += ('<td width="4%"><span name="txtState" value="' + dataset[i][5] + '">' + dataset[i][5] + '</span></td>');
+                    html += ('<td width="6%"><span name="txtControl" value="' + dataset[i][6] + '">' + dataset[i][6] + '</span></td>');
+                    html += ('<td width="6%"><span name="txtProtect" value="' + dataset[i][7] + '">' + dataset[i][7] + '</span></td>');
+                    html += ('<td width="6%"><span name="txtPrimary" value="' + dataset[i][8] + '">' + dataset[i][8] + '</span></td>');
+                    html += ('<td width="6%"><span name="txtSecond" value="' + dataset[i][9] + '">' + dataset[i][9] + '</span></td>');
+                    html += ('<td width="8%"><span name="txtHelloTime" value="' + dataset[i][10] + '">' + dataset[i][10] + '</span></td>');
+                    html += ('<td width="8%"><span name="txtFailTime" value="' + dataset[i][11] + '">' + dataset[i][11] + '</span></td>');
+                    html += ('<td width="8%"><span name="txtUpTime" value="' + dataset[i][12] + '">' + dataset[i][12] + '</span></td>');
+                    html += ('<td>');
+                    html += ('<button type="button" class="btn btn-primary" data-toggle="modal"name="btnEdit">编辑</button>');
+                    if (dataset[i][2]) {
+                        html += ('<button type="button" style="margin-left:10%;" class="btn btn-primary" disabled="disabled" myid=' + dataset[i][0] + ' myname=' + dataset[i][1] + '  name="btnEnable">使能</button>');
+                        html += ('<button type="button" style="margin-left:10%;" class="btn btn-primary" myid=' + dataset[i][0] + ' myname=' + dataset[i][1] + '  name="btnDisable">不使能</button>');
+                    }
+                    else {
+                        html += ('<button type="button" style="margin-left:10%;" class="btn btn-primary" myid=' + dataset[i][0] + ' myname=' + dataset[i][1] + '  name="btnEnable">使能</button>');
+                        html += ('<button type="button" style="margin-left:10%;" class="btn btn-primary" disabled="disabled" myid=' + dataset[i][0] + ' myname=' + dataset[i][1] + '  name="btnDisable">不使能</button>');
+                    }
+                    html += ('</td>');
+                    html += ('</tr>');
+                }
+                $("#tBody").html(html);
+            }
 
         }
 
-        function loadPage(){
-
-        }
-
-        $("#tBody").on('click', '[name="btnEdit"]', function () {
-            $("#myModal").modal('show');
+        $("#btnErrpEnable").on('click', function () {
+            $("[name='hEnable']").val(1);
+            $("#hEnableForm").submit();
         });
 
-        $(document).ready(function(){
+        $("#btnErrpDiasabe").on('click', function () {
+            $("[name='hEnable']").val(0);
+            $("#hEnableForm").submit();
+        });
+
+        $("#btnAdd").on('click', function () {
+            if (dataset.length >= 64) {
+                alert("没有可用id");
+                return;
+            }
+            $("#myModalLabel").html("新建");
+            currentDomainId = dataset.length + 1;
+            $("#editId").html(currentDomainId);
+            $("#editName").val("");
+            $("#selMode").val(0);
+            $("#selProtocal").val(0);
+            $("#selControl").val(-1);
+            $("#selProtect").val(-1);
+            $("#selPriPort").val(-1);
+            $("#selSecPort").val(-1);
+            $("#helloTime").val("");
+            $("#helloFailTime").val("");
+            $("#upFlushTime").val("");
+            $("#myModal").modal({ backdrop: 'static', keyboard: false });
+        });
+
+        $("#tBody").on('click', '[name="btnEdit"]', function () {
+            $("#myModalLabel").html("编辑");
+            let id = $(this).parents("tr").find("[name='txtId']").attr("value");
+            let name = $(this).parents("tr").find("[name='txtName']").attr("value");
+            let mode = $(this).parents("tr").find("[name='txtMode']").attr("value");
+            let protocal = $(this).parents("tr").find("[name='txtState']").attr("value");
+            let control = $(this).parents("tr").find("[name='txtControl']").attr("value");
+            let protect = $(this).parents("tr").find("[name='txtProtect']").attr("value");
+            let primary = $(this).parents("tr").find("[name='txtPrimary']").attr("value");
+            let second = $(this).parents("tr").find("[name='txtSecond']").attr("value");
+            let helloTime = $(this).parents("tr").find("[name='txtHelloTime']").attr("value");
+            let failTime = $(this).parents("tr").find("[name='txtFailTime']").attr("value");
+            let upTime = $(this).parents("tr").find("[name='txtUpTime']").attr("value");
+            $("#editId").html(id);
+            $("#editName").val(name);
+            $("#selMode").val(mode);
+            $("#selProtocal").val(protocal);
+            $("#selControl").val(control);
+            $("#selProtect").val(protect);
+            $("#selPriPort").val(primary);
+            $("#selSecPort").val(second);
+            $("#helloTime").val(helloTime);
+            $("#helloFailTime").val(failTime);
+            $("#upFlushTime").val(upTime);
+            $("#myModal").modal({ backdrop: 'static', keyboard: false });
+        });
+
+        $("#tBody").on('click', '[name="btnEnable"]', function () {
+            let id = $(this).attr("myid");
+            let name = $(this).attr("myname");
+            $("[name='hSId']").val(id);
+            $("[name='hSName']").val(name);
+            $("[name='hSEnable']").val(1);
+            $("#hSingalForm").submit();
+        });
+
+        $("#tBody").on('click', '[name="btnDisable"]', function () {
+            let id = $(this).attr("myid");
+            let name = $(this).attr("myname");
+            $("[name='hSId']").val(id);
+            $("[name='hSName']").val(name);
+            $("[name='hSEnable']").val(1);
+            $("#hSingalForm").submit();
+        });
+
+        $("#btnSave").on('click', function () {
+            let id = $("#editId").html();
+            let name = $("#editName").val();
+            let mode = $("#selMode").val();
+            let protocal = $("#selProtocal").val();
+            let control = $("#selControl").val();
+            let protect = $("#selProtect").val();
+            let primary = $("#selPriPort").val();
+            let second = $("#selSecPort").val();
+            let helloTime = $("#helloTime").val();
+            let failTime = $("#helloFailTime").val();
+            let upTime = $("#upFlushTime").val();
+            if (!checkData(name, control, protect, primary, second, helloTime, failTime, upTime)) {
+                return;
+            }
+            else {
+                $("[name='hId']").val(id);
+                $("[name='hName']").val(name);
+                $("[name='hMode']").val(mode);
+                $("[name='hProtocol']").val(protocal);
+                $("[name='hControl']").val(control);
+                $("[name='hProtect']").val(protect);
+                $("[name='hPrimary']").val(primary);
+                $("[name='hSecond']").val(second);
+                $("[name='hHelloTime']").val(helloTime);
+                $("[name='hFailTime']").val(failTime);
+                $("[name='hUpTime']").val(upTime);
+                $("#hPostForm").submit();
+            }
+        });
+
+        function checkData(name, control, protect, primary, second, helloTime, failTime, upTime) {
+            var flag = true;
+            var regTime = /^\d{1,2}$/;
+            if (control == protect) {
+                flag = false;
+                alert("控制vlan和保护vlan不能相同");
+            }
+            else if (primary == second) {
+                flag = false;
+                alert("主节点和传输节点不能相同");
+            }
+            else if (!regTime.test(helloTime) || helloTime > 50 || helloTime < 0) {
+                flag = false;
+                alert("hellotime 输入错误");
+            }
+            else if (!regTime.test(failTime) || failTime > 50 || failTime < 0) {
+                flag = false;
+                alert("failTime 输入错误");
+            }
+            else if (!regTime.test(upTime) || upTime > 50 || upTime < 0) {
+                flag = false;
+                alert("upTime 输入错误");
+            }
+            return flag;
+        }
+
+        function isScroll() {
+            let eHeight = $("#errpTable")[0].scrollHeight;
+            if (eHeight > 650) {
+                $("#errpHead").attr("style", "padding-right:17px;");
+            }
+
+        }
+
+        $(document).ready(function () {
             getData();
             loadPage();
+            isScroll();
         });
     </script>
 </body>
