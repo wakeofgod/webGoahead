@@ -22,7 +22,7 @@ newmenu.html
 .\interface\vlan.asp
 .\interface\stp.asp
 .\interface\igmp.asp
-.\interface\eaps.html
+.\interface\eaps.asp
 .\sysSetting\configinfo.asp
 .\sysSetting\log.html
 .\sysSetting\reboot.asp

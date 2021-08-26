@@ -670,4 +670,3 @@ int web_l2igmp_get_allentry(char *strBufAll)
     return strlen(strBufAll);
 }
 
-

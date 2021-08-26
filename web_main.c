@@ -30,7 +30,7 @@
 void formDefineUserMgmt(void);
 #endif
 
-#define WEBS_DEFAULT_PORT 8070
+#define WEBS_DEFAULT_PORT 8080
 #define WEBS_DEFAULT_HOME T("index.html")
 //T("index.html")
 //T("index.htm")
@@ -117,6 +117,18 @@ static void ospfFormRedis(webs_t wp, char_t *path, char_t *query);
 static int staticAspGetAll(int eid, webs_t wp, int argc, char_t **argv);
 static void staticFormPost(webs_t wp, char_t *path, char_t *query);
 static void staticFormDelete(webs_t wp, char_t *path, char_t *query);
+
+static int deviceAspGetBasic(int eid, webs_t wp, int argc, char_t **argv);
+
+
+static int errpAspGetStatus(int eid, webs_t wp, int argc, char_t **argv);
+static int errpAspGetAll(int eid, webs_t wp, int argc, char_t **argv);
+static int errpAspGetVlan(int eid, webs_t wp, int argc, char_t **argv);
+static int errpAspGetEth(int eid, webs_t wp, int argc, char_t **argv);
+
+static void errpFormEnable(webs_t wp, char_t *path, char_t *query);
+static void errpFormPost(webs_t wp, char_t *path, char_t *query);
+static void errpFormSingalEnable(webs_t wp, char_t *path, char_t *query);
 
 /*********************************** Code *************************************/
 /*
@@ -363,6 +375,17 @@ static int initWebs(int demo)
 	websAspDefine(T("staticAspGetAll"), staticAspGetAll);
 	websFormDefine(T("staticFormPost"), staticFormPost);
 	websFormDefine(T("staticFormDelete"), staticFormDelete);
+
+	websAspDefine(T("deviceAspGetBasic"), deviceAspGetBasic);
+
+	websAspDefine(T("errpAspGetStatus"), errpAspGetStatus);
+	websAspDefine(T("errpAspGetAll"), errpAspGetAll);
+	websAspDefine(T("errpAspGetVlan"), errpAspGetVlan);
+	websAspDefine(T("errpAspGetEth"), errpAspGetEth);
+
+	websFormDefine(T("errpFormEnable"), errpFormEnable);
+	websFormDefine(T("errpFormPost"), errpFormPost);
+	websFormDefine(T("errpFormSingalEnable"), errpFormSingalEnable);
 /*
  *	Create the Form handlers for the User Management pages
  */
@@ -690,14 +713,22 @@ static int upgradeHandler(webs_t wp, char_t *urlPrefix, char_t *webDir, int arg,
 }
 static void sysSaveConfig(webs_t wp, char_t *path, char_t *query)
 {
+	save_config();
+	sleep(1);
+	websRedirect(wp, "sysSetting/configinfo.asp");
 }
 
 static void sysRestore(webs_t wp, char_t *path, char_t *query)
 {
+	erase_config();
+	sleep(2);
+	websRedirect(wp, "sysSetting/configinfo.asp");
 }
 
 static void sysReboot(webs_t wp, char_t *path, char_t *query)
-{
+{	
+	L3IF_DestroyAll();
+	system("reboot -f");
 }
 
 static void sysLogDownLoad(webs_t wp, char_t *path, char_t *query)
@@ -868,4 +899,51 @@ static void staticFormDelete(webs_t wp, char_t *path, char_t *query)
 	websRedirect(wp, "L3Protocal/staticRoute.asp");
 }
 #pragma endregion
+#pragma endregion
+
+#pragma region device
+static int deviceAspGetBasic(int eid, webs_t wp, int argc, char_t **argv)
+{
+	memset(data_buffer, 0, sizeof(data_buffer));
+	vif_get_sysinfo(data_buffer);
+	return websWrite(wp, T("%s"), data_buffer);
+}
+#pragma endregion
+
+#pragma region errp
+static int errpAspGetStatus(int eid, webs_t wp, int argc, char_t **argv)
+{
+
+}
+
+static int errpAspGetAll(int eid, webs_t wp, int argc, char_t **argv)
+{
+
+}
+
+static int errpAspGetVlan(int eid, webs_t wp, int argc, char_t **argv)
+{
+
+}
+
+static int errpAspGetEth(int eid, webs_t wp, int argc, char_t **argv)
+{
+
+}
+
+static void errpFormEnable(webs_t wp, char_t *path, char_t *query)
+{
+
+}
+
+static void errpFormPost(webs_t wp, char_t *path, char_t *query)
+{
+
+}
+
+static void errpFormSingalEnable(webs_t wp, char_t *path, char_t *query)
+{
+
+}
+
 #pragma endregion

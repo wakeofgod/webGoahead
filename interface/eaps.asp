@@ -207,14 +207,10 @@
         var protocalArray = ["errp", "eaps"];
         var html = "";
         function getData() {
-            //模拟数据
-            for (var i = 0; i < 20; i++) {
-                vlanSet.push(["vlan" + (i + 1)]);
-                ethPortSet.push(["eth0/" + (i)]);
-                dataset.push(
-                    [i + 1, i + 1, i % 2, i % 2, i % 2, i, "vlan" + (i + 1), "vlan" + (i + 1), "eth0/" + (i + 1), "eth0/" + (i + 1), i, i, i]
-                );
-            }
+            let vlanData = "<%errpAspGetVlan();%>";
+            let ethPortData = "<%errpAspGetEth();%>";
+            let errpData = "<%errpAspGetAll();%>";
+            let statusData = "<%errpAspGetStatus();%>";
         }
 
         function loadPage() {
