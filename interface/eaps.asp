@@ -211,6 +211,21 @@
             let ethPortData = "<%errpAspGetEth();%>";
             let errpData = "<%errpAspGetAll();%>";
             let statusData = "<%errpAspGetStatus();%>";
+            debugger;
+            if (ethPortData.trim() != "") {
+                ethPortData = ethPortData.trim();
+                if (ethPortData.lastIndexOf('*') == ethPortData.length - 1) {
+                    ethPortData = ethPortData.substring(0, ethPortData.length - 1);
+                }
+                ethPortSet = ethPortData.split('*');
+            }
+            if (vlanData.trim() != "") {
+                vlanData = vlanData.trim();
+                if (vlanData.lastIndexOf('|') == vlanData.length - 1) {
+                    vlanData = vlanData.substring(0,vlanData.length-1);
+                }
+                vlanSet = vlanData.split('|');
+            }
         }
 
         function loadPage() {
