@@ -69,12 +69,12 @@
                             <td width="4%">name</td>
                             <td width="4%">status</td>
                             <td width="8%">work mode</td>
-                            <td width="8%">protocal mode</td>
-                            <td width="4%">state</td>
-                            <td width="6%">control vlan</td>
-                            <td width="6%">protect vlan</td>
+                            <!-- <td width="8%">protocal mode</td>
+                            <td width="4%">state</td> -->
                             <td width="6%">primary port</td>
                             <td width="6%">second port</td>
+                            <td width="6%">control vlan</td>
+                            <td width="6%">protect vlan</td>
                             <td width="8%">hello time</td>
                             <td width="8%">hello fail time</td>
                             <td width="8%">up flush fail time</td>
@@ -225,6 +225,9 @@
             <input name="hSName" value="" />
             <input name="hSEnable" value="" />
         </form>
+        <form id="hDeleteForm" style="visibility: hidden; display: none;" method="post" action="/goform/errpFormDelete">
+            <input name="hDId" value="" />
+        </form>
     </div>
     <script>
         var currentStatus = 0;
@@ -233,7 +236,7 @@
         var ethPortSet = [];
         var vlanSet = [];
         var statusTextArray = ["不使能", "使能"];
-        var modeTextArray = ["transit", "master"];
+        var modeTextArray = ["NAN", "master", "transit"];
         var protocalArray = ["errp", "eaps"];
         var existName = [];
         var html = "";
@@ -279,14 +282,20 @@
                             }
                         }
                     }
-                }
-                debugger;
+                }             
             }
             //errp table
             if (errpData.trim() != "") {
                 errpData = errpData.trim();
-                if (errpData.lastIndexOf('|') = errpData.length - 1) {
+                if (errpData.lastIndexOf('|') ==(errpData.length - 1)) {
                     errpData = errpData.substring(0, errpData.length - 1);
+                }
+                let tempErrpData = errpData.split('|');
+                let eCount = tempErrpData.length;
+                for (let i = 0; i < eCount; i++) {
+                    let rowData = tempErrpData[i].split(',');
+                    dataset.push([rowData[0],rowData[1], rowData[2],rowData[3],rowData[4],rowData[5],rowData[6],rowData[7],rowData[8],rowData[9],rowData[10]]);
+                    debugger;
                 }
             }
         }
@@ -417,20 +426,20 @@
                     html += ('<tr>');
                     html += ('<td width="4%"><span name="txtId" value="' + dataset[i][0] + '">' + dataset[i][0] + '</span></td>');
                     html += ('<td width="4%"><span name="txtName" value="' + dataset[i][1] + '">' + dataset[i][1] + '</span></td>');
-                    html += ('<td width="4%"><span name="txtStatus" value="' + dataset[i][2] + '">' + statusTextArray[dataset[i][2]] + '</span></td>');
-                    html += ('<td width="8%"><span name="txtMode" value="' + dataset[i][3] + '">' + modeTextArray[dataset[i][3]] + '</span></td>');
-                    html += ('<td width="8%"><span name="txtProtocal" value="' + dataset[i][4] + '">' + protocalArray[dataset[i][4]] + '</span></td>');
-                    html += ('<td width="4%"><span name="txtState" value="' + dataset[i][5] + '">' + dataset[i][5] + '</span></td>');
-                    html += ('<td width="6%"><span name="txtControl" value="' + dataset[i][6] + '">' + dataset[i][6] + '</span></td>');
-                    html += ('<td width="6%"><span name="txtProtect" value="' + dataset[i][7] + '">' + dataset[i][7] + '</span></td>');
-                    html += ('<td width="6%"><span name="txtPrimary" value="' + dataset[i][8] + '">' + dataset[i][8] + '</span></td>');
-                    html += ('<td width="6%"><span name="txtSecond" value="' + dataset[i][9] + '">' + dataset[i][9] + '</span></td>');
-                    html += ('<td width="8%"><span name="txtHelloTime" value="' + dataset[i][10] + '">' + dataset[i][10] + '</span></td>');
-                    html += ('<td width="8%"><span name="txtFailTime" value="' + dataset[i][11] + '">' + dataset[i][11] + '</span></td>');
-                    html += ('<td width="8%"><span name="txtUpTime" value="' + dataset[i][12] + '">' + dataset[i][12] + '</span></td>');
+                    html += ('<td width="4%"><span name="txtStatus" value="' + dataset[i][10] + '">' + statusTextArray[dataset[i][10]] + '</span></td>');
+                    html += ('<td width="8%"><span name="txtMode" value="' + dataset[i][2] + '">' + modeTextArray[dataset[i][2]] + '</span></td>');
+                    //html += ('<td width="8%"><span name="txtProtocal" value="' + dataset[i][4] + '">' + protocalArray[dataset[i][4]] + '</span></td>');
+                    //html += ('<td width="4%"><span name="txtState" value="' + dataset[i][5] + '">' + dataset[i][5] + '</span></td>');
+                    html += ('<td width="6%"><span name="txtPrimary" value="' + dataset[i][3] + '">' + dataset[i][3] + '</span></td>');
+                    html += ('<td width="6%"><span name="txtSecond" value="' + dataset[i][4] + '">' + dataset[i][4] + '</span></td>');
+                    html += ('<td width="6%"><span name="txtControl" value="' + dataset[i][5] + '">' + dataset[i][5] + '</span></td>');
+                    html += ('<td width="6%"><span name="txtProtect" value="' + dataset[i][6] + '">' + dataset[i][6] + '</span></td>');
+                    html += ('<td width="8%"><span name="txtHelloTime" value="' + dataset[i][7] + '">' + dataset[i][7] + '</span></td>');
+                    html += ('<td width="8%"><span name="txtFailTime" value="' + dataset[i][8] + '">' + dataset[i][8] + '</span></td>');
+                    html += ('<td width="8%"><span name="txtUpTime" value="' + dataset[i][9] + '">' + dataset[i][9] + '</span></td>');
                     html += ('<td>');
                     //html += ('<button type="button" class="btn btn-primary" data-toggle="modal"name="btnEdit">编辑</button>');
-                    if (dataset[i][2]) {
+                    if (dataset[i][11]) {
                         html += ('<button type="button" style="margin-left:5%;" class="btn btn-primary" disabled="disabled" myid=' + dataset[i][0] + ' myname=' + dataset[i][1] + '  name="btnEnable">使能</button>');
                         html += ('<button type="button" style="margin-left:5%;" class="btn btn-primary" myid=' + dataset[i][0] + ' myname=' + dataset[i][1] + '  name="btnDisable">不使能</button>');
                         html += ('<button type ="button" style="margin-left:5%;" class="btn btn-primary" myid=' + dataset[i][0] + ' myname=' + dataset[i][1] + ' name="btnDelete">删除</button>');
@@ -523,6 +532,12 @@
             $("[name='hSName']").val(name);
             $("[name='hSEnable']").val(1);
             $("#hSingalForm").submit();
+        });
+
+        $("#tBody").on('click', '[name="btnDelete"]', function () {
+            let id = $(this).attr("myid");
+            $("[name='hDId']").val(id);
+            $("#hDeleteForm").submit();
         });
 
         $("#btnSave").on('click', function () {

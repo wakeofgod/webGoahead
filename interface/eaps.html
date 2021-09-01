@@ -219,11 +219,13 @@
         <form id="hEnableForm" style="visibility: hidden; display: none;" method="post" action="/goform/errpFormEnable">
             <input name="hEnable" value="" />
         </form>
-        <form id="hSingalForm" style="visibility: hidden; display: none;" method="post"
-            action="/goform/errpFormSingalEnable">
+        <form id="hSingalForm" style="visibility: hidden; display: none;" method="post" action="/goform/errpFormSingalEnable">
             <input name="hSId" value="" />
             <input name="hSName" value="" />
             <input name="hSEnable" value="" />
+        </form>
+        <form id="hDeleteForm" style="visibility: hidden; display: none;" method="post" action="/goform/errpFormSingalEnable">
+            <input name="hDId" value="" />
         </form>
     </div>
     <script>
@@ -233,7 +235,7 @@
         var ethPortSet = [];
         var vlanSet = [];
         var statusTextArray = ["不使能", "使能"];
-        var modeTextArray = ["transit", "master"];
+        var modeTextArray = ["NAN","master","transit"];
         var protocalArray = ["errp", "eaps"];
         var existName = [];
         var html = "";
@@ -248,7 +250,7 @@
             }
             //模拟数据
             for (let i = 0; i < 20; i++) {
-                vlanSet.push(["vlan" + (i + 1)]);
+                vlanSet.push(("vlan" + (i + 1)));
                 ethPortSet.push(["eth0/" + (i)]);
                 dataset.push(
                     [i + 1, i + 1, i % 2, i % 2, i % 2, i, "vlan" + (i + 1), "vlan" + (i + 1), "eth0/" + (i + 1), "eth0/" + (i + 1), i, i, i]
@@ -359,6 +361,7 @@
             let vCount = vlanSet.length;
             if (vCount > 0) {
                 html = ('');
+                debugger;
                 html += ('<option value ="-1" selected>请选择</option>');
                 for (let i = 0; i < vCount; i++) {
                     // if (vlanSet[i][0] == "default") {
@@ -494,6 +497,12 @@
             $("[name='hSName']").val(name);
             $("[name='hSEnable']").val(1);
             $("#hSingalForm").submit();
+        });
+
+        $("#tBody").on('click', '[name="btnDelete"]', function () {
+            let id = $(this).attr("myid");
+            $("[name='hDId']").val(id);
+            $("#hDeleteForm").submit();
         });
 
         $("#btnSave").on('click', function () {
